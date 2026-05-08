@@ -112,17 +112,70 @@ export struct CalculatorPage {
     if (this.prefs) this.prefs.setHistory(this.history)
   }
 
-  // ==================== 主题颜色（对齐 Android 暗色主题） ====================
-  // 配色来源：Android app/src/main/res/values-night/colors.xml
-  getBg(): string       { return this.themeIdx === 1 ? '#000000' : '#121212' }           // 背景
-  getBtnBg(): string    { return this.themeIdx === 1 ? '#000000' : '#333333' }           // 按钮 (#333333)
-  getPanelBg(): string  { return this.themeIdx === 1 ? '#111111' : '#323232' }           // 面板 (#404040→#323232)
-  getOp(): string       { return '#0070BC' }                                              // 运算符蓝
-  getEq(): string       { return '#B3004D' }                                              // 等号玫红
-  getClr(): string      { return '#00BA20' }                                              // 清除绿
-  getErr(): string      { return '#F44B3F' }                                              // 错误红
-  getT1(): string       { return '#EFEFEF' }                                              // 主文字
-  getT2(): string       { return '#BDBDBD' }                                              // 次要文字
+  // ==================== 主题颜色（对齐 Android 原版） ====================
+  // themeIdx: 0=默认浅色  1=AMOLED纯黑  2=暗色
+  // 默认：Android values/colors.xml 浅色主题
+  // 暗色：Android values-night/colors.xml 暗色主题
+
+  /** 背景色（默认白 #FFFFFF） */
+  getBg(): string {
+    if (this.themeIdx === 1) return '#000000'   // AMOLED
+    if (this.themeIdx === 2) return '#121212'   // 暗色
+    return '#FFFFFF'                              // 默认浅色
+  }
+
+  /** 按钮背景色（默认浅灰 #EFEFEF） */
+  getBtnBg(): string {
+    if (this.themeIdx === 1) return '#000000'
+    if (this.themeIdx === 2) return '#333333'
+    return '#EFEFEF'
+  }
+
+  /** 面板背景色 */
+  getPanelBg(): string {
+    if (this.themeIdx === 1) return '#111111'
+    if (this.themeIdx === 2) return '#323232'
+    return '#FFFFFF'
+  }
+
+  /** 运算符按钮色（默认浅蓝 #B4D2E4） */
+  getOp(): string {
+    if (this.themeIdx === 2) return '#0070BC'
+    return '#B4D2E4'
+  }
+
+  /** 等号按钮色（默认浅粉 #DCB5C5） */
+  getEq(): string {
+    if (this.themeIdx === 2) return '#B3004D'
+    return '#DCB5C5'
+  }
+
+  /** 清除按钮色（默认浅绿 #B7DABD） */
+  getClr(): string {
+    if (this.themeIdx === 2) return '#00BA20'
+    return '#B7DABD'
+  }
+
+  /** 错误文字色 */
+  getErr(): string { return '#F44B3F' }
+
+  /** 主文字色（默认黑 #000000） */
+  getT1(): string {
+    if (this.themeIdx >= 1) return '#EFEFEF'
+    return '#000000'
+  }
+
+  /** 次要文字色（默认深灰 #595959） */
+  getT2(): string {
+    if (this.themeIdx >= 1) return '#BDBDBD'
+    return '#595959'
+  }
+
+  /** 运算符文字色（白字在有色按钮上） */
+  getBtnText(): string {
+    if (this.themeIdx >= 1) return '#EFEFEF'
+    return '#000000'
+  }
 
   // ==================== 主布局 ====================
   build() {
@@ -224,12 +277,23 @@ export struct CalculatorPage {
     .width('100%').padding({ left: 8, right: 8 }).layoutWeight(this.isLandscape ? 0 : 1)
   }
 
+  /** 数字按钮 */
   @Builder BtnDig(l: string) { Text(l).fontSize(this.isLandscape ? 16 : 22).fontColor(this.getT1()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { this.onDigit(l) }) }
-  @Builder BtnOp(l: string) { Text(l).fontSize(this.isLandscape ? 14 : 20).fontColor(this.getT1()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getOp()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { this.onOp(l) }) }
+
+  /** 运算符按钮 */
+  @Builder BtnOp(l: string) { Text(l).fontSize(this.isLandscape ? 14 : 20).fontColor(this.getBtnText()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getOp()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { this.onOp(l) }) }
+
+  /** 科学函数按钮 */
   @Builder BtnFunc(l: string) { Text(l).fontSize(this.isLandscape ? 11 : 14).fontColor(this.getT1()).width('18%').height(this.isLandscape ? 30 : 46).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 3).onClick((): void => { this.onFunc(l) }) }
-  @Builder BtnConst(l: string) { Text(l).fontSize(this.isLandscape ? 13 : 18).fontColor(this.getOp()).width('18%').height(this.isLandscape ? 30 : 46).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 3).onClick((): void => { this.onConst(l) }) }
-  @Builder BtnAct(l: string) { Text(l).fontSize(this.isLandscape ? 14 : 20).fontColor(l === 'AC' ? this.getClr() : this.getT2()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { if (l === 'AC') this.onAC(); else this.onBS() }) }
-  @Builder BtnEq() { Text('=').fontSize(this.isLandscape ? 18 : 24).fontWeight(FontWeight.Bold).fontColor(this.getT1()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getEq()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { this.onEquals() }) }
+
+  /** 常量按钮 */
+  @Builder BtnConst(l: string) { Text(l).fontSize(this.isLandscape ? 13 : 18).fontColor(this.getOp() === '#B4D2E4' ? '#4684E3' : this.getOp()).width('18%').height(this.isLandscape ? 30 : 46).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 3).onClick((): void => { this.onConst(l) }) }
+
+  /** 动作按钮（AC/退格） */
+  @Builder BtnAct(l: string) { Text(l).fontSize(this.isLandscape ? 14 : 20).fontColor(this.getBtnText()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(l === 'AC' ? this.getClr() : this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { if (l === 'AC') this.onAC(); else this.onBS() }) }
+
+  /** 等号按钮 */
+  @Builder BtnEq() { Text('=').fontSize(this.isLandscape ? 18 : 24).fontWeight(FontWeight.Bold).fontColor(this.getBtnText()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getEq()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { this.onEquals() }) }
 
   // ==================== 历史面板（仿 Android SlidingUpPanelLayout） ====================
 
@@ -306,18 +370,18 @@ export struct CalculatorPage {
     Row() {
       Text('主题').fontSize(15).fontColor(this.getT1()).layoutWeight(1)
       Row() {
-        Text('默认').fontSize(11).fontColor(this.themeIdx === 0 ? this.getBg() : this.getT2())
-          .backgroundColor(this.themeIdx === 0 ? this.getOp() : '#555')
+        Text('浅色').fontSize(11).fontColor(this.themeIdx === 0 ? '#000' : this.getT2())
+          .backgroundColor(this.themeIdx === 0 ? this.getOp() : (this.themeIdx >= 1 ? '#555' : '#DDD'))
           .padding({ left: 8, right: 8, top: 4, bottom: 4 }).borderRadius(8).margin({ left: 2 })
           .onClick((): void => { this.themeIdx = 0; this.savePref('themeIdx', 0) })
-        Text('AMOLED').fontSize(11).fontColor(this.themeIdx === 1 ? this.getBg() : this.getT2())
-          .backgroundColor(this.themeIdx === 1 ? this.getOp() : '#555')
-          .padding({ left: 8, right: 8, top: 4, bottom: 4 }).borderRadius(8).margin({ left: 2 })
-          .onClick((): void => { this.themeIdx = 1; this.savePref('themeIdx', 1) })
-        Text('Material').fontSize(11).fontColor(this.themeIdx === 2 ? this.getBg() : this.getT2())
-          .backgroundColor(this.themeIdx === 2 ? this.getOp() : '#555')
+        Text('暗色').fontSize(11).fontColor(this.themeIdx === 2 ? '#EFEFEF' : this.getT2())
+          .backgroundColor(this.themeIdx === 2 ? '#0070BC' : (this.themeIdx >= 1 ? '#555' : '#DDD'))
           .padding({ left: 8, right: 8, top: 4, bottom: 4 }).borderRadius(8).margin({ left: 2 })
           .onClick((): void => { this.themeIdx = 2; this.savePref('themeIdx', 2) })
+        Text('AMOLED').fontSize(11).fontColor(this.themeIdx === 1 ? '#EFEFEF' : this.getT2())
+          .backgroundColor(this.themeIdx === 1 ? '#B3004D' : (this.themeIdx >= 1 ? '#555' : '#DDD'))
+          .padding({ left: 8, right: 8, top: 4, bottom: 4 }).borderRadius(8).margin({ left: 2 })
+          .onClick((): void => { this.themeIdx = 1; this.savePref('themeIdx', 1) })
       }
     }.width('100%').padding(12)
   }
