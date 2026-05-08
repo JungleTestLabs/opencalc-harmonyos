@@ -8,6 +8,8 @@ OpenCalc 科学计算器的 HarmonyOS（ArkTS）移植版本。原 Android 项�
 
 ---
 
+<img src="/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/harmonyos/demo.png" alt="demo" style="zoom: 25%;" />
+
 ## 功能
 
 | 功能 | 说明 |
