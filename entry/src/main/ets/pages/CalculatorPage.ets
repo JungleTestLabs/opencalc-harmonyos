@@ -124,18 +124,25 @@ export struct CalculatorPage {
     return '#FFFFFF'                              // 默认浅色
   }
 
-  /** 按钮背景色（默认浅灰 #EFEFEF） */
+  /** 按钮背景色 */
   getBtnBg(): string {
-    if (this.themeIdx === 1) return '#000000'
+    if (this.themeIdx === 1) return '#1a1a1a'   // AMOLED: 微亮于纯黑背景
     if (this.themeIdx === 2) return '#333333'
     return '#EFEFEF'
   }
 
   /** 面板背景色 */
   getPanelBg(): string {
-    if (this.themeIdx === 1) return '#111111'
+    if (this.themeIdx === 1) return '#0a0a0a'   // AMOLED: 稍亮于纯黑
     if (this.themeIdx === 2) return '#323232'
     return '#FFFFFF'
+  }
+
+  /** 功能/常量按钮背景（比普通按钮稍暗以区分层级） */
+  getFuncBg(): string {
+    if (this.themeIdx === 1) return '#111111'
+    if (this.themeIdx === 2) return '#333333'
+    return '#E8E8E8'
   }
 
   /** 运算符按钮色（默认浅蓝 #B4D2E4） */
@@ -284,10 +291,10 @@ export struct CalculatorPage {
   @Builder BtnOp(l: string) { Text(l).fontSize(this.isLandscape ? 14 : 20).fontColor(this.getBtnText()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getOp()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { this.onOp(l) }) }
 
   /** 科学函数按钮 */
-  @Builder BtnFunc(l: string) { Text(l).fontSize(this.isLandscape ? 11 : 14).fontColor(this.getT1()).width('18%').height(this.isLandscape ? 30 : 46).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 3).onClick((): void => { this.onFunc(l) }) }
+  @Builder BtnFunc(l: string) { Text(l).fontSize(this.isLandscape ? 11 : 14).fontColor(this.getT1()).width('18%').height(this.isLandscape ? 30 : 46).textAlign(TextAlign.Center).backgroundColor(this.getFuncBg()).borderRadius(50).margin(this.isLandscape ? 1 : 3).onClick((): void => { this.onFunc(l) }) }
 
   /** 常量按钮 */
-  @Builder BtnConst(l: string) { Text(l).fontSize(this.isLandscape ? 13 : 18).fontColor(this.getOp() === '#B4D2E4' ? '#4684E3' : this.getOp()).width('18%').height(this.isLandscape ? 30 : 46).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 3).onClick((): void => { this.onConst(l) }) }
+  @Builder BtnConst(l: string) { Text(l).fontSize(this.isLandscape ? 13 : 18).fontColor(this.getOp() === '#B4D2E4' ? '#4684E3' : this.getOp()).width('18%').height(this.isLandscape ? 30 : 46).textAlign(TextAlign.Center).backgroundColor(this.getFuncBg()).borderRadius(50).margin(this.isLandscape ? 1 : 3).onClick((): void => { this.onConst(l) }) }
 
   /** 动作按钮（AC/退格） */
   @Builder BtnAct(l: string) { Text(l).fontSize(this.isLandscape ? 14 : 20).fontColor(this.getBtnText()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(l === 'AC' ? this.getClr() : this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { if (l === 'AC') this.onAC(); else this.onBS() }) }

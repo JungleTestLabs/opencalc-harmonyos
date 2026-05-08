@@ -362,10 +362,10 @@ export class CalculatorPage extends ViewPU {
             return '#121212'; // 暗色
         return '#FFFFFF'; // 默认浅色
     }
-    /** 按钮背景色（默认浅灰 #EFEFEF） */
+    /** 按钮背景色 */
     getBtnBg(): string {
         if (this.themeIdx === 1)
-            return '#000000';
+            return '#1a1a1a'; // AMOLED: 微亮于纯黑背景
         if (this.themeIdx === 2)
             return '#333333';
         return '#EFEFEF';
@@ -373,10 +373,18 @@ export class CalculatorPage extends ViewPU {
     /** 面板背景色 */
     getPanelBg(): string {
         if (this.themeIdx === 1)
-            return '#111111';
+            return '#0a0a0a'; // AMOLED: 稍亮于纯黑
         if (this.themeIdx === 2)
             return '#323232';
         return '#FFFFFF';
+    }
+    /** 功能/常量按钮背景（比普通按钮稍暗以区分层级） */
+    getFuncBg(): string {
+        if (this.themeIdx === 1)
+            return '#111111';
+        if (this.themeIdx === 2)
+            return '#333333';
+        return '#E8E8E8';
     }
     /** 运算符按钮色（默认浅蓝 #B4D2E4） */
     getOp(): string {
@@ -775,7 +783,7 @@ export class CalculatorPage extends ViewPU {
         Text.width('18%');
         Text.height(this.isLandscape ? 30 : 46);
         Text.textAlign(TextAlign.Center);
-        Text.backgroundColor(this.getBtnBg());
+        Text.backgroundColor(this.getFuncBg());
         Text.borderRadius(50);
         Text.margin(this.isLandscape ? 1 : 3);
         Text.onClick((): void => { this.onFunc(l); });
@@ -788,7 +796,7 @@ export class CalculatorPage extends ViewPU {
         Text.width('18%');
         Text.height(this.isLandscape ? 30 : 46);
         Text.textAlign(TextAlign.Center);
-        Text.backgroundColor(this.getBtnBg());
+        Text.backgroundColor(this.getFuncBg());
         Text.borderRadius(50);
         Text.margin(this.isLandscape ? 1 : 3);
         Text.onClick((): void => { this.onConst(l); });
