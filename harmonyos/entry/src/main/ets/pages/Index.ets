@@ -1,16 +1,18 @@
+import { router } from '@kit.ArkUI'
+
 @Entry
 @Component
 struct Index {
-  @State message: string = 'OpenCalc\nHarmonyOS 迁移中...';
+  aboutToAppear(): void {
+    router.replaceUrl({ url: 'pages/CalculatorPage' })
+  }
 
   build() {
     Column() {
-      Text(this.message)
+      Text('OpenCalc')
         .fontSize(24)
         .fontWeight(FontWeight.Bold)
-        .textAlign(TextAlign.Center)
-        .width('100%')
-        .padding(20)
+        .fontColor('#FFFFFF')
     }
     .width('100%')
     .height('100%')
