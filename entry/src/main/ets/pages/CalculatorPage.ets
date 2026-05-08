@@ -128,16 +128,18 @@ export struct CalculatorPage {
   build() {
     Stack() {
       if (this.isLandscape) {
+        // 横屏：左边按钮 + 可选右侧历史（有折叠按钮）
         Row() {
           Column() {
             this.DisplayPanel()
             this.ButtonGrid()
           }
-          .layoutWeight(3).height('100%')
-          this.HistoryPanel()
+          .layoutWeight(this.showHistory ? 3 : 1).height('100%')
+          if (this.showHistory) this.HistoryPanel()
         }
         .width('100%').height('100%').backgroundColor(this.getBg())
       } else {
+        // 竖屏：原有布局
         Column() {
           this.DisplayPanel()
           this.ToggleRow()
@@ -153,18 +155,30 @@ export struct CalculatorPage {
     .onAreaChange((_old: Area, newVal: Area): void => {
       const w: number = newVal.width as number
       const h: number = newVal.height as number
-      const wasLandscape: boolean = this.isLandscape
       this.isLandscape = w > h
-      if (!wasLandscape && this.isLandscape) { this.scientific = true; this.showHistory = true }
+      // 横屏时自动开启科学模式（但不强制显示历史）
+      if (this.isLandscape) this.scientific = true
     })
   }
 
   // ==================== 显示屏 ====================
   @Builder DisplayPanel() {
     Column() {
+    // 横屏时在显示屏右侧加历史切换按钮
+    if (this.isLandscape) {
+      Row() {
+        Text(this.expression.length > 0 ? this.expression : ' ')
+          .fontSize(14).fontColor(this.getT2()).textAlign(TextAlign.End).maxLines(3).layoutWeight(1)
+        Text(this.showHistory ? '◀' : '▶')
+          .fontSize(14).fontColor(this.getOp()).padding({ left: 8 })
+          .onClick((): void => { this.showHistory = !this.showHistory })
+      }
+      .width('100%').padding({ right: 8, left: 8 })
+    } else {
       Text(this.expression.length > 0 ? this.expression : ' ')
-        .fontSize(this.isLandscape ? 14 : 18).fontColor(this.getT2()).width('100%').textAlign(TextAlign.End)
+        .fontSize(18).fontColor(this.getT2()).width('100%').textAlign(TextAlign.End)
         .padding({ right: 12, left: 12 }).maxLines(3)
+    }
       if (this.errorMsg.length > 0) {
         Text(this.errorMsg).fontSize(this.isLandscape ? 22 : 28).fontColor(this.getErr())
           .width('100%').textAlign(TextAlign.End).padding({ right: 12, left: 12 })

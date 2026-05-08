@@ -370,12 +370,10 @@ export class CalculatorPage extends ViewPU {
             Stack.onAreaChange((_old: Area, newVal: Area): void => {
                 const w: number = newVal.width as number;
                 const h: number = newVal.height as number;
-                const wasLandscape: boolean = this.isLandscape;
                 this.isLandscape = w > h;
-                if (!wasLandscape && this.isLandscape) {
+                // 横屏时自动开启科学模式（但不强制显示历史）
+                if (this.isLandscape)
                     this.scientific = true;
-                    this.showHistory = true;
-                }
             });
         }, Stack);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
@@ -383,29 +381,50 @@ export class CalculatorPage extends ViewPU {
             if (this.isLandscape) {
                 this.ifElseBranchUpdateFunction(0, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        // 横屏：左边按钮 + 可选右侧历史（有折叠按钮）
                         Row.create();
+                        // 横屏：左边按钮 + 可选右侧历史（有折叠按钮）
                         Row.width('100%');
+                        // 横屏：左边按钮 + 可选右侧历史（有折叠按钮）
                         Row.height('100%');
+                        // 横屏：左边按钮 + 可选右侧历史（有折叠按钮）
                         Row.backgroundColor(this.getBg());
                     }, Row);
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
                         Column.create();
-                        Column.layoutWeight(3);
+                        Column.layoutWeight(this.showHistory ? 3 : 1);
                         Column.height('100%');
                     }, Column);
                     this.DisplayPanel.bind(this)();
                     this.ButtonGrid.bind(this)();
                     Column.pop();
-                    this.HistoryPanel.bind(this)();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        If.create();
+                        if (this.showHistory) {
+                            this.ifElseBranchUpdateFunction(0, () => {
+                                this.HistoryPanel.bind(this)();
+                            });
+                        }
+                        else {
+                            this.ifElseBranchUpdateFunction(1, () => {
+                            });
+                        }
+                    }, If);
+                    If.pop();
+                    // 横屏：左边按钮 + 可选右侧历史（有折叠按钮）
                     Row.pop();
                 });
             }
             else {
                 this.ifElseBranchUpdateFunction(1, () => {
                     this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        // 竖屏：原有布局
                         Column.create();
+                        // 竖屏：原有布局
                         Column.width('100%');
+                        // 竖屏：原有布局
                         Column.height('100%');
+                        // 竖屏：原有布局
                         Column.backgroundColor(this.getBg());
                     }, Column);
                     this.DisplayPanel.bind(this)();
@@ -424,6 +443,7 @@ export class CalculatorPage extends ViewPU {
                         }
                     }, If);
                     If.pop();
+                    // 竖屏：原有布局
                     Column.pop();
                 });
             }
@@ -470,15 +490,51 @@ export class CalculatorPage extends ViewPU {
             globalThis.Gesture.pop();
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create(this.expression.length > 0 ? this.expression : ' ');
-            Text.fontSize(this.isLandscape ? 14 : 18);
-            Text.fontColor(this.getT2());
-            Text.width('100%');
-            Text.textAlign(TextAlign.End);
-            Text.padding({ right: 12, left: 12 });
-            Text.maxLines(3);
-        }, Text);
-        Text.pop();
+            If.create();
+            // 横屏时在显示屏右侧加历史切换按钮
+            if (this.isLandscape) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Row.create();
+                        Row.width('100%');
+                        Row.padding({ right: 8, left: 8 });
+                    }, Row);
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(this.expression.length > 0 ? this.expression : ' ');
+                        Text.fontSize(14);
+                        Text.fontColor(this.getT2());
+                        Text.textAlign(TextAlign.End);
+                        Text.maxLines(3);
+                        Text.layoutWeight(1);
+                    }, Text);
+                    Text.pop();
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(this.showHistory ? '◀' : '▶');
+                        Text.fontSize(14);
+                        Text.fontColor(this.getOp());
+                        Text.padding({ left: 8 });
+                        Text.onClick((): void => { this.showHistory = !this.showHistory; });
+                    }, Text);
+                    Text.pop();
+                    Row.pop();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(this.expression.length > 0 ? this.expression : ' ');
+                        Text.fontSize(18);
+                        Text.fontColor(this.getT2());
+                        Text.width('100%');
+                        Text.textAlign(TextAlign.End);
+                        Text.padding({ right: 12, left: 12 });
+                        Text.maxLines(3);
+                    }, Text);
+                    Text.pop();
+                });
+            }
+        }, If);
+        If.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
             if (this.errorMsg.length > 0) {
