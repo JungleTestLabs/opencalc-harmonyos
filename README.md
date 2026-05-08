@@ -8,8 +8,6 @@ OpenCalc 科学计算器的 HarmonyOS（ArkTS）移植版本。原 Android 项�
 
 ---
 
-<img src="demo.png" alt="demo" style="zoom: 25%;" />
-
 ## 功能
 
 | 功能 | 说明 |
@@ -131,6 +129,8 @@ hdc shell bm install -p entry/build/default/outputs/default/entry-default-unsign
 ```
 
 > 注意：需要先通过 DevEco Studio 配置签名证书。
+
+<img src="demo.png" alt="demo" style="zoom: 25%;" />
 
 ## 与 Android 版本的差异
 

@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "projectId": 2052654663395540993,
+    "projectName": "",
+    "parse": true,
+    "branchName": "main",
+    "localBranch": "main",
+    "commitId": "347688fd3e0d2053b76250b7fe30e87a29540794",
+    "lastQueryTime": 1778226594013,
+    "checkTime": 1778226594013,
+    "indexedTime": 1778225996093,
+    "codebaseId": "1fefb8c72bed44319a31dfc261c1ba4e"
+  }
+]
