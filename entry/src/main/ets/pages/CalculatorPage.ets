@@ -231,11 +231,18 @@ export struct CalculatorPage {
   @Builder BtnAct(l: string) { Text(l).fontSize(this.isLandscape ? 14 : 20).fontColor(l === 'AC' ? this.getClr() : this.getT2()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { if (l === 'AC') this.onAC(); else this.onBS() }) }
   @Builder BtnEq() { Text('=').fontSize(this.isLandscape ? 18 : 24).fontWeight(FontWeight.Bold).fontColor(this.getT1()).width('22%').height(this.isLandscape ? 36 : 56).textAlign(TextAlign.Center).backgroundColor(this.getEq()).borderRadius(50).margin(this.isLandscape ? 1 : 4).onClick((): void => { this.onEquals() }) }
 
-  // ==================== 历史面板 ====================
+  // ==================== 历史面板（仿 Android SlidingUpPanelLayout） ====================
+
   @Builder HistoryPanel() {
     Column() {
-      Text('历史记录').fontSize(14).fontWeight(FontWeight.Bold).fontColor(this.getT1())
-        .width('100%').padding(this.isLandscape ? 8 : 16)
+      // 拖拽手柄 / 折叠按钮（始终可见，仿 Android sliding_layout_button）
+      Row() {
+        // 手柄横条
+        Text('').width(40).height(4).backgroundColor(this.getT2()).borderRadius(2)
+      }
+      .width('100%').height(24).justifyContent(FlexAlign.Center)
+      .onClick((): void => { this.showHistory = false })
+
       if (this.history.length === 0) {
         Text('暂无计算记录').fontSize(13).fontColor(this.getT2()).width('100%').textAlign(TextAlign.Center).padding(20)
       } else {
@@ -259,7 +266,6 @@ export struct CalculatorPage {
     .width('100%').height(this.isLandscape ? '100%' : 'auto')
     .backgroundColor(this.getPanelBg())
     .borderRadius(this.isLandscape ? 0 : { topLeft: 16, topRight: 16 })
-    .padding({ top: 8 })
   }
 
   @Builder DelBtn(item: HistoryItem) {

@@ -762,7 +762,7 @@ export class CalculatorPage extends ViewPU {
         Text.margin(this.isLandscape ? 1 : 4);
         Text.onClick((): void => { this.onEquals(); });
     }, Text); Text.pop(); }
-    // ==================== 历史面板 ====================
+    // ==================== 历史面板（仿 Android SlidingUpPanelLayout） ====================
     HistoryPanel(parent = null) {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Column.create();
@@ -771,17 +771,35 @@ export class CalculatorPage extends ViewPU {
             Column.height(this.isLandscape ? '100%' : 'auto');
             Column.backgroundColor(this.getPanelBg());
             Column.borderRadius(this.isLandscape ? 0 : { topLeft: 16, topRight: 16 });
-            Column.padding({ top: 8 });
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
-            Text.create('历史记录');
-            Text.fontSize(14);
-            Text.fontWeight(FontWeight.Bold);
-            Text.fontColor(this.getT1());
-            Text.width('100%');
-            Text.padding(this.isLandscape ? 8 : 16);
+            // 拖拽手柄 / 折叠按钮（始终可见，仿 Android sliding_layout_button）
+            Row.create();
+            // 拖拽手柄 / 折叠按钮（始终可见，仿 Android sliding_layout_button）
+            Row.width('100%');
+            // 拖拽手柄 / 折叠按钮（始终可见，仿 Android sliding_layout_button）
+            Row.height(24);
+            // 拖拽手柄 / 折叠按钮（始终可见，仿 Android sliding_layout_button）
+            Row.justifyContent(FlexAlign.Center);
+            // 拖拽手柄 / 折叠按钮（始终可见，仿 Android sliding_layout_button）
+            Row.onClick((): void => { this.showHistory = false; });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // 手柄横条
+            Text.create('');
+            // 手柄横条
+            Text.width(40);
+            // 手柄横条
+            Text.height(4);
+            // 手柄横条
+            Text.backgroundColor(this.getT2());
+            // 手柄横条
+            Text.borderRadius(2);
         }, Text);
+        // 手柄横条
         Text.pop();
+        // 拖拽手柄 / 折叠按钮（始终可见，仿 Android sliding_layout_button）
+        Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
             if (this.history.length === 0) {
