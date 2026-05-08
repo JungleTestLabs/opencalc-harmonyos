@@ -1,0 +1,11 @@
+harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets
+harmonyos/entry/src/main/ets/pages/Index.ets
+harmonyos/entry/src/main/ets/calculator/Calculator.ets
+harmonyos/entry/src/main/ets/calculator/Expression.ets
+harmonyos/entry/src/main/ets/model/ErrorFlags.ets
+harmonyos/entry/hvigorfile.ts
+harmonyos/hvigorfile.ts
+harmonyos/entry/src/main/ets/pages/CalculatorPage.ets
+harmonyos/entry/src/main/ets/entryability/EntryAbility.ets
+harmonyos/entry/src/main/ets/calculator/NumberFormatter.ets
+harmonyos/entry/src/main/ets/model/Models.ets
