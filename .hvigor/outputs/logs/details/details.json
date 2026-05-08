@@ -1,0 +1,74 @@
+{
+  "HVIGOR_OHOS_PLUGIN": {
+    "MODULES": [
+      {
+        "MODULE_NAME": "923fe53966c6cd9343e11af776cd4b05be315ea4b200b02e4d5dfb0f929b73bf",
+        "API_TYPE": "stageMode",
+        "INCLUDE_IN_BUILD": true,
+        "IS_COMMAND_LINE_ENTRY_MODULE": false,
+        "MODULE_TYPE": "entry",
+        "INCREMENTAL_TASKS": {
+          "COMPILE_ARKTS": false
+        },
+        "IS_INCREMENTAL_MODULE": false
+      }
+    ],
+    "NATIVE_COMPILER": "Default",
+    "IS_FULL_BUILD": true,
+    "BUILD_MODE": "debug"
+  },
+  "HVIGOR": {
+    "IS_INCREMENTAL": true,
+    "IS_DAEMON": true,
+    "IS_PARALLEL": true,
+    "IS_HVIGORFILE_TYPE_CHECK": false,
+    "TASK_TIME": {
+      "923fe53966c6cd9343e11af776cd4b05be315ea4b200b02e4d5dfb0f929b73bf": {
+        "clean": 5327004,
+        "PreBuild": 286159488,
+        "CreateModuleInfo": 1477038,
+        "GenerateMetadata": 5958516,
+        "ConfigureCmake": 2110610,
+        "MergeProfile": 6036072,
+        "CreateBuildProfile": 2477349,
+        "PreCheckSyscap": 4915010,
+        "GeneratePkgContextInfo": 14566915,
+        "GeneratePkgSdkInfo": 5170664,
+        "ProcessIntegratedHsp": 1788610,
+        "BuildNativeWithCmake": 1135132,
+        "MakePackInfo": 4194602,
+        "SyscapTransform": 3343085,
+        "ProcessProfile": 188425431,
+        "ProcessRouterMap": 6663993,
+        "ProcessShareConfig": 3160415,
+        "ProcessStartupConfig": 4033972,
+        "BuildNativeWithNinja": 1266929,
+        "ProcessResource": 6739576,
+        "GenerateLoaderJson": 11115383,
+        "ProcessLibs": 8897747,
+        "CompileResource": 807548841,
+        "DoNativeStrip": 3433580,
+        "BuildJS": 1926703,
+        "CacheNativeLibs": 198117307,
+        "CompileArkTS": 16217272263,
+        "GeneratePkgModuleJson": 5056773,
+        "ProcessCompiledResources": 1945352,
+        "PackageHap": 1513431340,
+        "PackingCheck": 12797133,
+        "SignHap": 3600378,
+        "CollectDebugSymbol": 1425332,
+        "assembleHap": 444239
+      }
+    },
+    "APIS": [
+      "getProperty"
+    ],
+    "CONFIG_EXPERIMENT": {
+      "ENABLE_MODULE_SKIP": false,
+      "ENABLE_CPP_FUNCTION_LEVEL_INCREMENTAL": false
+    },
+    "CONFIG_PROPERTIES": {},
+    "BUILD_ID": "202605081801519060",
+    "TOTAL_TIME": 22553144854
+  }
+}

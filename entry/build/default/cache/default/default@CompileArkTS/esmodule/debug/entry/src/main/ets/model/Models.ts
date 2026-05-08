@@ -1,0 +1,55 @@
+// OpenCalc — 数据模型
+// 移植自：Android Models.kt
+/** 计算错误类型枚举 */
+export enum CalculatorError {
+    NONE = "none",
+    DIVISION_BY_ZERO = "division_by_zero",
+    DOMAIN_ERROR = "domain_error",
+    SYNTAX_ERROR = "syntax_error",
+    INFINITY = "infinity",
+    REQUIRE_REAL = "require_real_number" // 需要实数
+}
+/** 数字分组编号体系 */
+export enum NumberingSystem {
+    INTERNATIONAL = 0,
+    INDIAN = 1 // 印度制
+}
+/** 科学模式切换状态 */
+export enum ScientificModeType {
+    NOT_ACTIVE = 0,
+    ACTIVE = 1,
+    OFF = 2 // 强制关闭
+}
+/** 历史记录条目 */
+export interface HistoryItem {
+    id: number; // 唯一标识
+    expression: string; // 计算表达式
+    result: string; // 计算结果
+    timestamp: number; // 时间戳
+}
+/** 计算器偏好设置（存储于 @ohos.data.preferences） */
+export interface CalculatorPreferences {
+    theme: number; // 主题（0=默认 1=AMOLED 2=Material）
+    forceDayNight: number; // 日夜模式（0=系统 1=浅色 2=深色 3=AMOLED）
+    vibrationEnabled: boolean; // 振动反馈开关
+    preventSleep: boolean; // 防休眠开关
+    historySize: number; // 历史记录最大条数
+    scientificModeDefault: number; // 默认科学模式状态
+    radiansDefault: boolean; // 默认弧度模式
+    numberPrecision: number; // 数字精度
+    decimalSeparatorSymbol: string; // 小数点符号
+    groupingSeparatorSymbol: string; // 千分位符号
+}
+/** 默认偏好设置 */
+export const DEFAULT_PREFERENCES: CalculatorPreferences = {
+    theme: 0,
+    forceDayNight: 0,
+    vibrationEnabled: true,
+    preventSleep: false,
+    historySize: 100,
+    scientificModeDefault: ScientificModeType.NOT_ACTIVE,
+    radiansDefault: false,
+    numberPrecision: 12,
+    decimalSeparatorSymbol: '.',
+    groupingSeparatorSymbol: ','
+};

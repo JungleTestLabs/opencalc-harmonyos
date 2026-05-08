@@ -25,6 +25,7 @@ export struct CalculatorPage {
   @State showHistory: boolean = false // 历史面板可见性
   @State showSettings: boolean = false // 设置面板可见性
   @State showAbout: boolean = false   // 关于面板可见性
+  @State isLandscape: boolean = false // 横屏模式（自动检测）
 
   // ==================== 偏好设置状态 ====================
   @State vibrateOn: boolean = true     // 振动反馈
@@ -169,20 +170,47 @@ export struct CalculatorPage {
   /** 获取面板背景色 */
   getPanelBg(): string { return this.themeIdx === 1 ? '#111' : '#16213e' }
 
-  // ==================== 主布局 ====================
+  // ==================== 主布局（支持横竖屏自适应） ====================
 
   build() {
     Stack() {
-      Column() {
-        this.DisplayPanel()   // 显示屏（表达式 + 结果）
-        this.ToggleRow()      // 模式切换栏（科学/基础 + 历史 + 设置按钮）
-        this.ButtonGrid()     // 按钮网格
-        if (this.showHistory) this.HistoryPanel()  // 历史面板（条件渲染）
+      if (this.isLandscape) {
+        // 横屏布局：左边按钮网格 + 右边历史面板
+        Row() {
+          Column() {
+            this.DisplayPanel()
+            this.ToggleRow()
+            this.ButtonGrid()
+          }
+          .layoutWeight(3).height('100%')
+          this.HistoryPanel()
+        }
+        .width('100%').height('100%').backgroundColor(this.getBg())
+      } else {
+        // 竖屏布局：原有布局
+        Column() {
+          this.DisplayPanel()
+          this.ToggleRow()
+          this.ButtonGrid()
+          if (this.showHistory) this.HistoryPanel()
+        }
+        .width('100%').height('100%').backgroundColor(this.getBg())
       }
-      .width('100%').height('100%').backgroundColor(this.getBg())
-      if (this.showSettings) this.SettingsPanel()   // 设置面板（覆盖层）
-      if (this.showAbout) this.AboutPanel()         // 关于面板（覆盖层）
+      if (this.showSettings) this.SettingsPanel()
+      if (this.showAbout) this.AboutPanel()
     }
+    .width('100%').height('100%')
+    .onAreaChange((oldValue: Area, newValue: Area): void => {
+      const w: number = newValue.width as number
+      const h: number = newValue.height as number
+      const wasLandscape: boolean = this.isLandscape
+      this.isLandscape = w > h
+      // 切换到横屏时自动开启科学模式+历史面板
+      if (!wasLandscape && this.isLandscape) {
+        this.scientific = true
+        this.showHistory = true
+      }
+    })
   }
 
   // ==================== 显示屏面板 ====================
@@ -254,51 +282,63 @@ export struct CalculatorPage {
   // ==================== 按钮构建器 ====================
 
   /** 数字按钮（白色文字，深色背景） */
-  @Builder BtnDig(l: string) { Text(l).fontSize(22).fontColor('#FFFFFF').width('22%').height(56).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(12).margin(4).onClick((): void => { this.onDigit(l) }) }
+  @Builder BtnDig(l: string) { Text(l).fontSize(this.isLandscape ? 18 : 22).fontColor('#FFFFFF').width('22%').height(this.isLandscape ? 40 : 56).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(12).margin(this.isLandscape ? 2 : 4).onClick((): void => { this.onDigit(l) }) }
 
   /** 运算符按钮（白色文字，青绿色背景） */
-  @Builder BtnOp(l: string) { Text(l).fontSize(20).fontColor('#FFFFFF').width('22%').height(56).textAlign(TextAlign.Center).backgroundColor('#26b89c').borderRadius(12).margin(4).onClick((): void => { this.onOp(l) }) }
+  @Builder BtnOp(l: string) { Text(l).fontSize(this.isLandscape ? 16 : 20).fontColor('#FFFFFF').width('22%').height(this.isLandscape ? 40 : 56).textAlign(TextAlign.Center).backgroundColor('#26b89c').borderRadius(12).margin(this.isLandscape ? 2 : 4).onClick((): void => { this.onOp(l) }) }
 
   /** 科学函数按钮（小字，紫色背景） */
-  @Builder BtnFunc(l: string) { Text(l).fontSize(14).fontColor('#FFFFFF').width('18%').height(46).textAlign(TextAlign.Center).backgroundColor(this.getFuncBg()).borderRadius(10).margin(3).onClick((): void => { this.onFunc(l) }) }
+  @Builder BtnFunc(l: string) { Text(l).fontSize(this.isLandscape ? 12 : 14).fontColor('#FFFFFF').width('18%').height(this.isLandscape ? 34 : 46).textAlign(TextAlign.Center).backgroundColor(this.getFuncBg()).borderRadius(10).margin(this.isLandscape ? 2 : 3).onClick((): void => { this.onFunc(l) }) }
 
   /** 常量按钮（青绿色文字，深色背景） */
-  @Builder BtnConst(l: string) { Text(l).fontSize(18).fontColor('#26b89c').width('18%').height(46).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(10).margin(3).onClick((): void => { this.onConst(l) }) }
+  @Builder BtnConst(l: string) { Text(l).fontSize(this.isLandscape ? 14 : 18).fontColor('#26b89c').width('18%').height(this.isLandscape ? 34 : 46).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(10).margin(this.isLandscape ? 2 : 3).onClick((): void => { this.onConst(l) }) }
 
   /** 动作按钮（AC 红色，退格灰色） */
-  @Builder BtnAct(l: string) { Text(l).fontSize(20).fontColor(l === 'AC' ? '#FF6B6B' : '#888').width('22%').height(56).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(12).margin(4).onClick((): void => { if (l === 'AC') this.onAC(); else this.onBS() }) }
+  @Builder BtnAct(l: string) { Text(l).fontSize(this.isLandscape ? 16 : 20).fontColor(l === 'AC' ? '#FF6B6B' : '#888').width('22%').height(this.isLandscape ? 40 : 56).textAlign(TextAlign.Center).backgroundColor(this.getBtnBg()).borderRadius(12).margin(this.isLandscape ? 2 : 4).onClick((): void => { if (l === 'AC') this.onAC(); else this.onBS() }) }
 
   /** 等号按钮（深色文字，青绿色背景，加粗） */
-  @Builder BtnEq() { Text('=').fontSize(24).fontWeight(FontWeight.Bold).fontColor('#1a1a2e').width('22%').height(56).textAlign(TextAlign.Center).backgroundColor('#26b89c').borderRadius(12).margin(4).onClick((): void => { this.onEquals() }) }
+  @Builder BtnEq() { Text('=').fontSize(this.isLandscape ? 20 : 24).fontWeight(FontWeight.Bold).fontColor('#1a1a2e').width('22%').height(this.isLandscape ? 40 : 56).textAlign(TextAlign.Center).backgroundColor('#26b89c').borderRadius(12).margin(this.isLandscape ? 2 : 4).onClick((): void => { this.onEquals() }) }
 
   // ==================== 历史记录面板 ====================
-  // 底部弹出面板，显示计算历史，支持点击回填和左滑删除
+  // 竖屏：底部弹出面板；横屏：右侧固定面板
 
   @Builder HistoryPanel() {
     Column() {
+      Text('历史记录')
+        .fontSize(this.isLandscape ? 14 : 16)
+        .fontWeight(FontWeight.Bold)
+        .fontColor('#FFFFFF')
+        .width('100%')
+        .padding(this.isLandscape ? 8 : 16)
+
       if (this.history.length === 0) {
         // 空状态引导
-        Text('暂无计算记录').fontSize(14).fontColor('#666').width('100%').textAlign(TextAlign.Center).padding(40)
+        Text('暂无计算记录').fontSize(13).fontColor('#666').width('100%').textAlign(TextAlign.Center).padding(20)
       } else {
         List() {
           ForEach(this.history, (item: HistoryItem) => {
             ListItem() {
-              Row() {
-                Column() {
-                  Text(item.expression).fontSize(13).fontColor('#ccc').maxLines(1)
-                  Text(item.result).fontSize(16).fontWeight(FontWeight.Bold).fontColor('#26b89c')
-                }
-                .alignItems(HorizontalAlign.Start).layoutWeight(1)
+              Column() {
+                Text(item.expression).fontSize(12).fontColor('#ccc').maxLines(1)
+                Text(item.result).fontSize(this.isLandscape ? 14 : 16).fontWeight(FontWeight.Bold).fontColor('#26b89c')
               }
-              .width('100%').padding(12).onClick((): void => { this.onHistoryTap(item) })  // 点击回填
+              .alignItems(HorizontalAlign.Start)
+              .width('100%')
+              .padding(this.isLandscape ? 8 : 12)
+              .onClick((): void => { this.onHistoryTap(item) })  // 点击回填
             }
             .swipeAction({ end: { builder: (): void => { this.DelBtn(item) } } })  // 左滑出现删除按钮
           })
         }
-        .height(200)
+        .height(this.isLandscape ? '100%' : 200)
       }
     }
-    .width('100%').backgroundColor(this.getPanelBg()).borderRadius({ topLeft: 16, topRight: 16 }).padding({ top: 12 })
+    .layoutWeight(this.isLandscape ? 1 : 0)
+    .width(this.isLandscape ? '100%' : '100%')
+    .height(this.isLandscape ? '100%' : 'auto')
+    .backgroundColor(this.getPanelBg())
+    .borderRadius(this.isLandscape ? 0 : { topLeft: 16, topRight: 16 })
+    .padding({ top: this.isLandscape ? 8 : 12 })
   }
 
   /** 历史条目删除按钮（红色） */

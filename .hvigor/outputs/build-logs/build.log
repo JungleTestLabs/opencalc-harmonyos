@@ -129,3 +129,867 @@ Require stack:
   cacheCapacity: undefined,
   cacheTtl: undefined
 }
+[2026-05-08T18:01:49.754] [DEBUG] debug-file - env: daemon=true
+[2026-05-08T18:01:49.698] [DEBUG] debug-file - env: nodejsVersion=v18.20.1
+[2026-05-08T18:01:49.699] [DEBUG] debug-file - env: hvigor-config.json5 content = { modelVersion: '6.0.2', dependencies: {} }
+[2026-05-08T18:01:50.986] [DEBUG] debug-file - session manager: set active socket. socketId=4mO7kRu-5Kp-roxrAAAB
+[2026-05-08T18:01:51.109] [DEBUG] debug-file - java daemon tryConnect success
+[2026-05-08T18:01:51.891] [DEBUG] debug-file - watch worker: worker id should be larger than 0. Nothing will be sent to any worker thread.
+[2026-05-08T18:01:51.894] [DEBUG] debug-file - Since there is no instance or instance is terminated, create a new worker pool.
+[2026-05-08T18:01:51.895] [DEBUG] debug-file - Worker pool is initialized with config:  {
+  minPoolNum: 2,
+  maxPoolNum: undefined,
+  maxCoreSize: undefined,
+  cacheCapacity: undefined,
+  cacheTtl: undefined
+}
+[2026-05-08T18:01:51.896] [DEBUG] debug-file - Create  resident worker with id: 0.
+[2026-05-08T18:01:51.902] [DEBUG] debug-file - Create  resident worker with id: 1.
+[2026-05-08T18:01:51.906] [DEBUG] debug-file - Workers' log level updated to INFO
+[2026-05-08T18:01:51.923] [DEBUG] debug-file - Hvigor init with startParameters:{
+  hvigorfileTypeCheck: false,
+  parallelExecution: true,
+  incrementalExecution: true,
+  printStackTrace: false,
+  daemon: true,
+  analyze: 0,
+  logLevel: Level { level: 20000, levelStr: 'INFO', colour: 'green' },
+  optimizationStrategy: 'memory',
+  hotCompile: undefined,
+  hotReloadBuild: undefined,
+  customizedParam: undefined
+}
+[2026-05-08T18:01:51.924] [DEBUG] debug-file - Since current hvigor version 6.23.5 differs from last hvigor version 
+      6.22.3, delete file-cache.json and task-cache.json.
+[2026-05-08T18:01:51.925] [DEBUG] debug-file - Cache service initialization finished in 2 ms 
+[2026-05-08T18:01:51.942] [DEBUG] debug-file - hvigorfile, resolving /Users/jordanzt/Work/Projects/opencalc-harmonyos/hvigorfile.ts
+[2026-05-08T18:01:54.410] [DEBUG] debug-file - hvigorfile, require result:  {}
+[2026-05-08T18:01:54.411] [DEBUG] debug-file - hvigorfile, binding system plugins {}
+[2026-05-08T18:01:54.412] [DEBUG] debug-file - Starting plugin build process
+[2026-05-08T18:01:54.412] [DEBUG] debug-file - App plugin prepare start...
+[2026-05-08T18:01:54.412] [DEBUG] debug-file - App plugin prepare end...
+[2026-05-08T18:01:54.412] [DEBUG] debug-file - App plugin creating...
+[2026-05-08T18:01:54.824] [DEBUG] debug-file - App plugin register hook start...
+[2026-05-08T18:01:54.824] [DEBUG] debug-file - App plugin register hook end...
+[2026-05-08T18:01:54.824] [DEBUG] debug-file - Plugin build process completed
+[2026-05-08T18:01:54.827] [DEBUG] debug-file - Start initialize project's product build option map with build mode debug.
+[2026-05-08T18:01:54.828] [DEBUG] debug-file - Picking option from product 'default' with build mode 'debug'.
+[2026-05-08T18:01:54.828] [DEBUG] debug-file - Product 'default' build option initialized
+[2026-05-08T18:01:54.829] [DEBUG] debug-file - End initialize project's product build option map with build mode 'debug'.
+[2026-05-08T18:01:54.831] [DEBUG] debug-file - Obtain build option for product 'default'in this build.
+[2026-05-08T18:01:54.833] [DEBUG] debug-file - No signingConfig found, initRemoteHspCache failed.
+[2026-05-08T18:01:54.835] [DEBUG] debug-file - Local scan or download HarmonyOS sdk components toolchains,ets,js,native,previewer
+[2026-05-08T18:01:54.842] [DEBUG] debug-file - Local scan or download hmscore sdk components toolchains,ets,native
+[2026-05-08T18:01:54.847] [DEBUG] debug-file - Start recording SDK configuration permission data.
+[2026-05-08T18:01:54.939] [DEBUG] debug-file - Sdk init in 106 ms 
+[2026-05-08T18:01:54.951] [DEBUG] debug-file - Project task initialization takes 7 ms 
+[2026-05-08T18:01:54.951] [DEBUG] debug-file - hvigorfile, resolve finished /Users/jordanzt/Work/Projects/opencalc-harmonyos/hvigorfile.ts
+[2026-05-08T18:01:54.953] [DEBUG] debug-file - hvigorfile, resolving /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/hvigorfile.ts
+[2026-05-08T18:01:54.965] [DEBUG] debug-file - hvigorfile, require result:  {}
+[2026-05-08T18:01:54.965] [DEBUG] debug-file - hvigorfile, binding system plugins {}
+[2026-05-08T18:01:54.966] [DEBUG] debug-file - Starting plugin build process
+[2026-05-08T18:01:54.966] [DEBUG] debug-file - Hap plugin creating...
+[2026-05-08T18:01:54.967] [DEBUG] debug-file - failed to load cangjie to dynamically generate schemas: Error: Cannot find module '@ohos/cangjie-build-support/index'
+Require stack:
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor-ohos-plugin/src/plugin/hooks/cangjie-register.js
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor-ohos-plugin/src/plugin/strategy/stage-init-strategy.js
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor-ohos-plugin/src/plugin/builder/abstract-plugin-builder.js
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor-ohos-plugin/src/plugin/builder/app-plugin-builder.js
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor-ohos-plugin/src/plugin/factory/plugin-factory.js
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor-ohos-plugin/index.js
+- /Users/jordanzt/Work/Projects/opencalc-harmonyos/hvigorfile.ts
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor/src/base/internal/lifecycle/configuration.js
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor/src/base/boot/index.js
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor/src/base/daemon/cluster/worker-process-lifecycle.js
+- /Applications/DevEco-Studio.app/Contents/tools/hvigor/hvigor/src/base/daemon/process/daemon-process-boot-script.js
+[2026-05-08T18:01:54.982] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=entry, buildMode=debug
+[2026-05-08T18:01:54.982] [DEBUG] debug-file - Target 'default' config initialized
+[2026-05-08T18:01:54.983] [DEBUG] debug-file - Module 'entry' target 'default' build option initialized
+[2026-05-08T18:01:54.983] [DEBUG] debug-file - End initialize module-target build option map, moduleName=entry
+[2026-05-08T18:01:54.984] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=entry, buildMode=release
+[2026-05-08T18:01:54.984] [DEBUG] debug-file - Target 'default' config initialized
+[2026-05-08T18:01:54.984] [DEBUG] debug-file - Module 'entry' target 'default' build option initialized
+[2026-05-08T18:01:54.984] [DEBUG] debug-file - End initialize module-target build option map, moduleName=entry
+[2026-05-08T18:01:54.985] [DEBUG] debug-file - Start initialize module-target build option map, moduleName=entry, buildMode=debug
+[2026-05-08T18:01:54.985] [DEBUG] debug-file - Target 'default' config initialized
+[2026-05-08T18:01:54.985] [DEBUG] debug-file - Module 'entry' target 'default' build option initialized
+[2026-05-08T18:01:54.985] [DEBUG] debug-file - End initialize module-target build option map, moduleName=entry
+[2026-05-08T18:01:54.985] [DEBUG] debug-file - Obtain build option for module 'entry' target 'default'in this build.
+[2026-05-08T18:01:54.995] [DEBUG] debug-file - Module entry task initialization takes 9 ms 
+[2026-05-08T18:01:54.995] [DEBUG] debug-file - Hap plugin register hook start...
+[2026-05-08T18:01:54.996] [DEBUG] debug-file - Hap plugin register hook end...
+[2026-05-08T18:01:54.996] [DEBUG] debug-file - Plugin build process completed
+[2026-05-08T18:01:54.996] [DEBUG] debug-file - hvigorfile, resolve finished /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/hvigorfile.ts
+[2026-05-08T18:01:55.181] [DEBUG] debug-file - hvigorfile, resolve hvigorfile dependencies in 185 ms 
+[2026-05-08T18:01:55.182] [DEBUG] debug-file - project has submodules:entry
+[2026-05-08T18:01:55.188] [DEBUG] debug-file - start to load updatedOhPackageInfo to the disk
+[2026-05-08T18:01:55.192] [DEBUG] debug-file - load to the disk finished
+[2026-05-08T18:01:55.194] [DEBUG] debug-file - Start to initialize dependency information.
+[2026-05-08T18:01:55.204] [DEBUG] debug-file - Module opencalc-harmonyos Collected Dependency: 
+[2026-05-08T18:01:55.204] [DEBUG] debug-file - Module opencalc-harmonyos's total dependency: 0
+[2026-05-08T18:01:55.207] [DEBUG] debug-file - Start to initialize dependency information.
+[2026-05-08T18:01:55.213] [DEBUG] debug-file - Module entry Collected Dependency: 
+[2026-05-08T18:01:55.213] [DEBUG] debug-file - Module entry's total dependency: 0
+[2026-05-08T18:01:55.224] [DEBUG] debug-file - Configuration phase cost:3 s 299 ms 
+[2026-05-08T18:01:55.228] [DEBUG] debug-file - Configuration task cost before running: 3 s 321 ms 
+[2026-05-08T18:01:55.229] [DEBUG] debug-file - Executing task :entry:clean
+[2026-05-08T18:01:55.230] [DEBUG] debug-file - clean: Worker pool is inactive.
+[2026-05-08T18:01:55.232] [DEBUG] debug-file - entry : clean cost memory 0.08126068115234375
+[2026-05-08T18:01:55.233] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 326 ms 
+[2026-05-08T18:01:55.235] [INFO] debug-file - Finished :entry:clean... after 4 ms 
+[2026-05-08T18:01:55.246] [DEBUG] debug-file - Executing task :entry:default@PreBuild
+[2026-05-08T18:01:55.250] [DEBUG] debug-file - Task 'entry:default@PreBuild' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.527] [DEBUG] debug-file - current product is not Atomic service.
+[2026-05-08T18:01:55.528] [DEBUG] debug-file - Use tool [darwin: JAVA_HOME, CLASSPATH]
+ [
+  {
+    JAVA_HOME: '/Applications/DevEco-Studio.app/Contents/jbr/Contents/Home'
+  },
+  { CLASSPATH: undefined }
+]
+[2026-05-08T18:01:55.530] [DEBUG] debug-file - Use tool [darwin: NODE_HOME]
+ [ { NODE_HOME: undefined } ]
+[2026-05-08T18:01:55.531] [DEBUG] debug-file - entry : default@PreBuild cost memory 3.5132904052734375
+[2026-05-08T18:01:55.532] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 625 ms 
+[2026-05-08T18:01:55.533] [INFO] debug-file - Finished :entry:default@PreBuild... after 286 ms 
+[2026-05-08T18:01:55.535] [DEBUG] debug-file - Executing task :entry:default@CreateModuleInfo
+[2026-05-08T18:01:55.535] [DEBUG] debug-file - Task 'entry:default@CreateModuleInfo' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.536] [DEBUG] debug-file - entry : default@CreateModuleInfo cost memory 0.0409088134765625
+[2026-05-08T18:01:55.536] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 629 ms 
+[2026-05-08T18:01:55.536] [INFO] debug-file - Finished :entry:default@CreateModuleInfo... after 2 ms 
+[2026-05-08T18:01:55.538] [DEBUG] debug-file - Executing task :entry:default@GenerateMetadata
+[2026-05-08T18:01:55.539] [DEBUG] debug-file - Task 'entry:default@GenerateMetadata' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.543] [DEBUG] debug-file - entry : default@GenerateMetadata cost memory 0.05884552001953125
+[2026-05-08T18:01:55.544] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 637 ms 
+[2026-05-08T18:01:55.544] [INFO] debug-file - Finished :entry:default@GenerateMetadata... after 6 ms 
+[2026-05-08T18:01:55.546] [DEBUG] debug-file - Executing task :entry:default@ConfigureCmake
+[2026-05-08T18:01:55.548] [DEBUG] debug-file - entry : default@ConfigureCmake cost memory 0.01458740234375
+[2026-05-08T18:01:55.548] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 641 ms 
+[2026-05-08T18:01:55.548] [INFO] debug-file - Finished :entry:default@ConfigureCmake... after 2 ms 
+[2026-05-08T18:01:55.550] [DEBUG] debug-file - Executing task :entry:default@MergeProfile
+[2026-05-08T18:01:55.551] [DEBUG] debug-file - Task 'entry:default@MergeProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.553] [DEBUG] debug-file - Change app api release type with 'Release'
+[2026-05-08T18:01:55.553] [DEBUG] debug-file - Change app compile API version with '6.1.0.105'
+[2026-05-08T18:01:55.554] [DEBUG] debug-file - Change app target API version with '50000012'
+[2026-05-08T18:01:55.554] [DEBUG] debug-file - Change app minimum API version with '50000012'
+[2026-05-08T18:01:55.554] [DEBUG] debug-file - Use cli appEnvironment
+[2026-05-08T18:01:55.556] [DEBUG] debug-file - entry : default@MergeProfile cost memory 0.3863525390625
+[2026-05-08T18:01:55.556] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 649 ms 
+[2026-05-08T18:01:55.556] [INFO] debug-file - Finished :entry:default@MergeProfile... after 6 ms 
+[2026-05-08T18:01:55.562] [DEBUG] debug-file - Executing task :entry:default@CreateBuildProfile
+[2026-05-08T18:01:55.562] [DEBUG] debug-file - Task 'entry:default@CreateBuildProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.564] [DEBUG] debug-file - entry : default@CreateBuildProfile cost memory 0.0667724609375
+[2026-05-08T18:01:55.564] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 657 ms 
+[2026-05-08T18:01:55.564] [INFO] debug-file - Finished :entry:default@CreateBuildProfile... after 3 ms 
+[2026-05-08T18:01:55.566] [DEBUG] debug-file - Executing task :entry:default@PreCheckSyscap
+[2026-05-08T18:01:55.569] [DEBUG] debug-file - entry : default@PreCheckSyscap cost memory 0.0148162841796875
+[2026-05-08T18:01:55.569] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 662 ms 
+[2026-05-08T18:01:55.571] [INFO] debug-file - Finished :entry:default@PreCheckSyscap... after 3 ms 
+[2026-05-08T18:01:55.575] [DEBUG] debug-file - Executing task :entry:default@GeneratePkgContextInfo
+[2026-05-08T18:01:55.588] [DEBUG] debug-file - Task 'entry:default@GeneratePkgContextInfo' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.589] [DEBUG] debug-file - entry : default@GeneratePkgContextInfo cost memory 0.2371978759765625
+[2026-05-08T18:01:55.589] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 682 ms 
+[2026-05-08T18:01:55.589] [INFO] debug-file - Finished :entry:default@GeneratePkgContextInfo... after 15 ms 
+[2026-05-08T18:01:55.591] [DEBUG] debug-file - Executing task :entry:default@GeneratePkgSdkInfo
+[2026-05-08T18:01:55.593] [DEBUG] debug-file - Task 'entry:default@GeneratePkgSdkInfo' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.595] [DEBUG] debug-file - entry : default@GeneratePkgSdkInfo cost memory 0.11373138427734375
+[2026-05-08T18:01:55.595] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 689 ms 
+[2026-05-08T18:01:55.596] [INFO] debug-file - Finished :entry:default@GeneratePkgSdkInfo... after 5 ms 
+[2026-05-08T18:01:55.601] [DEBUG] debug-file - Executing task :entry:default@ProcessIntegratedHsp
+[2026-05-08T18:01:55.602] [DEBUG] debug-file - entry : default@ProcessIntegratedHsp cost memory 0.02982330322265625
+[2026-05-08T18:01:55.602] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 695 ms 
+[2026-05-08T18:01:55.603] [INFO] debug-file - Finished :entry:default@ProcessIntegratedHsp... after 2 ms 
+[2026-05-08T18:01:55.607] [DEBUG] debug-file - Executing task :entry:default@BuildNativeWithCmake
+[2026-05-08T18:01:55.608] [DEBUG] debug-file - entry : default@BuildNativeWithCmake cost memory 0.0152587890625
+[2026-05-08T18:01:55.608] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 701 ms 
+[2026-05-08T18:01:55.608] [INFO] debug-file - Finished :entry:default@BuildNativeWithCmake... after 1 ms 
+[2026-05-08T18:01:55.610] [DEBUG] debug-file - Executing task :entry:default@MakePackInfo
+[2026-05-08T18:01:55.612] [DEBUG] debug-file - Module Pack Info:  {
+  summary: {
+    app: { bundleName: 'c***r', bundleType: 'app', version: [Object] },
+    modules: [ [Object] ]
+  },
+  packages: [
+    {
+      deviceType: [Array],
+      moduleType: 'entry',
+      deliveryWithInstall: true,
+      name: 'entry-default'
+    }
+  ]
+}
+[2026-05-08T18:01:55.613] [DEBUG] debug-file - entry : default@MakePackInfo cost memory 0.5613479614257812
+[2026-05-08T18:01:55.613] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 707 ms 
+[2026-05-08T18:01:55.614] [INFO] debug-file - Finished :entry:default@MakePackInfo... after 4 ms 
+[2026-05-08T18:01:55.615] [DEBUG] debug-file - Executing task :entry:default@SyscapTransform
+[2026-05-08T18:01:55.615] [DEBUG] debug-file - File: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/syscap.json' from 'sysCapJsonPath' is not exists, just ignore.
+[2026-05-08T18:01:55.616] [DEBUG] debug-file - Task 'entry:default@SyscapTransform' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.618] [DEBUG] debug-file - entry : default@SyscapTransform cost memory 0.04969024658203125
+[2026-05-08T18:01:55.618] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 711 ms 
+[2026-05-08T18:01:55.619] [INFO] debug-file - Finished :entry:default@SyscapTransform... after 3 ms 
+[2026-05-08T18:01:55.621] [DEBUG] debug-file - Executing task :entry:default@ProcessProfile
+[2026-05-08T18:01:55.623] [DEBUG] debug-file - Task 'entry:default@ProcessProfile' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.625] [DEBUG] debug-file - [
+  '/Applications/DevEco-Studio.app/Contents/tools/node/bin/node',
+  '/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/ets/build-tools/ets-loader/bin/ark/ts2abc.js',
+  '--target-api-version',
+  '12',
+  '--target-api-sub-version',
+  'beta1'
+]
+[2026-05-08T18:01:55.805] [DEBUG] debug-file - 12.0.2.0
+[2026-05-08T18:01:55.808] [DEBUG] debug-file - No need to add fake ui ability because of not in preview process.
+[2026-05-08T18:01:55.809] [DEBUG] debug-file - entry : default@ProcessProfile cost memory 0.26984405517578125
+[2026-05-08T18:01:55.809] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 902 ms 
+[2026-05-08T18:01:55.809] [INFO] debug-file - Finished :entry:default@ProcessProfile... after 189 ms 
+[2026-05-08T18:01:55.812] [DEBUG] debug-file - Executing task :entry:default@ProcessRouterMap
+[2026-05-08T18:01:55.817] [DEBUG] debug-file - entry : default@ProcessRouterMap cost memory 0.0684356689453125
+[2026-05-08T18:01:55.818] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 911 ms 
+[2026-05-08T18:01:55.818] [INFO] debug-file - Finished :entry:default@ProcessRouterMap... after 6 ms 
+[2026-05-08T18:01:55.820] [DEBUG] debug-file - Executing task :entry:default@ProcessShareConfig
+[2026-05-08T18:01:55.822] [DEBUG] debug-file - entry : default@ProcessShareConfig cost memory 0.05559539794921875
+[2026-05-08T18:01:55.823] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 916 ms 
+[2026-05-08T18:01:55.823] [INFO] debug-file - Finished :entry:default@ProcessShareConfig... after 3 ms 
+[2026-05-08T18:01:55.824] [DEBUG] debug-file - Executing task :entry:default@ProcessStartupConfig
+[2026-05-08T18:01:55.826] [DEBUG] debug-file - Task 'entry:default@ProcessStartupConfig' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.828] [DEBUG] debug-file - entry : default@ProcessStartupConfig cost memory 0.05625152587890625
+[2026-05-08T18:01:55.828] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 921 ms 
+[2026-05-08T18:01:55.829] [INFO] debug-file - Finished :entry:default@ProcessStartupConfig... after 4 ms 
+[2026-05-08T18:01:55.830] [DEBUG] debug-file - Executing task :entry:default@BuildNativeWithNinja
+[2026-05-08T18:01:55.831] [DEBUG] debug-file - entry : default@BuildNativeWithNinja cost memory 0.0244598388671875
+[2026-05-08T18:01:55.831] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 924 ms 
+[2026-05-08T18:01:55.831] [INFO] debug-file - Finished :entry:default@BuildNativeWithNinja... after 2 ms 
+[2026-05-08T18:01:55.833] [DEBUG] debug-file - restool module names: entry; moduleName=entry, taskName=default@ProcessResource
+[2026-05-08T18:01:55.836] [DEBUG] debug-file - Executing task :entry:default@ProcessResource
+[2026-05-08T18:01:55.837] [DEBUG] debug-file - Task 'entry:default@ProcessResource' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.839] [DEBUG] debug-file - entry : default@ProcessResource cost memory 0.110443115234375
+[2026-05-08T18:01:55.840] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 933 ms 
+[2026-05-08T18:01:55.841] [INFO] debug-file - Finished :entry:default@ProcessResource... after 6 ms 
+[2026-05-08T18:01:55.844] [DEBUG] debug-file - Executing task :entry:default@GenerateLoaderJson
+[2026-05-08T18:01:55.845] [DEBUG] debug-file - Task 'entry:default@GenerateLoaderJson' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:55.854] [DEBUG] debug-file - entry : default@GenerateLoaderJson cost memory 0.501983642578125
+[2026-05-08T18:01:55.854] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 947 ms 
+[2026-05-08T18:01:55.855] [INFO] debug-file - Finished :entry:default@GenerateLoaderJson... after 10 ms 
+[2026-05-08T18:01:55.856] [DEBUG] debug-file - Executing task :entry:default@ProcessLibs
+[2026-05-08T18:01:55.863] [DEBUG] debug-file - Worker dispatch failed, running processLibs on main thread.
+[2026-05-08T18:01:55.864] [DEBUG] debug-file - entry : default@ProcessLibs cost memory 0.276336669921875
+[2026-05-08T18:01:55.864] [DEBUG] debug-file - runTaskFromQueue task cost before running: 3 s 958 ms 
+[2026-05-08T18:01:55.866] [INFO] debug-file - Finished :entry:default@ProcessLibs... after 9 ms 
+[2026-05-08T18:01:55.868] [DEBUG] debug-file - restool module names: entry; moduleName=entry, taskName=default@CompileResource
+[2026-05-08T18:01:55.869] [DEBUG] debug-file - Executing task :entry:default@CompileResource
+[2026-05-08T18:01:56.235] [DEBUG] debug-file - Use tool [/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/restool]
+ [
+  '/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/restool',
+  '-l',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resConfig.json'
+]
+[2026-05-08T18:01:56.236] [DEBUG] debug-file - current process  memoryUsage: {
+  rss: 313040896,
+  heapTotal: 179097600,
+  heapUsed: 152915432,
+  external: 3344047,
+  arrayBuffers: 1449260
+} os memoryUsage :7.975406646728516
+[2026-05-08T18:01:56.379] [DEBUG] debug-file - Info: Pack: normal pack mode
+
+[2026-05-08T18:01:56.631] [DEBUG] debug-file - Info: hardware concurrency count is : 4
+Info: thread count is : 4
+Info: thread pool is started
+
+[2026-05-08T18:01:56.636] [DEBUG] debug-file - Info: GenericCompiler::CompileFiles
+
+[2026-05-08T18:01:56.640] [DEBUG] debug-file - Info: GenericCompiler::CompileFiles
+
+[2026-05-08T18:01:56.645] [DEBUG] debug-file - 05-08 18:01:56.644 25865 765211 E C01400/ImageTranscoderUtils: DecodeToRGBA IN
+05-08 18:01:56.644 25865 765211 E C01400/ImageTranscoderUtils: ImageFilter IN /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/resources/base/media/app_icon.png
+
+[2026-05-08T18:01:56.656] [DEBUG] debug-file - 05-08 18:01:56.655 25865 765211 E C01400/ImageTranscoder: TranscodeSLR Only zoom-out is supported.
+
+[2026-05-08T18:01:56.657] [DEBUG] debug-file - Warning: ScaleImage failed, error message: INVALID_PARAMETERS, file path = /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/resources/base/media/app_icon.png
+
+[2026-05-08T18:01:56.659] [DEBUG] debug-file - Info: restool resources compile success.
+
+[2026-05-08T18:01:56.659] [DEBUG] debug-file - Info: thread pool is stopped
+
+[2026-05-08T18:01:56.675] [DEBUG] debug-file - entry : default@CompileResource cost memory -28.189292907714844
+[2026-05-08T18:01:56.676] [DEBUG] debug-file - runTaskFromQueue task cost before running: 4 s 769 ms 
+[2026-05-08T18:01:56.677] [INFO] debug-file - Finished :entry:default@CompileResource... after 807 ms 
+[2026-05-08T18:01:56.678] [DEBUG] debug-file - Executing task :entry:default@DoNativeStrip
+[2026-05-08T18:01:56.678] [DEBUG] debug-file - File: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/binxo/default' from 'doBinxoNativeLibs' is not exists, just ignore.
+[2026-05-08T18:01:56.679] [DEBUG] debug-file - Task 'entry:default@DoNativeStrip' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:56.681] [DEBUG] debug-file - entry : default@DoNativeStrip cost memory 0.05603790283203125
+[2026-05-08T18:01:56.682] [DEBUG] debug-file - runTaskFromQueue task cost before running: 4 s 775 ms 
+[2026-05-08T18:01:56.682] [INFO] debug-file - Finished :entry:default@DoNativeStrip... after 4 ms 
+[2026-05-08T18:01:56.684] [DEBUG] debug-file - Executing task :entry:default@CompileArkTS
+[2026-05-08T18:01:56.685] [DEBUG] debug-file - obfuscationOptions: undefined
+[2026-05-08T18:01:56.686] [DEBUG] debug-file - Task 'entry:default@CompileArkTS' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:56.703] [DEBUG] debug-file - build config:
+[2026-05-08T18:01:56.703] [DEBUG] debug-file - {
+  moduleType: 'entry',
+  perf: 0,
+  targetName: '.default',
+  packageManagerType: 'ohpm',
+  localPropertiesPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/local.properties',
+  isPreview: false,
+  isOhosTest: false,
+  isLocalTest: false,
+  buildMode: 'Debug',
+  hotReloadBuild: undefined,
+  watchMode: 'false',
+  aceProfilePath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resources/base/profile',
+  etsLoaderPath: '/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/ets/build-tools/ets-loader',
+  modulePath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry',
+  testFrameworkPar: {
+    testMode: undefined,
+    coveragePathFilter: undefined,
+    coverageMode: undefined
+  },
+  needCoverageInsert: false,
+  debugLine: false,
+  projectTopDir: '/Users/jordanzt/Work/Projects/opencalc-harmonyos',
+  compileSdkVersion: 23,
+  compatibleSdkVersion: 12,
+  originCompatibleSdkVersion: '5.0.0(12)',
+  compatibleSdkVersionStage: 'beta1',
+  bundleName: 'c***r',
+  etsLoaderVersion: '6.1.0.105',
+  etsLoaderReleaseType: 'Release',
+  aotCompileMode: 'type',
+  apPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/modules.ap',
+  entryModuleName: 'entry',
+  entryModuleVersion: '1.0.0',
+  entryPackageName: 'entry',
+  allModuleNameHash: '6671a194f23c271af8c958055775f1e8fca00d4e2e30f4305728b40b020624b2',
+  externalApiPaths: [ '/Applications/DevEco-Studio.app/Contents/sdk/default/hms/ets' ],
+  compilerTypes: [],
+  isCrossplatform: false,
+  hvigorPluginFile: undefined,
+  compilePluginPath: undefined,
+  buildGeneratedProfilePath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/profile/default',
+  bundleType: 'app',
+  arkTSVersion: undefined,
+  apiVersion: 23,
+  needCompleteSourcesMap: false,
+  isFaMode: false,
+  buildDir: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build',
+  deviceTypes: [ 'phone', 'tablet' ],
+  pkgContextInfo: undefined,
+  ohPackagePathMap: {},
+  dependencyAliasMap: {},
+  permission: { requestPermissions: [ [Object] ], definePermissions: undefined },
+  useGetCurrentBundleName: false,
+  projectArkOption: undefined,
+  sourceMapDir: undefined,
+  branchElimination: false,
+  transformLib: undefined,
+  tsImportSendable: false,
+  resolveConflictMode: true,
+  depName2RootPath: {},
+  depName2DepInfo: {},
+  depName2OhExports: {},
+  rootPathSet: [ '/Users/jordanzt/Work/Projects/opencalc-harmonyos' ],
+  useNativeResolver: true,
+  shouldEmitJs: true,
+  useTscResolve: false,
+  singleFileEmit: false,
+  userProjectConfig: {
+    autoLazyImport: false,
+    allowEmptyBundleName: false,
+    reExportCheckMode: 'noCheck',
+    executionMode: 'memory',
+    usePathPlaceholder: false,
+    writeRollupCache: true,
+    isExpandImportEnabled: false,
+    expandImportExclude: '',
+    lazyImportExclude: '',
+    lazyImportInclude: '',
+    ignoreCrossplatformCheck: false,
+    isHarDeduplicateEnabled: false,
+    skipOhModulesLint: false,
+    enableStrictCheckOHModule: false,
+    disableSendableCheckRules: [],
+    useDeclarationFileSignature: false,
+    customizedOptions: undefined,
+    integratedHsp: false,
+    isPreloadSoEnabled: false
+  },
+  executionMode: 'memory',
+  arkCompileCachePath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/cache/default/default@CompileArkTS/esmodule',
+  autoLazyFilter: undefined,
+  isHarDeduplicateEnabled: false,
+  intermediateHarDuplicateDirPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/har_duplicate/default',
+  autoLazyImport: false,
+  allowEmptyBundleName: false,
+  reExportCheckMode: 'noCheck',
+  usePathPlaceholder: false,
+  writeRollupCache: true,
+  isExpandImportEnabled: false,
+  expandImportExclude: '',
+  lazyImportExclude: '',
+  lazyImportInclude: '',
+  ignoreCrossplatformCheck: false,
+  skipOhModulesLint: false,
+  enableStrictCheckOHModule: false,
+  disableSendableCheckRules: [],
+  useDeclarationFileSignature: false,
+  customizedOptions: undefined,
+  integratedHsp: false,
+  isPreloadSoEnabled: false,
+  strictMode: undefined,
+  useNormalizedOHMUrl: false,
+  caseSensitiveCheck: false,
+  aceModuleJsonPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/ark_module.json',
+  appResource: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/ResourceTable.txt',
+  rawFileResource: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resources/rawfile',
+  resourceTableHash: '15a61ac8d9e6adf561b61d3e27a374d205464ba7d77ce5a6c1be29eb60539798',
+  runtimeOS: 'HarmonyOS',
+  sdkInfo: 'false:23:6.1.0.105:Release',
+  aceModuleRoot: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets',
+  compileMode: 'esmodule',
+  aceSuperVisualPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/supervisual',
+  aceBuildJson: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader/default/loader.json',
+  cachePath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/cache/default/default@CompileArkTS/esmodule/debug',
+  aceModuleBuild: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader_out/default/ets',
+  supportChunks: true,
+  declaredFilesPath: undefined,
+  shouldCollectDirectImportees: false,
+  isByteCodeHarOptimize: false,
+  expandImportPath: undefined,
+  resourceTableTs: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/r/default/ResourceTable.ts',
+  moduleMetaInfoFiles: [
+    {
+      filePath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/r/default/ResourceTable.ts',
+      ohmurl: 'com.darkempire78.opencalculator/entry/build/generated/r/ResourceTable'
+    }
+  ],
+  pkgNameToPkgBriefInfo: {
+    entry: {
+      pkgRoot: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry',
+      originalSourceRoots: undefined,
+      sourceRoots: [Array],
+      pkgName: 'entry'
+    }
+  },
+  projectModel: {
+    '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main': {
+      moduleName: 'entry',
+      modulePkgPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry',
+      belongProjectPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos'
+    },
+    '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry': {
+      moduleName: 'entry',
+      modulePkgPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry',
+      belongProjectPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos'
+    },
+    '/Users/jordanzt/Work/Projects/opencalc-harmonyos': {
+      moduleName: 'opencalc-harmonyos',
+      modulePkgPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos',
+      belongProjectPath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos'
+    }
+  },
+  pkgJsonFileHash: '9598d6ed3debbacd1532769d4ef187be335bd6b4f7ea12b707b184fd0505ba47',
+  allModulePaths: [ '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry' ],
+  routerMap: {},
+  obfuscationOptions: undefined,
+  byteCodeHarToDependencyKeys: undefined,
+  compileBlockPkg: [],
+  mockParams: {
+    decorator: '@MockSetup',
+    packageName: '@ohos/hamock',
+    etsSourceRootPath: 'src/main/ets',
+    mockConfigPath: undefined,
+    mockConfigKey2ModuleInfo: {},
+    source2ModuleIdMap: {}
+  },
+  copyCodeResourceEnable: true,
+  copyCodeResourceExcludes: [],
+  copyCodeResourceIncludes: undefined,
+  uiTransformOptimization: false,
+  sdkPath: '/Applications/DevEco-Studio.app/Contents/sdk',
+  needPreloadSoFileSet: {},
+  preloadSoFilePath: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/preload/default/preload.json',
+  useSourceHash: false,
+  localModuleParamMap: {},
+  otherPaths: {
+    'entry/*': [ '../*', '../../../build/default/generated/profile/default/*' ]
+  },
+  collectImportersConfig: undefined
+}
+[2026-05-08T18:01:56.704] [DEBUG] debug-file - Compile arkts with external api path: /Applications/DevEco-Studio.app/Contents/sdk/default/hms/ets
+[2026-05-08T18:01:56.706] [DEBUG] debug-file - default@CompileArkTS work[0] is submitted.
+[2026-05-08T18:01:56.706] [DEBUG] debug-file - default@CompileArkTS work[0] is pushed to ready queue.
+[2026-05-08T18:01:56.707] [DEBUG] debug-file - A work dispatched to worker[3] failed because unable to get work from ready queue.
+[2026-05-08T18:01:56.707] [DEBUG] debug-file - Create  resident worker with id: 2.
+[2026-05-08T18:01:56.709] [DEBUG] debug-file - default@CompileArkTS work[0] has been dispatched to worker[2].
+[2026-05-08T18:01:56.709] [DEBUG] debug-file - default@CompileArkTS work[0] is dispatched.
+[2026-05-08T18:01:56.709] [DEBUG] debug-file - CopyResources startTime: 211920610551143
+[2026-05-08T18:01:56.709] [DEBUG] debug-file - default@CompileArkTS work[1] is submitted.
+[2026-05-08T18:01:56.710] [DEBUG] debug-file - default@CompileArkTS work[1] is pushed to ready queue.
+[2026-05-08T18:01:56.710] [DEBUG] debug-file - A work dispatched to worker[3] failed because unable to get work from ready queue.
+[2026-05-08T18:01:56.710] [DEBUG] debug-file - A work dispatched to worker[2] failed because of worker busy.
+[2026-05-08T18:01:56.710] [DEBUG] debug-file - default@CompileArkTS work[1] has been dispatched to worker[1].
+[2026-05-08T18:01:56.710] [DEBUG] debug-file - default@CompileArkTS work[1] is dispatched.
+[2026-05-08T18:01:56.710] [DEBUG] debug-file - entry : default@CompileArkTS cost memory 1.141937255859375
+[2026-05-08T18:01:56.712] [DEBUG] debug-file - Executing task :entry:default@BuildJS
+[2026-05-08T18:01:56.712] [DEBUG] debug-file - Task 'entry:default@BuildJS' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:56.713] [DEBUG] debug-file - entry : default@BuildJS cost memory 0.12136077880859375
+[2026-05-08T18:01:56.714] [DEBUG] debug-file - runTaskFromQueue task cost before running: 4 s 807 ms 
+[2026-05-08T18:01:56.714] [INFO] debug-file - Finished :entry:default@BuildJS... after 2 ms 
+[2026-05-08T18:01:56.715] [DEBUG] debug-file - Executing task :entry:default@CacheNativeLibs
+[2026-05-08T18:01:56.715] [DEBUG] debug-file - File: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/binxo/default' from 'cacheBinxoNativeLibs' is not exists, just ignore.
+[2026-05-08T18:01:56.715] [DEBUG] debug-file - Task 'entry:default@CacheNativeLibs' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:01:56.716] [DEBUG] debug-file - default@CacheNativeLibs work[2] is submitted.
+[2026-05-08T18:01:56.716] [DEBUG] debug-file - default@CacheNativeLibs work[2] is pushed to ready queue.
+[2026-05-08T18:01:56.716] [DEBUG] debug-file - A work dispatched to worker[3] failed because unable to get work from ready queue.
+[2026-05-08T18:01:56.716] [DEBUG] debug-file - A work dispatched to worker[2] failed because of worker busy.
+[2026-05-08T18:01:56.716] [DEBUG] debug-file - A work dispatched to worker[1] failed because of worker busy.
+[2026-05-08T18:01:56.716] [DEBUG] debug-file - default@CacheNativeLibs work[2] has been dispatched to worker[0].
+[2026-05-08T18:01:56.716] [DEBUG] debug-file - default@CacheNativeLibs work[2] is dispatched.
+[2026-05-08T18:01:56.717] [DEBUG] debug-file - entry : default@CacheNativeLibs cost memory 0.13751983642578125
+[2026-05-08T18:01:56.822] [DEBUG] debug-file - worker[1] has one work done.
+[2026-05-08T18:01:56.822] [DEBUG] debug-file - CopyResources is end, endTime: 211920723289881
+[2026-05-08T18:01:56.822] [DEBUG] debug-file - default@CompileArkTS work[1] done.
+[2026-05-08T18:01:56.823] [DEBUG] debug-file - A work dispatched to worker[1] failed because unable to get work from ready queue.
+[2026-05-08T18:01:56.912] [DEBUG] debug-file - worker[0] has one work done.
+[2026-05-08T18:01:56.913] [DEBUG] debug-file - default@CacheNativeLibs work[2] done.
+[2026-05-08T18:01:56.913] [DEBUG] debug-file - A work dispatched to worker[0] failed because unable to get work from ready queue.
+[2026-05-08T18:01:56.913] [INFO] debug-file - Finished :entry:default@CacheNativeLibs... after 5 ms 
+[2026-05-08T18:02:12.895] [WARN] debug-file - [33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/pages/Index.ets:7:5
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/pages/Index.ets:7:12
+ 'replaceUrl' has been deprecated.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:33:24
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:41:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:47:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:48:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:54:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:60:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:61:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:69:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:75:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:76:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:84:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:90:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:91:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:99:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:105:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:106:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:115:32
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:131:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:132:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:140:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:146:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:147:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:155:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:161:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:162:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:170:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:176:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:177:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:185:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:191:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:192:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:198:18
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:204:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.ets:205:11
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/pages/CalculatorPage.ets:47:42
+ 'getContext' has been deprecated.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/pages/CalculatorPage.ets:140:5
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/pages/CalculatorPage.ets:141:5
+ Function may throw exceptions. Special handling is required.
+[39m[39m
+[33mWARN: [33m[33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/pages/CalculatorPage.ets:141:18
+ 'showToast' has been deprecated.
+[39m[39m
+[33mWARN: [33mArkTS:WARN File: /Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets/pages/CalculatorPage.ets:16:1
+ It's not a recommended way to export struct with '@Entry' decorator, which may cause ACE Engine error in component preview mode.[39m[39m
+
+[2026-05-08T18:02:12.897] [DEBUG] debug-file - Ark compile task finished.finished time is 211936797705184
+[2026-05-08T18:02:12.897] [DEBUG] debug-file - worker[2] has one work done.
+[2026-05-08T18:02:12.900] [DEBUG] debug-file - default@CompileArkTS work[0] done.
+[2026-05-08T18:02:12.901] [INFO] debug-file - Finished :entry:default@CompileArkTS... after 13 s 88 ms 
+[2026-05-08T18:02:12.903] [DEBUG] debug-file - Executing task :entry:default@GeneratePkgModuleJson
+[2026-05-08T18:02:12.903] [DEBUG] debug-file - File: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/preload/default/preload.json' from 'preloadSoJsonPath' is not exists, just ignore.
+[2026-05-08T18:02:12.904] [DEBUG] debug-file - Error occurs while handling @Input 'shouldDeduplicateHar': The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView. Received undefined
+[2026-05-08T18:02:12.904] [DEBUG] debug-file - Task 'entry:default@GeneratePkgModuleJson' cost while wrapping incremental declarations: 2 ms 
+[2026-05-08T18:02:12.907] [DEBUG] debug-file - entry : default@GeneratePkgModuleJson cost memory 0.14720916748046875
+[2026-05-08T18:02:12.907] [DEBUG] debug-file - runTaskFromQueue task cost before running: 20 s 1000 ms 
+[2026-05-08T18:02:12.908] [INFO] debug-file - Finished :entry:default@GeneratePkgModuleJson... after 5 ms 
+[2026-05-08T18:02:12.910] [DEBUG] debug-file - Executing task :entry:default@ProcessCompiledResources
+[2026-05-08T18:02:12.910] [DEBUG] debug-file - File: '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/preload/default/preload.json' from 'preloadSoJsonPath' is not exists, just ignore.
+[2026-05-08T18:02:12.910] [DEBUG] debug-file - Task 'entry:default@ProcessCompiledResources' cost while wrapping incremental declarations: 1 ms 
+[2026-05-08T18:02:12.911] [DEBUG] debug-file - entry : default@ProcessCompiledResources cost memory 0.056671142578125
+[2026-05-08T18:02:12.911] [DEBUG] debug-file - runTaskFromQueue task cost before running: 21 s 4 ms 
+[2026-05-08T18:02:12.912] [INFO] debug-file - Finished :entry:default@ProcessCompiledResources... after 2 ms 
+[2026-05-08T18:02:12.915] [DEBUG] debug-file - Executing task :entry:default@PackageHap
+[2026-05-08T18:02:12.920] [DEBUG] debug-file - Use tool [/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/app_packing_tool.jar]
+ [
+  'java',
+  '-Dfile.encoding=utf-8',
+  '-jar',
+  '/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/app_packing_tool.jar',
+  '--mode',
+  'hap',
+  '--force',
+  'true',
+  '--lib-path',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/stripped_native_libs/default',
+  '--json-path',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/package/default/module.json',
+  '--resources-path',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resources',
+  '--index-path',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resources.index',
+  '--pack-info-path',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/pack.info',
+  '--out-path',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/entry-default-unsigned.hap',
+  '--ets-path',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader_out/default/ets',
+  '--pkg-sdk-info-path',
+  '/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader/default/pkgSdkInfo.json'
+]
+[2026-05-08T18:02:12.923] [DEBUG] debug-file - default@PackageHap work[3] is submitted.
+[2026-05-08T18:02:12.923] [DEBUG] debug-file - default@PackageHap work[3] is pushed to ready queue.
+[2026-05-08T18:02:12.923] [DEBUG] debug-file - default@PackageHap work[3] is not dispatched.
+[2026-05-08T18:02:12.926] [DEBUG] debug-file - entry : default@PackageHap cost memory -0.568267822265625
+[2026-05-08T18:02:13.002] [DEBUG] debug-file - default@PackageHap work[3] has been dispatched to worker[2].
+[2026-05-08T18:02:13.007] [DEBUG] debug-file - current process  memoryUsage: {
+  rss: 579280896,
+  heapTotal: 328007680,
+  heapUsed: 296647984,
+  external: 5288678,
+  arrayBuffers: 1436157
+} os memoryUsage :7.951469421386719
+[2026-05-08T18:02:13.024] [DEBUG] debug-file - A work dispatched to worker[3] failed because unable to get work from ready queue.
+[2026-05-08T18:02:13.024] [DEBUG] debug-file - A work dispatched to worker[2] failed because of worker busy.
+[2026-05-08T18:02:13.024] [DEBUG] debug-file - A work dispatched to worker[1] failed because unable to get work from ready queue.
+[2026-05-08T18:02:13.025] [DEBUG] debug-file - A work dispatched to worker[0] failed because unable to get work from ready queue.
+[2026-05-08T18:02:14.428] [DEBUG] debug-file - worker[2] has one work done.
+[2026-05-08T18:02:14.428] [DEBUG] debug-file - default@PackageHap work[3] done.
+[2026-05-08T18:02:14.428] [DEBUG] debug-file - A work dispatched to worker[2] failed because unable to get work from ready queue.
+[2026-05-08T18:02:14.429] [INFO] debug-file - Finished :entry:default@PackageHap... after 1 s 434 ms 
+[2026-05-08T18:02:14.430] [DEBUG] debug-file - Executing task :entry:default@PackingCheck
+[2026-05-08T18:02:14.442] [DEBUG] debug-file - entry : default@PackingCheck cost memory 0.3947296142578125
+[2026-05-08T18:02:14.443] [DEBUG] debug-file - runTaskFromQueue task cost before running: 22 s 535 ms 
+[2026-05-08T18:02:14.443] [INFO] debug-file - Finished :entry:default@PackingCheck... after 13 ms 
+[2026-05-08T18:02:14.446] [DEBUG] debug-file - Executing task :entry:default@SignHap
+[2026-05-08T18:02:14.447] [WARN] debug-file - No signingConfig found for product default
+[2026-05-08T18:02:14.449] [DEBUG] debug-file - entry : default@SignHap cost memory 0.05750274658203125
+[2026-05-08T18:02:14.450] [DEBUG] debug-file - runTaskFromQueue task cost before running: 22 s 542 ms 
+[2026-05-08T18:02:14.450] [INFO] debug-file - Finished :entry:default@SignHap... after 4 ms 
+[2026-05-08T18:02:14.455] [DEBUG] debug-file - Executing task :entry:default@CollectDebugSymbol
+[2026-05-08T18:02:14.456] [DEBUG] debug-file - entry : default@CollectDebugSymbol cost memory 0.091156005859375
+[2026-05-08T18:02:14.456] [DEBUG] debug-file - runTaskFromQueue task cost before running: 22 s 549 ms 
+[2026-05-08T18:02:14.456] [INFO] debug-file - Finished :entry:default@CollectDebugSymbol... after 2 ms 
+[2026-05-08T18:02:14.457] [DEBUG] debug-file - Executing task :entry:assembleHap
+[2026-05-08T18:02:14.457] [DEBUG] debug-file - entry : assembleHap cost memory 0.0148468017578125
+[2026-05-08T18:02:14.457] [DEBUG] debug-file - runTaskFromQueue task cost before running: 22 s 550 ms 
+[2026-05-08T18:02:14.457] [INFO] debug-file - Finished :entry:assembleHap... after 1 ms 
+[2026-05-08T18:02:14.461] [INFO] debug-file - BUILD SUCCESSFUL in 22 s 554 ms 
+[2026-05-08T18:02:14.463] [DEBUG] debug-file - Update task entry:default@PreBuild input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/AppScope/app.json5 cache by regenerate.
+[2026-05-08T18:02:14.463] [DEBUG] debug-file - Update task entry:default@PreBuild input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/module.json5 cache by regenerate.
+[2026-05-08T18:02:14.464] [DEBUG] debug-file - Update task entry:default@PreBuild input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/build-profile.json5 cache by regenerate.
+[2026-05-08T18:02:14.464] [DEBUG] debug-file - Update task entry:default@PreBuild input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build-profile.json5 cache by regenerate.
+[2026-05-08T18:02:14.464] [DEBUG] debug-file - Update task entry:default@PreBuild input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/resources/base/profile/main_pages.json cache by regenerate.
+[2026-05-08T18:02:14.464] [DEBUG] debug-file - Update task entry:default@PreBuild input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/hvigor/hvigor-config.json5 cache by regenerate.
+[2026-05-08T18:02:14.464] [DEBUG] debug-file - Update task entry:default@PreBuild input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/oh-package.json5 cache by regenerate.
+[2026-05-08T18:02:14.465] [DEBUG] debug-file - Update task entry:default@PreBuild input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/oh-package.json5 cache by regenerate.
+[2026-05-08T18:02:14.465] [DEBUG] debug-file - Incremental task entry:default@PreBuild post-execution cost:3 ms .
+[2026-05-08T18:02:14.465] [DEBUG] debug-file - Update task entry:default@CreateModuleInfo output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/profile/default/ModuleInfo.ts cache.
+[2026-05-08T18:02:14.465] [DEBUG] debug-file - Incremental task entry:default@CreateModuleInfo post-execution cost:1 ms .
+[2026-05-08T18:02:14.466] [DEBUG] debug-file - Update task entry:default@GenerateMetadata input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/module.json5 cache by regenerate.
+[2026-05-08T18:02:14.466] [DEBUG] debug-file - Update task entry:default@GenerateMetadata output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/hap_metadata/default/output_metadata.json cache.
+[2026-05-08T18:02:14.466] [DEBUG] debug-file - Incremental task entry:default@GenerateMetadata post-execution cost:1 ms .
+[2026-05-08T18:02:14.466] [DEBUG] debug-file - Update task entry:default@MergeProfile input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/AppScope/app.json5 cache by regenerate.
+[2026-05-08T18:02:14.466] [DEBUG] debug-file - Update task entry:default@MergeProfile input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/build-profile.json5 cache by regenerate.
+[2026-05-08T18:02:14.467] [DEBUG] debug-file - Update task entry:default@MergeProfile input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/module.json5 cache by regenerate.
+[2026-05-08T18:02:14.467] [DEBUG] debug-file - Update task entry:default@MergeProfile output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/merge_profile/default/module.json cache.
+[2026-05-08T18:02:14.467] [DEBUG] debug-file - Incremental task entry:default@MergeProfile post-execution cost:2 ms .
+[2026-05-08T18:02:14.467] [DEBUG] debug-file - Update task entry:default@CreateBuildProfile input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/AppScope/app.json5 cache by regenerate.
+[2026-05-08T18:02:14.467] [DEBUG] debug-file - Update task entry:default@CreateBuildProfile input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/build-profile.json5 cache by regenerate.
+[2026-05-08T18:02:14.468] [DEBUG] debug-file - Update task entry:default@CreateBuildProfile output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/profile/default/BuildProfile.ets cache.
+[2026-05-08T18:02:14.468] [DEBUG] debug-file - Incremental task entry:default@CreateBuildProfile post-execution cost:1 ms .
+[2026-05-08T18:02:14.468] [DEBUG] debug-file - Update task entry:default@GeneratePkgContextInfo output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader/default/pkgContextInfo.json cache.
+[2026-05-08T18:02:14.468] [DEBUG] debug-file - Incremental task entry:default@GeneratePkgContextInfo post-execution cost:1 ms .
+[2026-05-08T18:02:14.468] [DEBUG] debug-file - Update task entry:default@GeneratePkgSdkInfo output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader/default/pkgSdkInfo.json cache.
+[2026-05-08T18:02:14.468] [DEBUG] debug-file - Incremental task entry:default@GeneratePkgSdkInfo post-execution cost:1 ms .
+[2026-05-08T18:02:14.469] [DEBUG] debug-file - Update task entry:default@ProcessIntegratedHsp output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/build/cache/default/integrated_hsp/integratedHspCache.json cache.
+[2026-05-08T18:02:14.469] [DEBUG] debug-file - Incremental task entry:default@ProcessIntegratedHsp post-execution cost:1 ms .
+[2026-05-08T18:02:14.469] [DEBUG] debug-file - Update task entry:default@MakePackInfo input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/AppScope/app.json5 cache by regenerate.
+[2026-05-08T18:02:14.469] [DEBUG] debug-file - Update task entry:default@MakePackInfo input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/module.json5 cache by regenerate.
+[2026-05-08T18:02:14.469] [DEBUG] debug-file - Update task entry:default@MakePackInfo input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/build-profile.json5 cache by regenerate.
+[2026-05-08T18:02:14.470] [DEBUG] debug-file - Update task entry:default@MakePackInfo output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/pack.info cache.
+[2026-05-08T18:02:14.471] [DEBUG] debug-file - Incremental task entry:default@MakePackInfo post-execution cost:2 ms .
+[2026-05-08T18:02:14.471] [DEBUG] debug-file - Update task entry:default@SyscapTransform input file:/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/syscap_tool cache by regenerate.
+[2026-05-08T18:02:14.471] [DEBUG] debug-file - Update task entry:default@SyscapTransform input file:/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/ets/api/device-define cache by regenerate.
+[2026-05-08T18:02:14.473] [DEBUG] debug-file - Update task entry:default@SyscapTransform output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/syscap/default/rpcid.sc cache.
+[2026-05-08T18:02:14.473] [DEBUG] debug-file - Incremental task entry:default@SyscapTransform post-execution cost:3 ms .
+[2026-05-08T18:02:14.473] [DEBUG] debug-file - Update task entry:default@ProcessProfile input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/merge_profile/default/module.json cache by regenerate.
+[2026-05-08T18:02:14.474] [DEBUG] debug-file - Update task entry:default@ProcessProfile output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/process_profile/default/module.json cache.
+[2026-05-08T18:02:14.474] [DEBUG] debug-file - Incremental task entry:default@ProcessProfile post-execution cost:1 ms .
+[2026-05-08T18:02:14.474] [DEBUG] debug-file - Update task entry:default@ProcessRouterMap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/oh-package.json5 cache by regenerate.
+[2026-05-08T18:02:14.474] [DEBUG] debug-file - Update task entry:default@ProcessRouterMap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/oh-package.json5 cache by regenerate.
+[2026-05-08T18:02:14.474] [DEBUG] debug-file - Update task entry:default@ProcessRouterMap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/module.json5 cache by regenerate.
+[2026-05-08T18:02:14.475] [DEBUG] debug-file - Update task entry:default@ProcessRouterMap output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/router_map/default/temp-router-map.json cache.
+[2026-05-08T18:02:14.475] [DEBUG] debug-file - Update task entry:default@ProcessRouterMap output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/router_map/default/loader-router-map.json cache.
+[2026-05-08T18:02:14.475] [DEBUG] debug-file - Incremental task entry:default@ProcessRouterMap post-execution cost:2 ms .
+[2026-05-08T18:02:14.475] [DEBUG] debug-file - Update task entry:default@ProcessShareConfig input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/oh-package.json5 cache by regenerate.
+[2026-05-08T18:02:14.475] [DEBUG] debug-file - Update task entry:default@ProcessShareConfig input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/oh-package.json5 cache by regenerate.
+[2026-05-08T18:02:14.475] [DEBUG] debug-file - Update task entry:default@ProcessShareConfig input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/module.json5 cache by regenerate.
+[2026-05-08T18:02:14.476] [DEBUG] debug-file - Update task entry:default@ProcessShareConfig output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/share_config/default/temp-share-config.json cache.
+[2026-05-08T18:02:14.476] [DEBUG] debug-file - Incremental task entry:default@ProcessShareConfig post-execution cost:2 ms .
+[2026-05-08T18:02:14.477] [DEBUG] debug-file - Update task entry:default@ProcessStartupConfig output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/startup/default/startup_config.json cache.
+[2026-05-08T18:02:14.477] [DEBUG] debug-file - Incremental task entry:default@ProcessStartupConfig post-execution cost:1 ms .
+[2026-05-08T18:02:14.477] [DEBUG] debug-file - Update task entry:default@ProcessResource output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resConfig.json cache.
+[2026-05-08T18:02:14.477] [DEBUG] debug-file - Update task entry:default@ProcessResource output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/opt-compression.json cache.
+[2026-05-08T18:02:14.478] [DEBUG] debug-file - Incremental task entry:default@ProcessResource post-execution cost:1 ms .
+[2026-05-08T18:02:14.479] [DEBUG] debug-file - Update task entry:default@GenerateLoaderJson input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/router_map/default/temp-router-map.json cache by regenerate.
+[2026-05-08T18:02:14.479] [DEBUG] debug-file - Update task entry:default@GenerateLoaderJson output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader/default/loader.json cache.
+[2026-05-08T18:02:14.479] [DEBUG] debug-file - Incremental task entry:default@GenerateLoaderJson post-execution cost:2 ms .
+[2026-05-08T18:02:14.479] [DEBUG] debug-file - Update task entry:default@ProcessLibs input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/build-profile.json5 cache by regenerate.
+[2026-05-08T18:02:14.480] [DEBUG] debug-file - Update task entry:default@ProcessLibs input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build-profile.json5 cache by regenerate.
+[2026-05-08T18:02:14.480] [DEBUG] debug-file - Update task entry:default@ProcessLibs output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/libs/default cache.
+[2026-05-08T18:02:14.480] [DEBUG] debug-file - Incremental task entry:default@ProcessLibs post-execution cost:1 ms .
+[2026-05-08T18:02:14.481] [DEBUG] debug-file - Update task entry:default@CompileResource input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/resources cache by regenerate.
+[2026-05-08T18:02:14.482] [DEBUG] debug-file - Update task entry:default@CompileResource input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/process_profile/default/module.json cache by regenerate.
+[2026-05-08T18:02:14.482] [DEBUG] debug-file - Update task entry:default@CompileResource input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resConfig.json cache by regenerate.
+[2026-05-08T18:02:14.483] [DEBUG] debug-file - Update task entry:default@CompileResource output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default cache.
+[2026-05-08T18:02:14.485] [DEBUG] debug-file - Update task entry:default@CompileResource output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/r/default/ResourceTable.h cache.
+[2026-05-08T18:02:14.485] [DEBUG] debug-file - Update task entry:default@CompileResource output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/r/default/ResourceTable.ts cache.
+[2026-05-08T18:02:14.486] [DEBUG] debug-file - Update task entry:default@CompileResource output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/r/default cache.
+[2026-05-08T18:02:14.486] [DEBUG] debug-file - Incremental task entry:default@CompileResource post-execution cost:6 ms .
+[2026-05-08T18:02:14.486] [DEBUG] debug-file - Update task entry:default@DoNativeStrip input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/libs/default cache by regenerate.
+[2026-05-08T18:02:14.486] [DEBUG] debug-file - Update task entry:default@DoNativeStrip output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/stripped_native_libs/default cache.
+[2026-05-08T18:02:14.486] [DEBUG] debug-file - Incremental task entry:default@DoNativeStrip post-execution cost:1 ms .
+[2026-05-08T18:02:14.487] [DEBUG] debug-file - Update task entry:default@CompileArkTS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader/default cache by regenerate.
+[2026-05-08T18:02:14.488] [DEBUG] debug-file - Update task entry:default@CompileArkTS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/ResourceTable.txt cache by regenerate.
+[2026-05-08T18:02:14.488] [DEBUG] debug-file - Update task entry:default@CompileArkTS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/ark_module.json cache by regenerate.
+[2026-05-08T18:02:14.488] [DEBUG] debug-file - Update task entry:default@CompileArkTS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resources/base/profile cache by regenerate.
+[2026-05-08T18:02:14.489] [DEBUG] debug-file - Update task entry:default@CompileArkTS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/src/main/ets cache by regenerate.
+[2026-05-08T18:02:14.490] [DEBUG] debug-file - Update task entry:default@CompileArkTS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/profile/default/BuildProfile.ets cache by regenerate.
+[2026-05-08T18:02:14.490] [DEBUG] debug-file - Update task entry:default@CompileArkTS output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader_out/default/ets cache.
+[2026-05-08T18:02:14.490] [DEBUG] debug-file - Incremental task entry:default@CompileArkTS post-execution cost:4 ms .
+[2026-05-08T18:02:14.491] [DEBUG] debug-file - Update task entry:default@BuildJS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader/default cache by regenerate.
+[2026-05-08T18:02:14.491] [DEBUG] debug-file - Update task entry:default@BuildJS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/ResourceTable.txt cache by regenerate.
+[2026-05-08T18:02:14.492] [DEBUG] debug-file - Update task entry:default@BuildJS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/ark_module.json cache by regenerate.
+[2026-05-08T18:02:14.492] [DEBUG] debug-file - Update task entry:default@BuildJS input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resources/base/profile cache by regenerate.
+[2026-05-08T18:02:14.492] [DEBUG] debug-file - Update task entry:default@BuildJS output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader_out/default/js cache.
+[2026-05-08T18:02:14.492] [DEBUG] debug-file - Incremental task entry:default@BuildJS post-execution cost:2 ms .
+[2026-05-08T18:02:14.492] [DEBUG] debug-file - Update task entry:default@CacheNativeLibs input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/stripped_native_libs/default cache by regenerate.
+[2026-05-08T18:02:14.493] [DEBUG] debug-file - Update task entry:default@CacheNativeLibs input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/libs/default cache by regenerate.
+[2026-05-08T18:02:14.493] [DEBUG] debug-file - Update task entry:default@CacheNativeLibs output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/patch/default/base_native_libs.json cache.
+[2026-05-08T18:02:14.493] [DEBUG] debug-file - Update task entry:default@CacheNativeLibs output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/patch/default/binxo_native_libs.json cache.
+[2026-05-08T18:02:14.493] [DEBUG] debug-file - Incremental task entry:default@CacheNativeLibs post-execution cost:1 ms .
+[2026-05-08T18:02:14.493] [DEBUG] debug-file - Update task entry:default@GeneratePkgModuleJson input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/module.json cache by regenerate.
+[2026-05-08T18:02:14.493] [DEBUG] debug-file - Update task entry:default@GeneratePkgModuleJson output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/package/default/module.json cache.
+[2026-05-08T18:02:14.493] [DEBUG] debug-file - Incremental task entry:default@GeneratePkgModuleJson post-execution cost:1 ms .
+[2026-05-08T18:02:14.493] [DEBUG] debug-file - Incremental task entry:default@ProcessCompiledResources post-execution cost:1 ms .
+[2026-05-08T18:02:14.494] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/stripped_native_libs/default cache by regenerate.
+[2026-05-08T18:02:14.494] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/module.json cache by regenerate.
+[2026-05-08T18:02:14.495] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resources cache by regenerate.
+[2026-05-08T18:02:14.496] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/res/default/resources.index cache by regenerate.
+[2026-05-08T18:02:14.496] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/pack.info cache by regenerate.
+[2026-05-08T18:02:14.496] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader_out/default/ets cache by regenerate.
+[2026-05-08T18:02:14.496] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader/default/pkgSdkInfo.json cache by regenerate.
+[2026-05-08T18:02:14.497] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader_out/default/ets/sourceMaps.map cache by regenerate.
+[2026-05-08T18:02:14.497] [DEBUG] debug-file - Update task entry:default@PackageHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/generated/profile/default/BuildProfile.ets cache by regenerate.
+[2026-05-08T18:02:14.498] [DEBUG] debug-file - Update task entry:default@PackageHap output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/entry-default-unsigned.hap cache.
+[2026-05-08T18:02:14.498] [DEBUG] debug-file - Update task entry:default@PackageHap output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/source_map/default/sourceMaps.map cache.
+[2026-05-08T18:02:14.499] [DEBUG] debug-file - Update task entry:default@PackageHap output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/mapping/sourceMaps.map cache.
+[2026-05-08T18:02:14.499] [DEBUG] debug-file - Incremental task entry:default@PackageHap post-execution cost:6 ms .
+[2026-05-08T18:02:14.499] [DEBUG] debug-file - Update task entry:default@SignHap input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/entry-default-unsigned.hap cache by regenerate.
+[2026-05-08T18:02:14.499] [DEBUG] debug-file - Update task entry:default@SignHap output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/entry-default-signed.hap cache.
+[2026-05-08T18:02:14.499] [DEBUG] debug-file - Incremental task entry:default@SignHap post-execution cost:1 ms .
+[2026-05-08T18:02:14.501] [DEBUG] debug-file - Update task entry:default@CollectDebugSymbol input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/loader_out/default/ets/sourceMaps.map cache by regenerate.
+[2026-05-08T18:02:14.501] [DEBUG] debug-file - Update task entry:default@CollectDebugSymbol input file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/intermediates/libs/default cache by regenerate.
+[2026-05-08T18:02:14.501] [DEBUG] debug-file - Update task entry:default@CollectDebugSymbol output file:/Users/jordanzt/Work/Projects/opencalc-harmonyos/entry/build/default/outputs/default/symbol cache.
+[2026-05-08T18:02:14.501] [DEBUG] debug-file - Incremental task entry:default@CollectDebugSymbol post-execution cost:1 ms .
+[2026-05-08T18:02:14.535] [DEBUG] debug-file - Cleanup worker 1.
+[2026-05-08T18:02:14.535] [DEBUG] debug-file - Worker 1 has been cleaned up.
+[2026-05-08T18:02:14.535] [DEBUG] debug-file - Current idle worker size: 2.
+[2026-05-08T18:02:14.535] [DEBUG] debug-file - Current resident worker size: 3.
+[2026-05-08T18:02:14.535] [DEBUG] debug-file - Cleanup worker 0.
+[2026-05-08T18:02:14.535] [DEBUG] debug-file - Worker 0 has been cleaned up.
+[2026-05-08T18:02:14.535] [DEBUG] debug-file - Current idle worker size: 1.
+[2026-05-08T18:02:14.535] [DEBUG] debug-file - Current resident worker size: 3.
+[2026-05-08T18:02:14.537] [DEBUG] debug-file - hvigor build process will be closed.
+[2026-05-08T18:02:14.543] [DEBUG] debug-file - session manager: send message to worker process.
+[2026-05-08T18:02:14.547] [DEBUG] debug-file - session manager: send message to worker process.
+[2026-05-08T18:02:14.547] [DEBUG] debug-file - watch worker: worker id should be larger than 0. Nothing will be sent to any worker thread.
+[2026-05-08T18:02:14.550] [DEBUG] debug-file - watch worker: worker id should be larger than 0. Nothing will be sent to any worker thread.
+[2026-05-08T18:02:14.562] [DEBUG] debug-file - worker[1] exits with exit code 1.
+[2026-05-08T18:02:14.566] [DEBUG] debug-file - worker[0] exits with exit code 1.
