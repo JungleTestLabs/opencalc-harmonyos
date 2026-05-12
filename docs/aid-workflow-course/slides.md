@@ -10,7 +10,7 @@
 **AID Workflow 增量开发实战**
 AI-Native Development — 让 AI 帮你拆需求、写代码、做验证
 
-课程时长：~3 小时 | 狗爹@IntelliJungle
+课程时长：~3 小时 | 狗爹@zhangtbj
 前置：Git 基础 + 会写代码
 
 ---
@@ -113,8 +113,26 @@ delta-design.md
 - 声称："+13 字符，1 行修改"
 - 实际：3 处修改、~85 字符参数化重构
 - 根因：没跑 `git diff --stat`
+- 评分：4/10
 
-**爹助教训**：报告失实 = 审查信任崩塌。**自证，不要自评。**
+**爹助教训**：报告失实 = 审查信任崩塌。**自证，不要自评。** 好消息：修正后 apply-report 评分 4→8/10（见下页）。
+
+---
+
+## Slide 8b: [CASE] 翻车后 — 修正的力量
+
+**百分号按钮 apply-report 修正过程**：
+
+| 阶段 | 动作 | 结果 |
+|------|------|------|
+| 初版 | 声称 "+13 字符，1 行修改" | 4/10 |
+| 爹助指出 | apply-report 失实，需差分自证 | — |
+| 修正 | 如实描述 3 处参数化改动 + `git diff --stat` 验证 + 清理 `.claude/commands/` 污染 | — |
+| 再审查 | apply-report **4→8/10**，综合 **6.7→7.3/10** | ✅ |
+
+> **"一个好的 apply-report 不是天生的——是 diff 出来的。"**
+
+修正后的 apply-report 差分验证节已成为本课程新的正面教材。
 
 ---
 
@@ -125,11 +143,11 @@ delta-design.md
 | 需求解析 | 8/10 | 9/10 |
 | AC 覆盖 | 7 项（含冗余） | 10 项（无冗余） |
 | 设计前瞻性 | 7/10 | 9/10 |
-| **apply-report 诚实度** | **4/10** | **8/10** |
+| **apply-report 诚实度** | **4→8/10** 修正后 | **8/10** |
 | 代码最小化 | 7/10 | 8/10 |
-| **综合** | **6.7/10** | **8.6/10** |
+| **综合** | **6.7→7.3/10** | **8.6/10** |
 
-**差异根因**：apply-report 的自证机制。live-preview 的 diff 与报告一致；percent-button 严重失实。
+**差异根因**：apply-report 的自证机制。live-preview 的 diff 与报告一致；percent-button 初版失实，修正后 4→8。最戏剧性的教学时刻：翻车后如何爬回来。
 
 ---
 
@@ -164,7 +182,7 @@ delta-design.md
 
 ---
 
-## Slide 13: [DEMO] 动手实验 — 30 分钟做一个增量
+## Slide 13: [DEMO] 动手实验 — 45-60 分钟做一个增量
 
 **任务**："给计算器加一个倒数按钮 (1/x)"
 
@@ -185,6 +203,7 @@ delta-design.md
 1. **先查代码再写 spec** — rq-parse 不是猜，是读代码后的判断
 2. **apply-report 用 diff 自证** — `git diff --stat` 是报告的第一句话
 3. **编译验证不可跳过** — 不能编译的代码不算完成
+   ↳ 无法编译时（如环境限制）：apply-report 标记 ⚠️ 待宿主机验证 + 附编译日志。**诚实标注 > 假装编译过。**
 
 > "增量开发的核心不是增量的大小，而是**每次增量的可审查性**。"
 > — 爹助，2026-05-13
@@ -197,7 +216,7 @@ delta-design.md
 - [feat/percent-button](https://github.com/JungleTestLabs/opencalc-harmonyos/tree/feat/percent-button)
 - [feat/live-preview](https://github.com/JungleTestLabs/opencalc-harmonyos/tree/feat/live-preview)
 
-**爹助评审报告**：[Issue #19](https://github.com/Intelli-Jungle/hermes-agent-workflow/issues/19)
+**爹助评审报告**：[Issue #19](https://github.com/Intelli-Jungle/hermes-agent-workflow/issues/19)（已更新：狗助修正 + 爹助重新审查）
 
 **AID Workflow Skill**：[skill_bank](https://github.com/sdd-group2026/skill_bank/tree/main/skills/working/aid-workflow/)
 

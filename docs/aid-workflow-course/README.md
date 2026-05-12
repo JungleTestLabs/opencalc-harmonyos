@@ -90,12 +90,12 @@ specs/changes/{YYYYMMDD}-{type}-{name}/
 2. BtnOp Builder 参数化：`width('22%')` → `width(w)`，签名加 `w: string = '22%'`
 3. BtnAct Builder 参数化：同上
 
-**爹助评分**：6.7/10 — apply-report 失实（声称"+13字符"实际 ~85 字符参数化重构）
+**爹助评分**：7.3/10（修正后）— apply-report 初版 4/10（失实，声称"+13字符"实际 ~85 字符参数化重构），修正后 8/10（诚实差分自证 + .claude/commands/ 清理）
 
 **关键教训**：
 - ✅ rq-parse 的"代码洞察"环节价值巨大——发现已有能力，避免重复开发
-- ❌ apply-report 缺乏差分自证——必须 `git diff --stat` 验证
-- ❌ `.claude/commands/` 污染 feature branch——非代码文件应单独提交
+- ❌ apply-report 缺乏差分自证——必须 `git diff --stat` 验证 → ✅ 修正后差分自证，apply-report 评分 4→8
+- ❌ `.claude/commands/` 污染 feature branch——非代码文件应单独提交，修正后已清理
 
 ### Case B：实时预览（feat/live-preview）
 
@@ -139,6 +139,8 @@ specs/changes/{YYYYMMDD}-{type}-{name}/
 3. **`.claude/commands/` 污染 feature branch**：基础设施配置不应与功能代码混合
 4. **AC 与实现的 traceability 不完整**：spec 中的 AC 在 design 中消失
 
+> 注：P0 = 阻塞级（必须立刻修），P1 = 重要（强烈建议）
+
 ### 改进建议
 
 | 优先级 | 改进 | 效果 |
@@ -165,6 +167,8 @@ cd opencalc-harmonyos
 # Calculator.ets   — 计算引擎（evaluate）
 # NumberFormatter.ets — 数字格式化
 ```
+
+> ⏱ 预计 **45-60 分钟**（新手建议预留 60 分钟）。课前准备：先通读 `CalculatorPage.ets`（10 min）。
 
 ### 实验步骤
 
@@ -216,6 +220,13 @@ git commit -m "feat: your feature description"
 git push origin feat/your-feature-name
 ```
 
+**Step 8: 归档**
+
+```bash
+mv specs/changes/$(date +%Y%m%d)-requirement-add-your-feature/ specs/archives/
+git add -A && git commit -m "archive: your-feature"
+```
+
 ---
 
 ## 常见陷阱与对策
@@ -234,6 +245,6 @@ git push origin feat/your-feature-name
 
 - [AID Workflow Skill (skill_bank)](https://github.com/sdd-group2026/skill_bank/tree/main/skills/working/aid-workflow/)
 - [rq-parse 输出格式规范](https://github.com/sdd-group2026/skill_bank/blob/main/skills/working/aid-workflow/5-aid-reviewing/SKILL.md)
-- [Issue #19 - 爹助评审报告](https://github.com/Intelli-Jungle/hermes-agent-workflow/issues/19)
+- [Issue #19 - 爹助评审报告](https://github.com/Intelli-Jungle/hermes-agent-workflow/issues/19)（已更新：狗助修正 apply-report + 爹助重新审查）
 - [feat/percent-button 源码](https://github.com/JungleTestLabs/opencalc-harmonyos/tree/feat/percent-button)
 - [feat/live-preview 源码](https://github.com/JungleTestLabs/opencalc-harmonyos/tree/feat/live-preview)
