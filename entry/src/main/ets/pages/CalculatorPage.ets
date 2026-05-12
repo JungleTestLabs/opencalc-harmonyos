@@ -16,6 +16,7 @@ export struct CalculatorPage {
   // ==================== 显示状态 ====================
   @State expression: string = ''
   @State result: string = ''
+  @State livePreview: string = ''
   @State errorMsg: string = ''
   @State scientific: boolean = false
   @State history: HistoryItem[] = []
@@ -67,12 +68,31 @@ export struct CalculatorPage {
   }
 
   // ==================== 按钮事件 ====================
-  onDigit(d: string): void { this.expression = this.expression + d; this.errorMsg = '' }
-  onOp(op: string): void { this.expression = this.expression + op; this.errorMsg = '' }
-  onFunc(f: string): void { this.expression = this.expression + f + '('; this.errorMsg = '' }
-  onConst(c: string): void { this.expression = this.expression + c; this.errorMsg = '' }
-  onBS(): void { if (this.expression.length > 0) this.expression = this.expression.substring(0, this.expression.length - 1) }
-  onAC(): void { this.expression = ''; this.result = ''; this.errorMsg = ''; ErrorFlags.reset() }
+  onDigit(d: string): void { this.expression = this.expression + d; this.errorMsg = ''; this.updateLivePreview() }
+  onOp(op: string): void { this.expression = this.expression + op; this.errorMsg = ''; this.updateLivePreview() }
+  onFunc(f: string): void { this.expression = this.expression + f + '('; this.errorMsg = ''; this.updateLivePreview() }
+  onConst(c: string): void { this.expression = this.expression + c; this.errorMsg = ''; this.updateLivePreview() }
+  onBS(): void {
+    if (this.expression.length > 0) this.expression = this.expression.substring(0, this.expression.length - 1)
+    this.updateLivePreview()
+  }
+  onAC(): void { this.expression = ''; this.result = ''; this.errorMsg = ''; ErrorFlags.reset(); this.livePreview = '' }
+
+  /** 实时预览：尝试计算当前表达式结果，不写入历史 */
+  updateLivePreview(): void {
+    if (this.expression.length === 0) { this.livePreview = ''; return }
+    ErrorFlags.reset()
+    try {
+      const clean: string = this.expr.getCleanExpression(this.expression, '.', ',')
+      const raw: number = this.engine.evaluate(clean, !this.radianMode)
+      if (ErrorFlags.division_by_0 || ErrorFlags.domain_error || ErrorFlags.syntax_error ||
+          ErrorFlags.is_infinity || ErrorFlags.require_real_number) {
+        this.livePreview = ''
+      } else {
+        this.livePreview = NumberFormatter.format(raw.toString(), '.', ',', NumberingSystem.INTERNATIONAL)
+      }
+    } catch (_e) { this.livePreview = '' }
+  }
 
   onEquals(): void {
     if (this.expression.length === 0) return
@@ -239,6 +259,13 @@ export struct CalculatorPage {
         .fontSize(18).fontColor(this.getT2()).width('100%').textAlign(TextAlign.End)
         .padding({ right: 12, left: 12 }).maxLines(3)
     }
+      // 实时预览行（表达式有效时显示）
+      if (this.livePreview.length > 0 && this.errorMsg.length === 0) {
+        Text(this.livePreview)
+          .fontSize(this.isLandscape ? 14 : 16).fontColor(this.getOp())
+          .width('100%').textAlign(TextAlign.End)
+          .padding({ right: 12, left: 12, top: 2, bottom: 2 })
+      }
       if (this.errorMsg.length > 0) {
         Text(this.errorMsg).fontSize(this.isLandscape ? 22 : 28).fontColor(this.getErr())
           .width('100%').textAlign(TextAlign.End).padding({ right: 12, left: 12 })
