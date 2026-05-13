@@ -9,6 +9,7 @@ import { NumberFormatter } from '../calculator/NumberFormatter'
 import { NumberingSystem, HistoryItem } from '../model/Models'
 import { ErrorFlags } from '../model/ErrorFlags'
 import { PreferencesStore } from '../preferences/PreferencesStore'
+import { UnitConverter } from '../converter/UnitConverter'
 
 @Entry
 @Component
@@ -23,6 +24,12 @@ export struct CalculatorPage {
   @State showSettings: boolean = false
   @State showAbout: boolean = false
   @State isLandscape: boolean = false
+
+  // ==================== 单位换算状态 ====================
+  @State showConverter: boolean = false
+  @State converterInput: string = ''
+  @State converterResult: string = ''
+  @State converterError: string = ''
 
   // ==================== 偏好设置状态 ====================
   @State vibrateOn: boolean = true
@@ -112,6 +119,20 @@ export struct CalculatorPage {
     if (this.prefs) this.prefs.setHistory(this.history)
   }
 
+  // ==================== 单位换算事件 ====================
+  onConverter(): void {
+    const input: string = this.converterInput.trim()
+    if (input.length === 0) { this.converterError = '请输入换算内容（如: 100cm to inch）'; this.converterResult = ''; return }
+    const res = UnitConverter.evaluate(input)
+    if (res.success) {
+      this.converterResult = res.result.toString()
+      this.converterError = ''
+    } else {
+      this.converterResult = ''
+      this.converterError = res.error
+    }
+  }
+
   // ==================== 主题颜色（对齐 Android 原版） ====================
   // themeIdx: 0=默认浅色  1=AMOLED纯黑  2=暗色
   // 默认：Android values/colors.xml 浅色主题
@@ -192,7 +213,8 @@ export struct CalculatorPage {
         Row() {
           Column() {
             this.DisplayPanel()
-            this.ButtonGrid()
+            if (this.showConverter) this.ConverterPanel()
+            else this.ButtonGrid()
           }
           .layoutWeight(this.showHistory ? 3 : 1).height('100%')
           if (this.showHistory) this.HistoryPanel()
@@ -203,7 +225,8 @@ export struct CalculatorPage {
         Column() {
           this.DisplayPanel()
           this.ToggleRow()
-          this.ButtonGrid()
+          if (this.showConverter) this.ConverterPanel()
+          else this.ButtonGrid()
           if (this.showHistory) this.HistoryPanel()
         }
         .width('100%').height('100%').backgroundColor(this.getBg())
@@ -259,6 +282,10 @@ export struct CalculatorPage {
         .padding({ left: 12, right: 12, top: 4, bottom: 4 })
         .border({ width: 1, color: this.getOp(), radius: 8 })
         .onClick((): void => { this.scientific = !this.scientific })
+      Text(this.showConverter ? '▼ 换算' : '▶ 换算').fontSize(12).fontColor(this.getT2())
+        .padding({ left: 12, right: 12, top: 4, bottom: 4 })
+        .border({ width: 1, color: this.showConverter ? this.getEq() : this.getT2(), radius: 8 })
+        .onClick((): void => { this.showConverter = !this.showConverter })
       Blank()
       Text(this.showHistory ? '▲ 历史' : '▼ 历史').fontSize(12).fontColor(this.getT2()).padding(8)
         .onClick((): void => { this.showHistory = !this.showHistory })
@@ -266,6 +293,43 @@ export struct CalculatorPage {
         .onClick((): void => { this.showSettings = true })
     }
     .width('100%').padding({ left: 16, right: 16, bottom: 4 })
+  }
+
+  // ==================== 单位换算面板 ====================
+  @Builder ConverterPanel() {
+    Column() {
+      // 输入区
+      Row() {
+        TextInput({ placeholder: '例: 100cm to inch', text: this.converterInput })
+          .fontSize(14).fontColor(this.getT1()).layoutWeight(1).height(40)
+          .backgroundColor(this.getBtnBg()).borderRadius(8)
+          .padding({ left: 12, right: 12 })
+          .onChange((v: string): void => { this.converterInput = v })
+        Button('转换')
+          .fontSize(14).fontColor(this.getBtnText()).height(40)
+          .backgroundColor(this.getOp()).borderRadius(8)
+          .padding({ left: 16, right: 16 }).margin({ left: 8 })
+          .onClick((): void => { this.onConverter() })
+      }
+      .width('100%').padding({ left: 16, right: 16, top: 8 })
+
+      // 结果区
+      if (this.converterError.length > 0) {
+        Text(this.converterError)
+          .fontSize(14).fontColor(this.getErr()).width('100%')
+          .textAlign(TextAlign.Center).padding({ top: 12 })
+      } else if (this.converterResult.length > 0) {
+        Text(this.converterResult)
+          .fontSize(28).fontWeight(FontWeight.Bold).fontColor(this.getOp())
+          .width('100%').textAlign(TextAlign.Center).padding({ top: 12 })
+      }
+
+      // 快捷示例
+      Text('支持: 100cm to inch | 30C to F | 5km to mile | 1kg to lb')
+        .fontSize(10).fontColor(this.getT2()).width('100%')
+        .textAlign(TextAlign.Center).padding({ top: 8 })
+    }
+    .width('100%').layoutWeight(1)
   }
 
   // ==================== 按钮网格 ====================
