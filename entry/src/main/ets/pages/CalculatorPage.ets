@@ -9,6 +9,7 @@ import { NumberFormatter } from '../calculator/NumberFormatter'
 import { NumberingSystem, HistoryItem } from '../model/Models'
 import { ErrorFlags } from '../model/ErrorFlags'
 import { PreferencesStore } from '../preferences/PreferencesStore'
+import { TipCalculator, TipResult } from '../converter/TipCalculator'
 
 @Entry
 @Component
@@ -23,6 +24,15 @@ export struct CalculatorPage {
   @State showSettings: boolean = false
   @State showAbout: boolean = false
   @State isLandscape: boolean = false
+
+  // ==================== 小费计算器状态 ====================
+  @State showTip: boolean = false
+  @State tipAmount: string = ''
+  @State tipPeople: string = ''
+  @State tipPercent: number = 15
+  @State tipCustomPercent: string = ''
+  @State tipResult: TipResult | null = null
+  @State tipError: string = ''
 
   // ==================== 偏好设置状态 ====================
   @State vibrateOn: boolean = true
@@ -112,6 +122,31 @@ export struct CalculatorPage {
     if (this.prefs) this.prefs.setHistory(this.history)
   }
 
+  // ==================== 小费计算事件 ====================
+  onTipCalculate(): void {
+    const amount: number = parseFloat(this.tipAmount)
+    const people: number = parseInt(this.tipPeople)
+    if (isNaN(amount) || isNaN(people)) {
+      this.tipError = '请输入有效的金额和人数'; this.tipResult = null; return
+    }
+
+    // 使用自定义比例或预设比例
+    let percent: number = this.tipPercent
+    if (this.tipCustomPercent.length > 0) {
+      percent = parseFloat(this.tipCustomPercent)
+      if (isNaN(percent) || percent < 0) {
+        this.tipError = '小费比例无效'; this.tipResult = null; return
+      }
+    }
+
+    const res: TipResult = TipCalculator.calculate(amount, people, percent)
+    if (res.success) {
+      this.tipResult = res; this.tipError = ''
+    } else {
+      this.tipResult = null; this.tipError = res.error
+    }
+  }
+
   // ==================== 主题颜色（对齐 Android 原版） ====================
   // themeIdx: 0=默认浅色  1=AMOLED纯黑  2=暗色
   // 默认：Android values/colors.xml 浅色主题
@@ -192,7 +227,8 @@ export struct CalculatorPage {
         Row() {
           Column() {
             this.DisplayPanel()
-            this.ButtonGrid()
+            if (this.showTip) this.TipPanel()
+            else this.ButtonGrid()
           }
           .layoutWeight(this.showHistory ? 3 : 1).height('100%')
           if (this.showHistory) this.HistoryPanel()
@@ -203,7 +239,8 @@ export struct CalculatorPage {
         Column() {
           this.DisplayPanel()
           this.ToggleRow()
-          this.ButtonGrid()
+          if (this.showTip) this.TipPanel()
+          else this.ButtonGrid()
           if (this.showHistory) this.HistoryPanel()
         }
         .width('100%').height('100%').backgroundColor(this.getBg())
@@ -259,6 +296,10 @@ export struct CalculatorPage {
         .padding({ left: 12, right: 12, top: 4, bottom: 4 })
         .border({ width: 1, color: this.getOp(), radius: 8 })
         .onClick((): void => { this.scientific = !this.scientific })
+      Text(this.showTip ? '▼ 小费' : '▶ 小费').fontSize(12).fontColor(this.getT2())
+        .padding({ left: 12, right: 12, top: 4, bottom: 4 })
+        .border({ width: 1, color: this.showTip ? this.getEq() : this.getT2(), radius: 8 })
+        .onClick((): void => { this.showTip = !this.showTip })
       Blank()
       Text(this.showHistory ? '▲ 历史' : '▼ 历史').fontSize(12).fontColor(this.getT2()).padding(8)
         .onClick((): void => { this.showHistory = !this.showHistory })
@@ -266,6 +307,78 @@ export struct CalculatorPage {
         .onClick((): void => { this.showSettings = true })
     }
     .width('100%').padding({ left: 16, right: 16, bottom: 4 })
+  }
+
+  // ==================== 小费计算器面板 ====================
+  @Builder TipPanel() {
+    Column() {
+      // 金额输入
+      Row() {
+        Text('金额').fontSize(13).fontColor(this.getT2()).width(40)
+        TextInput({ placeholder: '总金额', text: this.tipAmount })
+          .fontSize(14).fontColor(this.getT1()).layoutWeight(1).height(36)
+          .backgroundColor(this.getBtnBg()).borderRadius(8).padding({ left: 12, right: 12 })
+          .onChange((v: string): void => { this.tipAmount = v })
+      }
+      .width('100%').padding({ left: 16, right: 16, top: 4, bottom: 4 })
+
+      // 人数输入
+      Row() {
+        Text('人数').fontSize(13).fontColor(this.getT2()).width(40)
+        TextInput({ placeholder: '人数', text: this.tipPeople })
+          .fontSize(14).fontColor(this.getT1()).layoutWeight(1).height(36)
+          .backgroundColor(this.getBtnBg()).borderRadius(8).padding({ left: 12, right: 12 })
+          .onChange((v: string): void => { this.tipPeople = v })
+      }
+      .width('100%').padding({ left: 16, right: 16, top: 4, bottom: 4 })
+
+      // 小费比例快捷选择
+      Row() {
+        ForEach(TipCalculator.PRESETS, (p: number) => {
+          Text(p + '%')
+            .fontSize(13).fontColor(this.tipPercent === p && this.tipCustomPercent.length === 0 ? '#FFF' : this.getT2())
+            .backgroundColor(this.tipPercent === p && this.tipCustomPercent.length === 0 ? this.getOp() : this.getBtnBg())
+            .borderRadius(8).padding({ left: 10, right: 10, top: 4, bottom: 4 }).margin({ right: 6 })
+            .onClick((): void => { this.tipPercent = p; this.tipCustomPercent = '' })
+        })
+        // 自定义比例
+        TextInput({ placeholder: '自定义%', text: this.tipCustomPercent })
+          .fontSize(12).fontColor(this.getT1()).width(60).height(30)
+          .backgroundColor(this.getBtnBg()).borderRadius(8).padding({ left: 8, right: 8 })
+          .onChange((v: string): void => { this.tipCustomPercent = v; if (v.length > 0) this.tipPercent = 0 })
+      }
+      .width('100%').padding({ left: 16, right: 16, top: 8, bottom: 4 })
+
+      // 计算按钮
+      Button('计算人均')
+        .fontSize(14).fontColor(this.getBtnText()).height(40).width('88%')
+        .backgroundColor(this.getOp()).borderRadius(8).margin({ top: 8 })
+        .onClick((): void => { this.onTipCalculate() })
+
+      // 结果展示
+      if (this.tipError.length > 0) {
+        Text(this.tipError)
+          .fontSize(14).fontColor(this.getErr()).width('100%')
+          .textAlign(TextAlign.Center).padding({ top: 12 })
+      } else if (this.tipResult !== null && this.tipResult.success) {
+        Column() {
+          // 人均
+          Text('¥' + this.tipResult.perPerson.toString())
+            .fontSize(30).fontWeight(FontWeight.Bold).fontColor(this.getOp())
+            .padding({ top: 8 })
+          Text('每人应付').fontSize(11).fontColor(this.getT2())
+          // 明细
+          Row() {
+            Text('原始: ¥' + (parseFloat(this.tipAmount) || 0).toString()).fontSize(11).fontColor(this.getT2())
+            Text('小费: ¥' + this.tipResult.tipAmount.toString()).fontSize(11).fontColor(this.getT2()).padding({ left: 12 })
+            Text('合计: ¥' + this.tipResult.total.toString()).fontSize(11).fontColor(this.getT2()).padding({ left: 12 })
+          }
+          .padding({ top: 8 })
+        }
+        .width('100%').alignItems(HorizontalAlign.Center)
+      }
+    }
+    .width('100%').layoutWeight(1)
   }
 
   // ==================== 按钮网格 ====================
