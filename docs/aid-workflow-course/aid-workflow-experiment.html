@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>aid-workflow 增量开发实验指南</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', Calibri, 'Microsoft YaHei', sans-serif;
+  background: #1A233A;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+.slide {
+  width: 1280px;
+  max-width: 100%;
+  aspect-ratio: 16/9;
+  background: #1A233A;
+  border-radius: 8px;
+  padding: 48px 60px;
+  position: relative;
+  overflow: hidden;
+}
+h1 { font-family: Georgia, serif; font-size: 36px; font-weight: bold; margin-bottom: 4px; }
+.subtitle { color: #8896AD; font-size: 16px; margin-bottom: 24px; }
+.section-title { color: #4EC3D0; font-size: 18px; font-weight: bold; margin: 18px 0 8px 0; }
+.desc { color: #CADCFC; font-size: 13px; line-height: 1.7; margin-bottom: 12px; }
+.cards { display: flex; gap: 12px; margin-bottom: 16px; }
+.card {
+  flex: 1;
+  background: #242F4A;
+  border-radius: 6px;
+  padding: 14px 16px;
+  position: relative;
+}
+.card-num {
+  display: inline-block;
+  width: 24px; height: 24px;
+  background: #4EC3D0;
+  color: #1A233A;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.card-title { color: #4EC3D0; font-size: 13px; font-weight: bold; margin-bottom: 6px; }
+.card li { color: #CADCFC; font-size: 11px; line-height: 1.6; list-style: none; padding-left: 4px; }
+.card li::before { content: "• "; color: #8896AD; }
+.quickstart { display: flex; gap: 12px; }
+.qs-step {
+  flex: 1;
+  background: #242F4A;
+  border-radius: 6px;
+  padding: 12px 14px;
+}
+.qs-label { color: #F96167; font-size: 13px; font-weight: bold; margin-bottom: 4px; }
+.qs-desc { color: #CADCFC; font-size: 11px; font-family: Consolas, 'Courier New', monospace; }
+.footer { position: absolute; bottom: 22px; left: 60px; right: 60px; color: #8896AD; font-size: 10px; }
+</style>
+</head>
+<body>
+<div class="slide">
+  <h1>aid-workflow 增量开发实验指南</h1>
+  <div class="subtitle">4 步让 AI 帮你拆需求、写代码、做验证 — 单页快速上手</div>
+
+  <div class="section-title">▎什么是 aid-workflow？</div>
+  <div class="desc">
+    aid-workflow 是一套 AI 原生增量开发流程。把每次改动拆成可审查的独立增量，每个增量走完整的设计 → 实现 → 验证 → 归档闭环。<br>
+    核心理念：每次改动都有 git diff + apply-report 自证，不只是"改好了你看吧"。
+  </div>
+
+  <div class="section-title">▎四阶段流程</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-num">1</div>
+      <div class="card-title">PLANNING — 规划</div>
+      <ul>
+        <li>rq-parse 需求解析</li>
+        <li>proposal / delta-spec</li>
+        <li>复杂度判定 S/M/L/XL</li>
+        <li>门控确认 → 下一阶段</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-num">2</div>
+      <div class="card-title">IMPLEMENTING — 实施</div>
+      <ul>
+        <li>任务分解 tasks.md</li>
+        <li>检查清单</li>
+        <li>依赖分析</li>
+        <li>门控确认 → 下一阶段</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-num">3</div>
+      <div class="card-title">APPLYING — 应用</div>
+      <ul>
+        <li>代码生成 + 编译验证</li>
+        <li>git diff --stat 自证</li>
+        <li>apply-report 报告</li>
+        <li>门控确认 → 下一阶段</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-num">4</div>
+      <div class="card-title">ARCHIVING — 归档</div>
+      <ul>
+        <li>移动 change 目录</li>
+        <li>归档到 archives/</li>
+        <li>更新文档</li>
+        <li>闭环完成 ✓</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-title">▎快速开始 — 动手实验</div>
+  <div class="quickstart">
+    <div class="qs-step">
+      <div class="qs-label">① 创建分支</div>
+      <div class="qs-desc">git checkout -b feat/your-feature</div>
+    </div>
+    <div class="qs-step">
+      <div class="qs-label">② 写 proposal</div>
+      <div class="qs-desc">用 rq-parse 解析需求 → proposal.md</div>
+    </div>
+    <div class="qs-step">
+      <div class="qs-label">③ 逐阶段执行</div>
+      <div class="qs-desc">PLANNING → IMPLEMENTING → APPLYING → ARCHIVING</div>
+    </div>
+    <div class="qs-step">
+      <div class="qs-label">④ 查看报告</div>
+      <div class="qs-desc">apply-report.md + git diff --stat</div>
+    </div>
+  </div>
+
+  <div class="footer">狗爹 @zhangtbj &nbsp;|&nbsp; 仓库: github.com/JungleTestLabs/opencalc-harmonyos &nbsp;|&nbsp; 文档: docs/aid-workflow-course/</div>
+</div>
+</body>
+</html>
