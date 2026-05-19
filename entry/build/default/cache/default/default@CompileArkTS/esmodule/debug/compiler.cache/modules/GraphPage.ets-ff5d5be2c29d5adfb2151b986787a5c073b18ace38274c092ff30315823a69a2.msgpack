@@ -1,0 +1,625 @@
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚ5¹if (!("finalizeConstruction" in ViewPU.prototype)) {
+    Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
+}
+// OpenCalc â€” å‡½æ•°å›¾åƒç»˜åˆ¶é¡µé¢
+// ç”± CalculatorPage é€šè¿‡ router.pushUrl è·³è½¬è¿›å…¥
+// å¤ç”¨ç°æœ‰ CalcEngineã€Expressionã€PreferencesStore
+import router from "@ohos.router";
+import { CalcEngine } from '../calculator/Calculator';
+import { Expression } from '../calculator/Expression';
+import { Plotter } from '../calculator/Plotter';
+import { PreferencesStore } from '../preferences/PreferencesStore';
+class GraphPage extends ViewPU {
+    constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
+        super(parent, __localStorage, elmtId, extraInfo);
+        if (typeof paramsLambda === "function") {
+            this.paramsGenerator_ = paramsLambda;
+        }
+        this.__expression = new ObservedPropertySimplePU('', this, "expression");
+        this.__errorMsg = new ObservedPropertySimplePU('', this, "errorMsg");
+        this.__isPlotting = new ObservedPropertySimplePU(false, this, "isPlotting");
+        this.__themeIdx = new ObservedPropertySimplePU(0, this, "themeIdx");
+        this.__canvasReady = new ObservedPropertySimplePU(false, this, "canvasReady");
+        this.ctx = new CanvasRenderingContext2D(new RenderingContextSettings(true));
+        this.engine = new CalcEngine();
+        this.expr = new Expression();
+        this.debounceTimer = -1;
+        this.canvasWidthPx = 0;
+        this.canvasHeightPx = 0;
+        this.prefs = null;
+        this.setInitiallyProvidedValue(params);
+        this.finalizeConstruction();
+    }
+    setInitiallyProvidedValue(params) {
+        if (params.expression !== undefined) {
+            this.expression = params.expression;
+        }
+        if (params.errorMsg !== undefined) {
+            this.errorMsg = params.errorMsg;
+        }
+        if (params.isPlotting !== undefined) {
+            this.isPlotting = params.isPlotting;
+        }
+        if (params.themeIdx !== undefined) {
+            this.themeIdx = params.themeIdx;
+        }
+        if (params.canvasReady !== undefined) {
+            this.canvasReady = params.canvasReady;
+        }
+        if (params.ctx !== undefined) {
+            this.ctx = params.ctx;
+        }
+        if (params.engine !== undefined) {
+            this.engine = params.engine;
+        }
+        if (params.expr !== undefined) {
+            this.expr = params.expr;
+        }
+        if (params.debounceTimer !== undefined) {
+            this.debounceTimer = params.debounceTimer;
+        }
+        if (params.canvasWidthPx !== undefined) {
+            this.canvasWidthPx = params.canvasWidthPx;
+        }
+        if (params.canvasHeightPx !== undefined) {
+            this.canvasHeightPx = params.canvasHeightPx;
+        }
+        if (params.prefs !== undefined) {
+            this.prefs = params.prefs;
+        }
+    }
+    updateStateVars(params) {
+    }
+    purgeVariableDependenciesOnElmtId(rmElmtId) {
+        this.__expression.purgeDependencyOnElmtId(rmElmtId);
+        this.__errorMsg.purgeDependencyOnElmtId(rmElmtId);
+        this.__isPlotting.purgeDependencyOnElmtId(rmElmtId);
+        this.__themeIdx.purgeDependencyOnElmtId(rmElmtId);
+        this.__canvasReady.purgeDependencyOnElmtId(rmElmtId);
+    }
+    aboutToBeDeleted() {
+        this.__expression.aboutToBeDeleted();
+        this.__errorMsg.aboutToBeDeleted();
+        this.__isPlotting.aboutToBeDeleted();
+        this.__themeIdx.aboutToBeDeleted();
+        this.__canvasReady.aboutToBeDeleted();
+        SubscriberManager.Get().delete(this.id__());
+        this.aboutToBeDeletedInternal();
+    }
+    get expression() {
+        return this.__expression.get();
+    }
+    set expression(newValue) {
+        this.__expression.set(newValue);
+    }
+    get errorMsg() {
+        return this.__errorMsg.get();
+    }
+    set errorMsg(newValue) {
+        this.__errorMsg.set(newValue);
+    }
+    get isPlotting() {
+        return this.__isPlotting.get();
+    }
+    set isPlotting(newValue) {
+        this.__isPlotting.set(newValue);
+    }
+    get themeIdx() {
+        return this.__themeIdx.get();
+    }
+    set themeIdx(newValue) {
+        this.__themeIdx.set(newValue);
+    }
+    get canvasReady() {
+        return this.__canvasReady.get();
+    }
+    set canvasReady(newValue) {
+        this.__canvasReady.set(newValue);
+    }
+    async aboutToAppear() {
+        const ctx = getContext(this);
+        this.prefs = new PreferencesStore(ctx);
+        await this.prefs.init();
+        this.themeIdx = await this.prefs.getTheme();
+    }
+    aboutToDisappear() {
+        if (this.debounceTimer !== -1) {
+            clearTimeout(this.debounceTimer);
+            this.debounceTimer = -1;
+        }
+    }
+    // ==================== ä¸»é¢˜é¢œè‰²ï¼ˆæ‹·è´æ¨¡å¼,ä¸ CalculatorPage åŒæºï¼‰ ====================
+    getBg() {
+        if (this.themeIdx === 1)
+            return '#000000';
+        if (this.themeIdx === 2)
+            return '#121212';
+        return '#FFFFFF';
+    }
+    getBtnBg() {
+        if (this.themeIdx === 1)
+            return '#1a1a1a';
+        if (this.themeIdx === 2)
+            return '#333333';
+        return '#EFEFEF';
+    }
+    getT1() {
+        if (this.themeIdx >= 1)
+            return '#EFEFEF';
+        return '#000000';
+    }
+    getT2() {
+        if (this.themeIdx >= 1)
+            return '#BDBDBD';
+        return '#595959';
+    }
+    getErr() { return '#F44B3F'; }
+    getAxis() {
+        if (this.themeIdx >= 1)
+            return '#666666';
+        return '#888888';
+    }
+    getCurve() {
+        if (this.themeIdx === 1)
+            return '#00BCD4';
+        if (this.themeIdx === 2)
+            return '#A8C7FA';
+        return '#1976D2';
+    }
+    // ==================== äº¤äº’é€»è¾‘ ====================
+    onPlot() {
+        if (this.expression.trim() === '') {
+            this.errorMsg = 'è¯·è¾“å…¥è¡¨è¾¾å¼';
+            this.ctx.clearRect(0, 0, this.canvasWidthPx, this.canvasHeightPx);
+            return;
+        }
+        if (!this.canvasReady)
+            return;
+        this.isPlotting = true;
+        this.errorMsg = '';
+        let prepared = '';
+        try {
+            prepared = this.expr.getCleanExpression(this.expression, '.', ',');
+        }
+        catch (e) {
+            this.errorMsg = 'è¡¨è¾¾å¼è¯­æ³•é”™è¯¯';
+            this.isPlotting = false;
+            this.ctx.clearRect(0, 0, this.canvasWidthPx, this.canvasHeightPx);
+            return;
+        }
+        const sampleCount = Math.max(200, Math.min(600, Math.floor(this.canvasWidthPx / 2)));
+        const cfg = {
+            xMin: -10,
+            xMax: 10,
+            sampleCount: sampleCount,
+            canvasWidthPx: this.canvasWidthPx,
+            canvasHeightPx: this.canvasHeightPx,
+            paddingPx: 16
+        };
+        const theme = {
+            axis: this.getAxis(),
+            curve: this.getCurve(),
+            bg: this.getBg()
+        };
+        try {
+            const result = Plotter.sample(prepared, cfg, this.engine, false);
+            if (result.validCount === 0) {
+                this.errorMsg = 'å‡½æ•°åœ¨è¯¥åŒºé—´æœªå®šä¹‰';
+            }
+            Plotter.drawTo(this.ctx, result, cfg, theme);
+        }
+        catch (e) {
+            console.error('plot render error', e);
+            this.errorMsg = 'ç»˜å›¾å¤±è´¥';
+        }
+        this.isPlotting = false;
+    }
+    onAreaChangeRedraw(w, h) {
+        this.canvasWidthPx = w;
+        this.canvasHeightPx = h;
+        if (!this.canvasReady)
+            return;
+        if (this.expression.trim() === '')
+            return;
+        if (this.debounceTimer !== -1)
+            clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            this.debounceTimer = -1;
+            this.onPlot();
+        }, 300);
+    }
+    // ==================== UI ====================
+    initialRender() {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.height('100%');
+            Column.backgroundColor(this.getBg());
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // æ ‡é¢˜æ 
+            Row.create();
+            // æ ‡é¢˜æ 
+            Row.width('100%');
+            // æ ‡é¢˜æ 
+            Row.alignItems(VerticalAlign.Center);
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('â†');
+            Text.fontSize(20);
+            Text.fontColor(this.getT1());
+            Text.padding(12);
+            Text.onClick(() => { router.back(); });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('å‡½æ•°ç»˜å›¾');
+            Text.fontSize(18);
+            Text.fontColor(this.getT1());
+            Text.layoutWeight(1);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Blank.create();
+            Blank.width(44);
+        }, Blank);
+        Blank.pop();
+        // æ ‡é¢˜æ 
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // è¡¨è¾¾å¼è¾“å…¥è¡Œ
+            Row.create();
+            // è¡¨è¾¾å¼è¾“å…¥è¡Œ
+            Row.width('100%');
+            // è¡¨è¾¾å¼è¾“å…¥è¡Œ
+            Row.padding({ left: 16, right: 16, top: 8, bottom: 8 });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            TextInput.create({ placeholder: 'è¾“å…¥å‡½æ•°,ä¾‹å¦‚ sin(x)', text: this.expression });
+            TextInput.fontSize(18);
+            TextInput.fontColor(this.getT1());
+            TextInput.backgroundColor(this.getBtnBg());
+            TextInput.placeholderColor(this.getT2());
+            TextInput.layoutWeight(1);
+            TextInput.height(48);
+            TextInput.onChange((v) => { this.expression = v; });
+        }, TextInput);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('x');
+            Text.fontSize(16);
+            Text.fontColor(this.getT1());
+            Text.width(44);
+            Text.height(48);
+            Text.textAlign(TextAlign.Center);
+            Text.backgroundColor(this.getBtnBg());
+            Text.borderRadius(8);
+            Text.margin({ left: 8 });
+            Text.onClick(() => { this.expression = this.expression + 'x'; });
+        }, Text);
+        Text.pop();
+        // è¡¨è¾¾å¼è¾“å…¥è¡Œ
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // æ“ä½œè¡Œ
+            Row.create();
+            // æ“ä½œè¡Œ
+            Row.width('100%');
+            // æ“ä½œè¡Œ
+            Row.padding({ left: 16, right: 16, bottom: 8 });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Button.createWithLabel(this.isPlotting ? 'ç»˜å›¾ä¸­â€¦' : 'ç»˜å›¾');
+            Button.fontSize(16);
+            Button.fontColor(this.getT1());
+            Button.backgroundColor(this.getBtnBg());
+            Button.height(48);
+            Button.layoutWeight(1);
+            Button.enabled(!this.isPlotting);
+            Button.onClick(() => { this.onPlot(); });
+        }, Button);
+        Button.pop();
+        // æ“ä½œè¡Œ
+        Row.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            // Canvas
+            Canvas.create(this.ctx);
+            // Canvas
+            Canvas.width('100%');
+            // Canvas
+            Canvas.layoutWeight(1);
+            // Canvas
+            Canvas.backgroundColor(this.getBg());
+            // Canvas
+            Canvas.onReady(() => {
+                this.canvasReady = true;
+            });
+            // Canvas
+            Canvas.onAreaChange((_oldArea, newArea) => {
+                const w = Number(newArea.width);
+                const h = Number(newArea.height);
+                this.onAreaChangeRedraw(w, h);
+            });
+        }, Canvas);
+        // Canvas
+        Canvas.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            // é”™è¯¯æç¤ºè¡Œ
+            if (this.errorMsg !== '') {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.observeComponentCreation2((elmtId, isInitialRender) => {
+                        Text.create(this.errorMsg);
+                        Text.fontSize(14);
+                        Text.fontColor(this.getErr());
+                        Text.width('100%');
+                        Text.padding({ left: 16, right: 16, top: 4, bottom: 8 });
+                    }, Text);
+                    Text.pop();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
+        Column.pop();
+    }
+    rerender() {
+        this.updateDirtyElements();
+    }
+    static getEntryName() {
+        return "GraphPage";
+    }
+}
+registerNamedRoute(() => new GraphPage(undefined, {}), "", { bundleName: "com.darkempire78.opencalculator", moduleName: "entry", pagePath: "pages/GraphPage", pageFullPath: "entry/src/main/ets/pages/GraphPage", integratedHsp: "false", moduleType: "followWithHap" });
+//# sourceMappingURL=GraphPage.js.mapÂ•Ùi hvigor_ignore__Applications_DevEco-Studio.app_Contents_sdk_default_openharmony_ets_api_@ohos.router.d.tsÙ~/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/calculator/Calculator.etsÙ~/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/calculator/Expression.etsÙ{/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/calculator/Plotter.etsÙ…/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.etsÙx/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/pages/GraphPage.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath§checker¬shouldEmitJs¥entryÃÂÙW/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entryÙQ/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos¥entry¥1.0.0Ô  ÙW/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entryÔrCÜ ®¬getNodeCount²getIdentifierCount®getSymbolCount¬getTypeCountµgetInstantiationCountµgetRelationCacheSizes±isUndefinedSymbol±isArgumentsSymbol¯isUnknownSymbol¯getMergedSymbol®getDiagnostics´getGlobalDiagnostics´getRecursionIdentity¶getUnmatchedProperties¹getTypeOfSymbolAtLocation¯getTypeOfSymbolÙ(getSymbolsOfParameterPropertyDeclaration·getDeclaredTypeOfSymbol³getPropertiesOfType±getPropertyOfTypeÙ"getPrivateIdentifierPropertyOfType·getTypeOfPropertyOfType²getIndexInfoOfType³getIndexInfosOfTypeºgetIndexInfosOfIndexSymbol³getSignaturesOfType²getIndexTypeOfType¬getIndexType¬getBaseTypes¸getBaseTypeOfLiteralType®getWidenedType³getTypeFromTypeNode°getParameterTypeÙ$getParameterIdentifierNameAtPosition¸getPromisedTypeOfPromise®getAwaitedType¸getReturnTypeOfSignature®isNullableType¯getNullableType²getNonNullableType²getNonOptionalType°getTypeArguments®typeToTypeNodeÙ$indexInfoToIndexSignatureDeclaration¿signatureToSignatureDeclaration²symbolToEntityName²symbolToExpression¬symbolToNodeÙ!symbolToTypeParameterDeclarations¼symbolToParameterDeclarationºtypeParameterToDeclaration±getSymbolsInScope³getSymbolAtLocation·getIndexInfosAtLocationÙ!getShorthandAssignmentValueSymbolÙ#getExportSpecifierLocalTargetSymbol·getExportSymbolOfSymbol±getTypeAtLocationºgetTypeAtLocationForLinterÙ tryGetTypeAtLocationWithoutCheckºgetTypeOfAssignmentPatternÙ*getPropertySymbolOfDestructuringAssignment±signatureToString¬typeToString®symbolToStringµtypePredicateToString®writeSignature©writeType«writeSymbol²writeTypePredicate¼getAugmentedPropertiesOfType®getRootSymbols²getSymbolOfExpando±getContextualTypeÙ(getContextualTypeForObjectLiteralElementÙ#getContextualTypeForArgumentAtIndexÙ getContextualTypeForJsxAttribute²isContextSensitiveÙ!getTypeOfPropertyOfContextualTypeµgetFullyQualifiedNameÙ#tryGetResolvedSignatureWithoutCheck´getResolvedSignatureÙ/getResolvedSignatureForStringLiteralCompletionsÙ$getResolvedSignatureForSignatureHelpµgetExpandedParameters¹hasEffectiveRestParameterºcontainsArgumentsReference°getConstantValueµisValidPropertyAccessÙ#isValidPropertyAccessForCompletions»getSignatureFromDeclarationºisImplementationOfOverload¹getImmediateAliasedSymbol°getAliasedSymbol¯getEmitResolver²getExportsOfModule¿getExportsAndPropertiesOfModuleÙ forEachExportAndPropertyOfModule¯getSymbolWalker±getAmbientModules¹getJsxIntrinsicTagNamesAt³isOptionalParameter»tryGetMemberInModuleExportsÙ(tryGetMemberInModuleExportsAndProperties´tryFindAmbientModuleÙ(tryFindAmbientModuleWithoutAugmentations¯getApparentType¬getUnionType²isTypeAssignableTo³createAnonymousType¯createSignature¬createSymbol¯createIndexInfoªgetAnyType­getStringType­getNumberType±createPromiseType¯createArrayType¹getElementTypeOfArrayType®getBooleanType¬getFalseType«getTrueType«getVoidType°getUndefinedType«getNullType¯getESSymbolType¬getNeverType¯getOptionalType®getPromiseType²getPromiseLikeType´getAsyncIterableType²isSymbolAccessible«isArrayType«isTupleType¯isArrayLikeTypeÙ#isTypeInvalidDueToUnionDiscriminantºgetExactOptionalProperties¿getAllPossiblePropertiesOfTypesÙ(getSuggestedSymbolForNonexistentPropertyÙ#getSuggestionForNonexistentPropertyÙ,getSuggestedSymbolForNonexistentJSXAttributeÙ&getSuggestedSymbolForNonexistentSymbolÙ!getSuggestionForNonexistentSymbolÙ&getSuggestedSymbolForNonexistentModuleÙ!getSuggestionForNonexistentExportÙ+getSuggestedSymbolForNonexistentClassMember·getBaseConstraintOfType»getDefaultFromTypeParameter«resolveName¯getJsxNamespaceµgetJsxFragmentFactory¸getAccessibleSymbolChain»getTypePredicateOfSignature¹resolveExternalModuleName»resolveExternalModuleSymbol°tryGetThisTypeAt¹getTypeArgumentConstraint¸getSuggestionDiagnostics¸runWithCancellationTokenÙ3getLocalTypeParametersOfClassOrInterfaceOrTypeAlias´isDeclarationVisible´isPropertyAccessible»getTypeOnlyAliasDeclaration¿getMemberOverrideModifierStatusÙ!isTypeParameterPossiblyReferenced²getConstEnumRelate´clearConstEnumRelateµdeleteConstEnumRelateÙ$getTypeArgumentsForResolvedSignatureµgetCheckedSourceFilesÙ"collectHaveTsNoCheckFilesForLinter·clearQualifiedNameCache®isStaticRecord²isStaticSourceFileÔ  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  ÃÃÚÚ// OpenCalc â€” å‡½æ•°å›¾åƒç»˜åˆ¶é¡µé¢
+// ç”± CalculatorPage é€šè¿‡ router.pushUrl è·³è½¬è¿›å…¥
+// å¤ç”¨ç°æœ‰ CalcEngineã€Expressionã€PreferencesStore
+
+import { router } from '@kit.ArkUI'
+import { CalcEngine } from '../calculator/Calculator'
+import { Expression } from '../calculator/Expression'
+import { Plotter, ThemeColors } from '../calculator/Plotter'
+import { GraphConfig, PlotResult } from '../model/Models'
+import { PreferencesStore } from '../preferences/PreferencesStore'
+import { common } from '@kit.AbilityKit'
+
+@Entry
+@Component
+struct GraphPage {
+  @State expression: string = ''
+  @State errorMsg: string = ''
+  @State isPlotting: boolean = false
+  @State themeIdx: number = 0
+  @State canvasReady: boolean = false
+
+  private ctx: CanvasRenderingContext2D = new CanvasRenderingContext2D(
+    new RenderingContextSettings(true)
+  )
+  private engine: CalcEngine = new CalcEngine()
+  private expr: Expression = new Expression()
+  private debounceTimer: number = -1
+  private canvasWidthPx: number = 0
+  private canvasHeightPx: number = 0
+  private prefs: PreferencesStore | null = null
+
+  async aboutToAppear(): Promise<void> {
+    const ctx = getContext(this) as common.UIAbilityContext
+    this.prefs = new PreferencesStore(ctx)
+    await this.prefs.init()
+    this.themeIdx = await this.prefs.getTheme()
+  }
+
+  aboutToDisappear(): void {
+    if (this.debounceTimer !== -1) {
+      clearTimeout(this.debounceTimer)
+      this.debounceTimer = -1
+    }
+  }
+
+  // ==================== ä¸»é¢˜é¢œè‰²ï¼ˆæ‹·è´æ¨¡å¼,ä¸ CalculatorPage åŒæºï¼‰ ====================
+  getBg(): string {
+    if (this.themeIdx === 1) return '#000000'
+    if (this.themeIdx === 2) return '#121212'
+    return '#FFFFFF'
+  }
+
+  getBtnBg(): string {
+    if (this.themeIdx === 1) return '#1a1a1a'
+    if (this.themeIdx === 2) return '#333333'
+    return '#EFEFEF'
+  }
+
+  getT1(): string {
+    if (this.themeIdx >= 1) return '#EFEFEF'
+    return '#000000'
+  }
+
+  getT2(): string {
+    if (this.themeIdx >= 1) return '#BDBDBD'
+    return '#595959'
+  }
+
+  getErr(): string { return '#F44B3F' }
+
+  getAxis(): string {
+    if (this.themeIdx >= 1) return '#666666'
+    return '#888888'
+  }
+
+  getCurve(): string {
+    if (this.themeIdx === 1) return '#00BCD4'
+    if (this.themeIdx === 2) return '#A8C7FA'
+    return '#1976D2'
+  }
+
+  // ==================== äº¤äº’é€»è¾‘ ====================
+  onPlot(): void {
+    if (this.expression.trim() === '') {
+      this.errorMsg = 'è¯·è¾“å…¥è¡¨è¾¾å¼'
+      this.ctx.clearRect(0, 0, this.canvasWidthPx, this.canvasHeightPx)
+      return
+    }
+    if (!this.canvasReady) return
+    this.isPlotting = true
+    this.errorMsg = ''
+
+    let prepared: string = ''
+    try {
+      prepared = this.expr.getCleanExpression(this.expression, '.', ',')
+    } catch (e) {
+      this.errorMsg = 'è¡¨è¾¾å¼è¯­æ³•é”™è¯¯'
+      this.isPlotting = false
+      this.ctx.clearRect(0, 0, this.canvasWidthPx, this.canvasHeightPx)
+      return
+    }
+
+    const sampleCount: number = Math.max(
+      200,
+      Math.min(600, Math.floor(this.canvasWidthPx / 2))
+    )
+    const cfg: GraphConfig = {
+      xMin: -10,
+      xMax: 10,
+      sampleCount: sampleCount,
+      canvasWidthPx: this.canvasWidthPx,
+      canvasHeightPx: this.canvasHeightPx,
+      paddingPx: 16
+    }
+
+    const theme: ThemeColors = {
+      axis: this.getAxis(),
+      curve: this.getCurve(),
+      bg: this.getBg()
+    }
+
+    try {
+      const result: PlotResult = Plotter.sample(prepared, cfg, this.engine, false)
+      if (result.validCount === 0) {
+        this.errorMsg = 'å‡½æ•°åœ¨è¯¥åŒºé—´æœªå®šä¹‰'
+      }
+      Plotter.drawTo(this.ctx, result, cfg, theme)
+    } catch (e) {
+      console.error('plot render error', e)
+      this.errorMsg = 'ç»˜å›¾å¤±è´¥'
+    }
+    this.isPlotting = false
+  }
+
+  onAreaChangeRedraw(w: number, h: number): void {
+    this.canvasWidthPx = w
+    this.canvasHeightPx = h
+    if (!this.canvasReady) return
+    if (this.expression.trim() === '') return
+    if (this.debounceTimer !== -1) clearTimeout(this.debounceTimer)
+    this.debounceTimer = setTimeout((): void => {
+      this.debounceTimer = -1
+      this.onPlot()
+    }, 300)
+  }
+
+  // ==================== UI ====================
+  build() {
+    Column() {
+      // æ ‡é¢˜æ 
+      Row() {
+        Text('â†').fontSize(20).fontColor(this.getT1()).padding(12)
+          .onClick((): void => { router.back() })
+        Text('å‡½æ•°ç»˜å›¾').fontSize(18).fontColor(this.getT1()).layoutWeight(1)
+        Blank().width(44)
+      }
+      .width('100%').alignItems(VerticalAlign.Center)
+
+      // è¡¨è¾¾å¼è¾“å…¥è¡Œ
+      Row() {
+        TextInput({ placeholder: 'è¾“å…¥å‡½æ•°,ä¾‹å¦‚ sin(x)', text: this.expression })
+          .fontSize(18).fontColor(this.getT1())
+          .backgroundColor(this.getBtnBg())
+          .placeholderColor(this.getT2())
+          .layoutWeight(1).height(48)
+          .onChange((v: string): void => { this.expression = v })
+        Text('x').fontSize(16).fontColor(this.getT1())
+          .width(44).height(48).textAlign(TextAlign.Center)
+          .backgroundColor(this.getBtnBg()).borderRadius(8)
+          .margin({ left: 8 })
+          .onClick((): void => { this.expression = this.expression + 'x' })
+      }
+      .width('100%').padding({ left: 16, right: 16, top: 8, bottom: 8 })
+
+      // æ“ä½œè¡Œ
+      Row() {
+        Button(this.isPlotting ? 'ç»˜å›¾ä¸­â€¦' : 'ç»˜å›¾')
+          .fontSize(16).fontColor(this.getT1())
+          .backgroundColor(this.getBtnBg())
+          .height(48).layoutWeight(1)
+          .enabled(!this.isPlotting)
+          .onClick((): void => { this.onPlot() })
+      }
+      .width('100%').padding({ left: 16, right: 16, bottom: 8 })
+
+      // Canvas
+      Canvas(this.ctx)
+        .width('100%').layoutWeight(1)
+        .backgroundColor(this.getBg())
+        .onReady((): void => {
+          this.canvasReady = true
+        })
+        .onAreaChange((_oldArea: Area, newArea: Area): void => {
+          const w: number = Number(newArea.width)
+          const h: number = Number(newArea.height)
+          this.onAreaChangeRedraw(w, h)
+        })
+
+      // é”™è¯¯æç¤ºè¡Œ
+      if (this.errorMsg !== '') {
+        Text(this.errorMsg).fontSize(14).fontColor(this.getErr())
+          .width('100%').padding({ left: 16, right: 16, top: 4, bottom: 8 })
+      }
+    }
+    .width('100%').height('100%').backgroundColor(this.getBg())
+  }
+}
+ÀÔrD•¬@ohos.router¸../calculator/Calculator¸../calculator/Expressionµ../calculator/Plotter¿../preferences/PreferencesStoreÔrE—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÃÙi hvigor_ignore__Applications_DevEco-Studio.app_Contents_sdk_default_openharmony_ets_api_@ohos.router.d.tsÔrF‘¯hostModulesInfo“ÔrG’²hostDependencyName®hostModuleName¬@ohos.router¥entryG¬@ohos.router¥entryG¬@ohos.router¥entryÃªoh-resolveÂEAÂÙ~/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/calculator/Calculator.etsAÃªoh-resolveÂEAÂÙ~/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/calculator/Expression.etsAÃªoh-resolveÂEAÂÙ{/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/calculator/Plotter.etsAÃªoh-resolveÂEAÂÙ…/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/preferences/PreferencesStore.etsAÃªoh-resolveÂ“ÔrH–§version¤fileªsourceRoot§sources¥names¨mappings¬GraphPage.js ‘­GraphPage.etsÜo’”    ”  ’”   ”* *’”   ”. .–”   ” 	” ” ”! #”" #˜”   ” ”	 	” ” ” ”5 5”6 5˜”   ” ”	 	” ” ” ”5 5”6 5˜”   ” ”	 	” ” ” %”/ <”0 <˜”  	 ” 	”	 		” 	” 	”! 	!”ÌB 	ÌB”ÌC 	ÌB’” ” ‘”  ’”9 ”;  ’”7 ”9 ’”9 ”> $’”7 ”8 ’”:  ”? %š” *” .”/ ÌF”0 ”4 ”ÌL  ”ÌM !”ÌQ %”ÌR &”ÌS ”” ” #”$ -”& /”” ” !”" +”$ -“” "” #” $’” "” #’” #” $’” +” /‘” 
+(’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ”” ”	 ”
+ ” ™”  ”  
+”  ”  ”  ”  ”#  ”$  ;”%  ;›” !” !” !	” !” !” !”) !%”* !&”- !)”. !*”/ !*™” "” "
+” "” "” "” "” "” "”  "” #” #” #	” #” #” #”" #”# #”( #$”) #%”1 #-”3 #/”4 #/’” $” $’” &” &™” '” '” '” '” '”# '”$ ' ”% '!”' '#˜” (” (” (” (” (”+ (%”, (&”- (&˜” )” )
+” )” )”! )”" )”# )”$ )‘”	 *’” +” +’” -”ÌO -ÌM’” .”	 .—” /” /” /” /” /” /” /”” /” /$” /-” /-—” 0” 0” 0” 0” 0” 0” 0”” 0” 0$” 0-” 0-”” 1” 1” 1” 1’” 2” 2’” 4” 4
+—” 5” 5” 5” 5” 5” 5” 5”” 5” 5$” 5-” 5-—” 6” 6” 6” 6” 6” 6” 6”” 6” 6$” 6-” 6-”” 7” 7” 7” 7’” 8” 8’” :”	 :—” ;” ;” ;” ;” ;” ;” ;”” ;” ;#” ;,” ;,”” <” <” <” <’” =” =’” ?”	 ?—” Ì@” Ì@” Ì@” Ì@” Ì@” Ì@” Ì@”” Ì@” Ì@#” Ì@,” Ì@,”” ÌA” ÌA” ÌA” ÌA’” ÌB” ÌB˜” ÌD”
+ ÌD” ÌD” ÌD” ÌD%”  ÌD%”! ÌD&”" ÌD'’” ÌF” ÌF	—” ÌG” ÌG” ÌG” ÌG” ÌG” ÌG” ÌG”” ÌG” ÌG#” ÌG,” ÌG,”” ÌH” ÌH” ÌH” ÌH’” ÌI” ÌI’” ÌK” ÌK
+—” ÌL” ÌL” ÌL” ÌL” ÌL” ÌL” ÌL”” ÌL” ÌL$” ÌL-” ÌL-—” ÌM” ÌM” ÌM” ÌM” ÌM” ÌM” ÌM”” ÌM” ÌM$” ÌM-” ÌM-”” ÌN” ÌN” ÌN” ÌN’” ÌO” ÌO’” ÌQ”5 ÌQ3’” ÌR”
+ ÌR›” ÌS” ÌS” ÌS” ÌS” ÌS” ÌS”  ÌS”" ÌS”' ÌS#”) ÌS%”+ ÌS'—” ÌT” ÌT
+” ÌT” ÌT” ÌT”$ ÌT”% ÌTÜ ” ÌU” ÌU
+” ÌU” ÌU” ÌU” ÌU” ÌU”  ÌU”" ÌU”# ÌU”% ÌU”) ÌU#”* ÌU$”7 ÌU1”9 ÌU3”= ÌU7”> ÌU8”ÌL ÌUÌF”ÌM ÌUÌG”ÌN ÌUÌG’” ÌV” ÌV‘”	 ÌW–” ÌX” ÌX” ÌX	” ÌX” ÌX” ÌX’” ÌX” ÌX!—” ÌY” ÌY” ÌY	” ÌY” ÌY” ÌY” ÌY—” ÌZ” ÌZ” ÌZ	” ÌZ” ÌZ” ÌZ” ÌZ–” Ì\” Ì\” Ì\” Ì\” Ì\” Ì\’” Ì]” Ì]Ü ” Ì^” Ì^” Ì^” Ì^” Ì^”  Ì^”! Ì^”3 Ì^-”4 Ì^.”8 Ì^2”9 Ì^3”ÌC Ì^=”ÌE Ì^?”ÌH Ì^ÌB”ÌJ Ì^ÌD”ÌM Ì^ÌG”ÌN Ì^ÌH”ÌO Ì^ÌH‘”	 Ì_”” Ì_” Ì_” Ì_” Ì_—” Ì`” Ì`
+” Ì`” Ì`” Ì`”% Ì`”& Ì`—” Ìa” Ìa
+” Ìa” Ìa” Ìa”# Ìa”$ ÌaÜ ” Ìb” Ìb
+” Ìb” Ìb” Ìb” Ìb” Ìb”  Ìb”" Ìb”# Ìb”% Ìb”) Ìb#”* Ìb$”7 Ìb1”9 Ìb3”= Ìb7”> Ìb8”ÌL ÌbÌF”ÌM ÌbÌG”ÌN ÌbÌG’” Ìc” Ìc‘”	 ÌdÜ ” Ìf” Ìf
+” Ìf” Ìf ”  Ìf$”! Ìf%”$ Ìf(”% Ìg”( Ìg	”* Ìh”. Ìh
+”/ Ìh”2 Ìh”3 Ìh”6 Ìh”8 Ìh”< Ìh”= Ìh”ÌB Ìh”ÌC Ìh”ÌG Ìh#”ÌH Ìh$”ÌU Ìh1”ÌX Ìh4”ÌY Ìh5”ÌZ Ìh6”Ì[ Ìh7”Ì\ Ìi”Ì] Ìi”” Ìj” Ìj
+” Ìj” Ìj•” Ìk” Ìk
+” Ìk” Ìk” Ìk”” Ìl” Ìl
+” Ìl” Ìl”” Ìm” Ìm” Ìm”$ Ìm–” Ìn” Ìn” Ìn” Ìn”  Ìn”- Ìn'–” Ìo” Ìo” Ìo”  Ìo”! Ìo”/ Ìo)”” Ìp” Ìp” Ìp” Ìp’”	 Ìq”
+ Ìq”” Ìs” Ìs
+” Ìs” Ìs—” Ìt” Ìt
+” Ìt” Ìt” Ìt” Ìt”  Ìt—” Ìu” Ìu” Ìu” Ìu” Ìu”  Ìu”" Ìu—” Ìv” Ìv” Ìv
+” Ìv” Ìv” Ìv” Ìv’”	 Ìw”
+ Ìw’” Ìy” ÌyÜ ” Ìz” Ìz” Ìz” Ìz!”" Ìz(”# Ìz)”) Ìz/”* Ìz0”2 Ìz8”4 Ìz:”7 Ìz=”9 Ìz?”= ÌzÌC”> ÌzÌD”ÌD ÌzÌJ”ÌF ÌzÌL”ÌK ÌzÌQ”ÌL ÌzÌR”ÌM ÌzÌR˜” Ì{” Ì{
+” Ì{” Ì{”! Ì{”& Ì{ ”' Ì{!”) Ì{#—” Ì|” Ì|” Ì|” Ì|”  Ì|”+ Ì|#”, Ì|#‘” Ì}Ü ” Ì~” Ì~” Ì~” Ì~” Ì~” Ì~”  Ì~”# Ì~”% Ì~”+ Ì~%”- Ì~'”0 Ì~*”2 Ì~,”7 Ì~1”8 Ì~2”9 Ì~2‘”	 Ì”” Ì” Ì” Ì” Ìš” Ì€” Ì€” Ì€” Ì€” Ì€”- Ì€'”/ Ì€)”0 Ì€*”1 Ì€+”2 Ì€+—” Ì” Ì
+” Ì” Ì” Ì”" Ì”# Ì‘”	 Ì‚—” Ìƒ” Ìƒ” Ìƒ	” Ìƒ” Ìƒ” Ìƒ”  Ìƒ’” Ì„” Ì„–” Ì†” Ì†” Ì†” Ì†” Ì† ” Ì†)—” Ì‡” Ì‡” Ì‡	” Ì‡” Ì‡” Ì‡” Ì‡—” Ìˆ” Ìˆ” Ìˆ	” Ìˆ” Ìˆ” Ìˆ”  Ìˆ–” Ì‰” Ì‰” Ì‰	” Ì‰” Ì‰” Ì‰’” Ì‰” Ì‰!š” ÌŠ” ÌŠ” ÌŠ” ÌŠ” ÌŠ” ÌŠ”  ÌŠ”" ÌŠ”' ÌŠ#”) ÌŠ%’” ÌŠ'” ÌŠ-˜” Ì‹” Ì‹” Ì‹” Ì‹” Ì‹”# Ì‹”$ Ì‹ ”% Ì‹!˜” Ì‹#” Ì‹/” Ì‹0” Ì‹4” Ì‹5”+ Ì‹ÌB”, Ì‹ÌC”- Ì‹ÌC™” ÌŒ” ÌŒ” ÌŒ	” ÌŒ” ÌŒ”' ÌŒ#”( ÌŒ$”+ ÌŒ-”- ÌŒ/˜” Ì” Ì
+” Ì” Ì”! Ì”" Ì”# Ì”$ Ì–” Ì” Ì
+” Ì” Ì” Ì” Ì–” Ì”	 Ì” Ì” Ì
+” Ì” Ì’” Ì” Ì’” Ì’”3 Ì’1‘” Ì“’” Ì”” Ì”
+–” Ì”” Ì”
+” ÌÌ” ÌÌ
+” ÌÌ” ÌÌ–” Ì”” Ì”
+” ÌÌ” ÌÌ” ÌÌ”  ÌÌ ™” Ì”” Ì”
+” ÌÌ"”" ÌÌ1”# ÌÌ2”' ÌÌ6”( ÌÌ7”- ÌÌ<”/ ÌÌ>’” Ì•” Ì•’” Ì–” Ì–	’” Ì•” Ì•–” Ì–” Ì–	” Ìœ” Ìœ” Ìœ” Ìœ’” Ì•” Ì•˜” Ì–” Ì–	” Ìœ” Ìœ” Ìœ ”( Ìœ-”) Ìœ.”/ Ìœ4”” Ì—” Ì—” Ì—” Ì—–” Ì—” Ì—” Ì—” Ì—” Ì—” Ì—™” Ì—” Ì—” Ì—” Ì—(” Ì—)” Ì—-”  Ì—.”% Ì—3”' Ì—5–” Ì—” Ì—” Ì—7” Ì—>” Ì—?” Ì—ÌAŸ” Ì—” Ì—” Ì˜” Ì˜” Ì˜” Ì˜” Ì˜”! Ì˜!”' Ì˜'”( Ì˜(”, Ì˜,”. Ì˜.”/ Ì˜.”0 Ì˜/”1 Ì˜0’” Ì—” Ì—”” Ì™” Ì™” Ì™” Ì™–” Ì™” Ì™” Ì™” Ì™” Ì™” Ì™ ™” Ì™” Ì™” Ì™"” Ì™+” Ì™,” Ì™0”  Ì™1”% Ì™6”' Ì™8–” Ì™” Ì™” Ì™:” Ì™ÌF” Ì™ÌG” Ì™ÌH’” Ì™” Ì™’” Ìš” Ìš–” Ìš” Ìš” Ìš” Ìš” Ìš” Ìš’” Ìš” Ìš’” Ì•” Ì•’” Ì–” Ì–	’” Ì” Ì’” ÌŸ” ÌŸ	’” Ì” Ì–” ÌŸ” ÌŸ	” Ì¬” Ì¬” Ì¬” Ì¬’” Ì” ÌÜ ” ÌŸ” ÌŸ	” Ì¬” Ì¬” Ì¬” Ì¬” Ì¬#”  Ì¬%”" Ì¬'”$ Ì¬)”) Ì¬.”+ Ì¬0”- Ì¬2”/ Ì¬4”2 Ì¬7”4 Ì¬9”5 Ì¬:”7 Ì¬<”= Ì¬ÌB”? Ì¬ÌD”Ì@ Ì¬ÌE”ÌB Ì¬ÌG” Ì ” Ì ” Ì ” Ì ”* Ì ”, Ì !”< Ì 1”> Ì 3”ÌB Ì 7”ÌD Ì 9”ÌH Ì =”ÌI Ì >”ÌS Ì ÌH”ÌU Ì ÌJ–” Ì ” Ì ” Ì¡” Ì¡” Ì¡”! Ì¡™” Ì ” Ì ” Ì¡” Ì¡!”  Ì¡"”$ Ì¡&”% Ì¡'”* Ì¡,”, Ì¡.™” Ì ” Ì ” Ì¢”% Ì¢”& Ì¢”* Ì¢”+ Ì¢ ”3 Ì¢(”5 Ì¢*™” Ì ” Ì ” Ì£”& Ì£”' Ì£”+ Ì£ ”, Ì£!”1 Ì£&”3 Ì£(–” Ì ” Ì ” Ì¤”" Ì¤”# Ì¤”$ Ì¤–” Ì ” Ì ” Ì¤” Ì¤!” Ì¤"” Ì¤$Ü ” Ì ” Ì ” Ì¥” Ì¥” Ì¥”  Ì¥”! Ì¥”# Ì¥&”% Ì¥(”( Ì¥+”, Ì¥/”- Ì¥0”7 Ì¥:”: Ì¥=”; Ì¥>”< Ì¥>”= Ì¥?”> Ì¥Ì@”” Ì¦” Ì¦” Ì¦” Ì¦–” Ì¦” Ì¦” Ì¦” Ì¦” Ì¦” Ì¦™” Ì¦” Ì¦” Ì¦” Ì¦(” Ì¦)” Ì¦-”  Ì¦.”% Ì¦3”' Ì¦5–” Ì¦” Ì¦” Ì§” Ì§” Ì§” Ì§–” Ì¦” Ì¦” Ì§” Ì§” Ì§” Ì§˜” Ì¦” Ì¦” Ì§ ” Ì§)” Ì§*”$ Ì§3”% Ì§4”+ Ì§:™” Ì¦” Ì¦” Ì¨”  Ì¨”! Ì¨”% Ì¨”& Ì¨ ”. Ì¨(”0 Ì¨*–” Ì¦” Ì¦” Ì¨,” Ì¨8” Ì¨9” Ì¨:š” Ì¦” Ì¦” Ì©” Ì©” Ì©” Ì©” Ì©”  Ì©”! Ì©”# Ì©Ü ” Ì¦” Ì¦” Ìª” Ìª” Ìª” Ìª” Ìª”! Ìª!”% Ìª%”& Ìª&”0 Ìª0”3 Ìª3”7 Ìª7”8 Ìª8”ÌB ÌªÌB”ÌE ÌªÌE”ÌH ÌªÌH”ÌI ÌªÌH”ÌJ ÌªÌI”ÌK ÌªÌJ’” Ì¦” Ì¦’” Ì” Ì’” ÌŸ” ÌŸ	’” Ì®” Ì®’” Ì¯” Ì¯	’” Ì®” Ì®–” Ì¯” Ì¯	” Ì·” Ì·” Ì·” Ì·’” Ì®” Ì®Ü ” Ì¯” Ì¯	” Ì·” Ì·” Ì·” Ì·” Ì·#”  Ì·%”" Ì·'”$ Ì·)”) Ì·.”+ Ì·0”- Ì·2”/ Ì·4”5 Ì·:”7 Ì·<”8 Ì·=”: Ì·?” Ì°” Ì°”# Ì°”' Ì°”( Ì°”2 Ì°”3 Ì°”4 Ì° ”5 Ì°!”; Ì°'”< Ì°(”= Ì°)”> Ì°*”ÌB Ì°.–” Ì°” Ì°” Ì±” Ì±” Ì±” Ì±™” Ì°” Ì°” Ì±” Ì±!” Ì±"”! Ì±&”" Ì±'”' Ì±,”) Ì±.™” Ì°” Ì°” Ì²”" Ì²”# Ì²”' Ì²”( Ì² ”0 Ì²(”2 Ì²*–” Ì°” Ì°” Ì³” Ì³” Ì³” Ì³–” Ì°” Ì°” Ì³” Ì³"”  Ì³#”! Ì³$™” Ì°” Ì°” Ì´” Ì´” Ì´” Ì´”  Ì´”! Ì´”+ Ì´#Ÿ” Ì°” Ì°” Ìµ” Ìµ” Ìµ” Ìµ”  Ìµ”# Ìµ!”' Ìµ%”( Ìµ&”. Ìµ,”0 Ìµ.”1 Ìµ.”2 Ìµ/”3 Ìµ0’” Ì°” Ì°’” Ì®” Ì®’” Ì¯” Ì¯	’” Ì¹” Ì¹–” Ìº” Ìº” Ìº” Ìº” Ìº”" Ìº’” Ì¹” Ì¹–” Ìº” Ìº” Ì»	” Ì»” Ì»” Ì»’” Ì¹” Ì¹–” Ìº” Ìº” Ì»” Ì»#”  Ì»$”! Ì»%’” Ì¹” Ì¹™” Ìº” Ìº” Ì¼	”" Ì¼”# Ì¼”' Ì¼”( Ì¼”- Ì¼#”/ Ì¼%’” Ì¹” Ì¹—” Ìº” Ìº” Ì½	” Ì½” Ì½” Ì½”  Ì½—” Ì¾
+” Ì¾” Ì¾”  Ì¾”# Ì¾”' Ì¾!”( Ì¾!’” Ì¿” Ì¿	’” Ì¹” Ì¹›” Ìº” Ìº” ÌÀ	” ÌÀ”  ÌÀ”! ÌÀ”) ÌÀ%”+ ÌÀ'”2 ÌÀ4”4 ÌÀ<”6 ÌÀ>›” ÌÁ
+” ÌÁ” ÌÁ” ÌÁ”  ÌÁ"”! ÌÁ#”( ÌÁ*”) ÌÁ+”. ÌÁ0”/ ÌÁ1”0 ÌÁ1›” ÌÂ
+” ÌÂ” ÌÂ” ÌÂ”  ÌÂ"”! ÌÂ#”( ÌÂ*”) ÌÂ+”/ ÌÂ1”0 ÌÂ2”1 ÌÂ2š” ÌÃ
+” ÌÃ” ÌÃ”' ÌÃ!”( ÌÃ"”) ÌÃ#”+ ÌÃ%”, ÌÃ&”- ÌÃ'”. ÌÃ'’” ÌÄ” ÌÄ	’” Ì¹” Ì¹’” Ìº” Ìº’” ÌÆ” ÌÆ˜” ÌÇ” ÌÇ
+” ÌÇ” ÌÇ” ÌÇ”" ÌÇ”$ ÌÇ”& ÌÇ –” ÌÈ” ÌÈ”$ ÌÈ”( ÌÈ”) ÌÈ”1 ÌÈ–” ÌÈ” ÌÈ” ÌÈ”% ÌÈ$”& ÌÈ%”( ÌÈ'™” ÌÈ” ÌÈ” ÌÈ)”& ÌÈ2”' ÌÈ3”+ ÌÈ7”, ÌÈ8”2 ÌÈ>”4 ÌÈÌ@–” ÌÈ” ÌÈ” ÌÉ”" ÌÉ”# ÌÉ”) ÌÉÜ ” ÌÈ” ÌÈ” ÌÉ”$ ÌÉ ”% ÌÉ!”' ÌÉ#”+ ÌÉ'”- ÌÉ)”/ ÌÉ+”1 ÌÉ-”6 ÌÉ2”8 ÌÉ4”: ÌÉ6”< ÌÉ8”? ÌÉ;”ÌA ÌÉ=”ÌB ÌÉ>”ÌD ÌÉÌ@”ÌJ ÌÉÌF”ÌL ÌÉÌH”ÌM ÌÉÌI”ÌO ÌÉÌK’” ÌÈ” ÌÈ‘” ÌÊ‘” ÌÊ’” Ì”” Ì”
+‘” ÌÍÔrI–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜx‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
+ ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”    ‘”  ! ‘”  " ‘”  # ‘”  $ ‘”  % ‘”  & ‘”  ' ‘”  ( ‘”  ) ‘”  * ‘”  + ‘”  , ‘”  - ‘”  . ‘”  / ‘”  0 ‘”  1 ‘”  2 ‘”  3 ‘”  4 ‘”  5 ‘”  6 ‘”  7 ‘”  8 ‘”  9 ‘”  : ‘”  ; ‘”  < ‘”  = ‘”  > ‘”  ? ‘”  Ì@ ‘”  ÌA ‘”  ÌB ‘”  ÌC ‘”  ÌD ‘”  ÌE ‘”  ÌF ‘”  ÌG ‘”  ÌH ‘”  ÌI ‘”  ÌJ ‘”  ÌK ‘”  ÌL ‘”  ÌM ‘”  ÌN ‘”  ÌO ‘”  ÌP ‘”  ÌQ ‘”  ÌR ‘”  ÌS ‘”  ÌT ‘”  ÌU ‘”  ÌV ‘”  ÌW ‘”  ÌX ‘”  ÌY ‘”  ÌZ ‘”  Ì[ ‘”  Ì\ ‘”  Ì] ‘”  Ì^ ‘”  Ì_ ‘”  Ì` ‘”  Ìa ‘”  Ìb ‘”  Ìc ‘”  Ìd ‘”  Ìe ‘”  Ìf ‘”  Ìg ‘”  Ìh ‘”  Ìi ‘”  Ìj ‘”  Ìk ‘”  Ìl ‘”  Ìm ‘”  Ìn ‘”  Ìo ‘”  Ìp ‘”  Ìq ‘”  Ìr ‘”  Ìs ‘”  Ìt ‘”  Ìu ‘”  Ìv ‘”  Ìw ‘”  Ìx ‘”  Ìy ‘”  Ìz ‘”  Ì{ ‘”  Ì| ‘”  Ì} ‘”  Ì~ ‘”  Ì ‘”  Ì€ ‘”  Ì ‘”  Ì‚ ‘”  Ìƒ ‘”  Ì„ ‘”  Ì… ‘”  Ì† ‘”  Ì‡ ‘”  Ìˆ ‘”  Ì‰ ‘”  ÌŠ ‘”  Ì‹ ‘”  ÌŒ ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì ‘”  Ì‘ ‘”  Ì’ ‘”  Ì“ ‘”  Ì” ‘”  Ì• ‘”  Ì– ‘”  Ì— ‘”  Ì˜ ‘”  Ì™ ‘”  Ìš ‘”  Ì› ‘”  Ìœ ‘”  Ì ‘”  Ì ‘”  ÌŸ ‘”  Ì  ‘”  Ì¡ ‘”  Ì¢ ‘”  Ì£ ‘”  Ì¤ ‘”  Ì¥ ‘”  Ì¦ ‘”  Ì§ ‘”  Ì¨ ‘”  Ì© ‘”  Ìª ‘”  Ì« ‘”  Ì¬ ‘”  Ì­ ‘”  Ì® ‘”  Ì¯ ‘”  Ì° ‘”  Ì± ‘”  Ì² ‘”  Ì³ ‘”  Ì´ ‘”  Ìµ ‘”  Ì¶ ‘”  Ì· ‘”  Ì¸ ‘”  Ì¹ ‘”  Ìº ‘”  Ì» ‘”  Ì¼ ‘”  Ì½ ‘”  Ì¾ ‘”  Ì¿ ‘”  ÌÀ ‘”  ÌÁ ‘”  ÌÂ ‘”  ÌÃ ‘”  ÌÄ ‘”  ÌÅ ‘”  ÌÆ ‘”  ÌÇ ‘”  ÌÈ ‘”  ÌÉ ‘”  ÌÊ ‘”  ÌË ‘”  ÌÌ ‘”  ÌÍ ‘”  ÌÎ ‘”  ÌÏ ‘”  ÌĞ ‘”  ÌÑ ‘”  ÌÒ ‘”  ÌÓ ‘”  ÌÔ ‘”  ÌÕ ‘”  ÌÖ ‘”  Ì× ‘”  ÌØ ‘”  ÌÙ ‘”  ÌÚ ‘”  ÌÛ ‘”  ÌÜ ‘”  Ìİ ‘”  ÌŞ ‘”  Ìß ‘”  Ìà ‘”  Ìá ‘”  Ìâ ‘”  Ìã ‘”  Ìä ‘”  Ìå ‘”  Ìæ ‘”  Ìç ‘”  Ìè ‘”  Ìé ‘”  Ìê ‘”  Ìë ‘”  Ìì ‘”  Ìí ‘”  Ìî ‘”  Ìï ‘”  Ìğ ‘”  Ìñ ‘”  Ìò ‘”  Ìó ‘”  Ìô ‘”  Ìõ ‘”  Ìö ‘”  Ì÷ ‘”  Ìø ‘”  Ìù ‘”  Ìú ‘”  Ìû ‘”  Ìü ‘”  Ìı ‘”  Ìş ‘”  Ìÿ ‘”  Í  ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í	 ‘”  Í
+ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ‘”  Í? ‘”  Í@ ‘”  ÍA ‘”  ÍB ‘”  ÍC ‘”  ÍD ‘”  ÍE ‘”  ÍF ‘”  ÍG ‘”  ÍH ‘”  ÍI ‘”  ÍJ ‘”  ÍK ‘”  ÍL ‘”  ÍM ‘”  ÍN ‘”  ÍO ‘”  ÍP ‘”  ÍQ ‘”  ÍR ‘”  ÍS ‘”  ÍT ‘”  ÍU ‘”  ÍV ‘”  ÍW ‘”  ÍX ‘”  ÍY ‘”  ÍZ ‘”  Í[ ‘”  Í\ ‘”  Í] ‘”  Í^ ‘”  Í_ ‘”  Í` ‘”  Ía ‘”  Íb ‘”  Íc ‘”  Íd ‘”  Íe ‘”  Íf ‘”  Íg ‘”  Íh ‘”  Íi ‘”  Íj ‘”  Ík ‘”  Íl ‘”  Ím ‘”  Ín ‘”  Ío ‘”  Íp ‘”  Íq ‘”  Ír ‘”  Ís ‘”  Ít ‘”  Íu ‘”  Ív ‘”  Íw ÔrJ’§missing¦pluginÃ¦genAbcÂÔ  ÔrK”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache•ÔrL•¤type¥start£endªspecifiers¦source±ImportDeclarationÌôÍ‘ÔrM”¤type¥start£end¥local¶ImportDefaultSpecifierÌûÍÔrN”¤type¥start£end¤nameªIdentifierÌûÍ¦routerÔrO•¤type¥start£end¥value£raw§LiteralÍÍ¬@ohos.router®"@ohos.router"L±ImportDeclarationÍÍN‘ÔrP•¤type¥start£end¨imported¥local¯ImportSpecifierÍ!Í+NªIdentifierÍ!Í+ªCalcEngineNªIdentifierÍ!Í+ªCalcEngineO§LiteralÍ3ÍM¸../calculator/Calculatorº'../calculator/Calculator'L±ImportDeclarationÍPÍ†‘P¯ImportSpecifierÍYÍcNªIdentifierÍYÍcªExpressionNªIdentifierÍYÍcªExpressionO§LiteralÍkÍ…¸../calculator/Expressionº'../calculator/Expression'L±ImportDeclarationÍˆÍ¸‘P¯ImportSpecifierÍ‘Í˜NªIdentifierÍ‘Í˜§PlotterNªIdentifierÍ‘Í˜§PlotterO§LiteralÍ Í·µ../calculator/Plotter·'../calculator/Plotter'L±ImportDeclarationÍºÍı‘P¯ImportSpecifierÍÃÍÓNªIdentifierÍÃÍÓ°PreferencesStoreNªIdentifierÍÃÍÓ°PreferencesStoreO§LiteralÍÛÍü¿../preferences/PreferencesStoreÙ!'../preferences/PreferencesStore'

@@ -21,6 +21,7 @@ interface CalculatorPage_Params {
     prefs?: PreferencesStore | null;
 }
 import promptAction from "@ohos:promptAction";
+import router from "@ohos:router";
 import pasteboard from "@ohos:pasteboard";
 import type common from "@ohos:app.ability.common";
 import { Expression } from "@bundle:com.darkempire78.opencalculator/entry/ets/calculator/Expression";
@@ -546,11 +547,11 @@ export class CalculatorPage extends ViewPU {
             Column.create();
             Column.width('100%');
             Column.padding(this.isLandscape ? { top: 8, bottom: 2 } : { top: 24, bottom: 8 });
-            globalThis.Gesture.create(GesturePriority.Low);
+            Gesture.create(GesturePriority.Low);
             LongPressGesture.create();
             LongPressGesture.onAction((): void => { this.onCopy(); });
             LongPressGesture.pop();
-            globalThis.Gesture.pop();
+            Gesture.pop();
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
@@ -651,6 +652,14 @@ export class CalculatorPage extends ViewPU {
             Blank.create();
         }, Blank);
         Blank.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('绘图');
+            Text.fontSize(12);
+            Text.fontColor(this.getT2());
+            Text.padding(8);
+            Text.onClick((): void => { router.pushUrl({ url: 'pages/GraphPage' }); });
+        }, Text);
+        Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Text.create(this.showHistory ? '▲ 历史' : '▼ 历史');
             Text.fontSize(12);

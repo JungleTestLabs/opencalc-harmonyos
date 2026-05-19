@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2025 Huawei Device Co., Ltd.
+ * Copyright (c) 2023 Huawei Device Co., Ltd.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,9 +22,15 @@ namespace OHOS {
 const int32_t STRING_ENTRYABILITY_DESC = 0x01000000;
 const int32_t STRING_ENTRYABILITY_LABEL = 0x01000001;
 const int32_t STRING_APP_NAME = 0x01000002;
-const int32_t STRING_MODULE_DESC = 0x01000003;
-const int32_t COLOR_START_WINDOW_BACKGROUND = 0x01000004;
-const int32_t MEDIA_APP_ICON = 0x01000005;
-const int32_t PROFILE_MAIN_PAGES = 0x01000006;
+const int32_t STRING_GRAPH_BUTTON = 0x01000003;
+const int32_t STRING_GRAPH_HINT_EMPTY = 0x01000004;
+const int32_t STRING_GRAPH_HINT_SYNTAX_ERROR = 0x01000005;
+const int32_t STRING_GRAPH_HINT_TIMEOUT = 0x01000006;
+const int32_t STRING_GRAPH_HINT_UNDEFINED = 0x01000007;
+const int32_t STRING_GRAPH_TITLE = 0x01000008;
+const int32_t STRING_MODULE_DESC = 0x01000009;
+const int32_t COLOR_START_WINDOW_BACKGROUND = 0x0100000a;
+const int32_t MEDIA_APP_ICON = 0x0100000b;
+const int32_t PROFILE_MAIN_PAGES = 0x0100000c;
 }
 #endif

@@ -1,7 +1,13 @@
 string EntryAbility_desc 0x01000000
 string EntryAbility_label 0x01000001
 string app_name 0x01000002
-string module_desc 0x01000003
-color start_window_background 0x01000004
-media app_icon 0x01000005
-profile main_pages 0x01000006
+string graph_button 0x01000003
+string graph_hint_empty 0x01000004
+string graph_hint_syntax_error 0x01000005
+string graph_hint_timeout 0x01000006
+string graph_hint_undefined 0x01000007
+string graph_title 0x01000008
+string module_desc 0x01000009
+color start_window_background 0x0100000a
+media app_icon 0x0100000b
+profile main_pages 0x0100000c

@@ -13,19 +13,43 @@
 			"id":	"0x01000002"
 		}, {
 			"type":	"string",
-			"name":	"module_desc",
+			"name":	"graph_button",
 			"id":	"0x01000003"
+		}, {
+			"type":	"string",
+			"name":	"graph_hint_empty",
+			"id":	"0x01000004"
+		}, {
+			"type":	"string",
+			"name":	"graph_hint_syntax_error",
+			"id":	"0x01000005"
+		}, {
+			"type":	"string",
+			"name":	"graph_hint_timeout",
+			"id":	"0x01000006"
+		}, {
+			"type":	"string",
+			"name":	"graph_hint_undefined",
+			"id":	"0x01000007"
+		}, {
+			"type":	"string",
+			"name":	"graph_title",
+			"id":	"0x01000008"
+		}, {
+			"type":	"string",
+			"name":	"module_desc",
+			"id":	"0x01000009"
 		}, {
 			"type":	"color",
 			"name":	"start_window_background",
-			"id":	"0x01000004"
+			"id":	"0x0100000A"
 		}, {
 			"type":	"media",
 			"name":	"app_icon",
-			"id":	"0x01000005"
+			"id":	"0x0100000B"
 		}, {
 			"type":	"profile",
 			"name":	"main_pages",
-			"id":	"0x01000006"
+			"id":	"0x0100000C"
 		}]
 }
