@@ -1,0 +1,667 @@
+Ôr@Ÿªassertions¤code´customTransformCache¬dependencies¢id¤meta±moduleSideEffects¬originalCode±originalSourcemap«resolvedIds®sourcemapChainµsyntheticNamedExportsµtransformDependencies®transformFiles¨cacheAstÔrAÚ8”if (!("finalizeConstruction" in ViewPU.prototype)) {
+    Reflect.set(ViewPU.prototype, "finalizeConstruction", () => { });
+}
+// OpenCalc - å°è´¹è®¡ç®—å™¨é¡µé¢
+// è®¾è®¡æ–‡æ¡£: specs/changes/20260519-requirement-add-tip-calculator/delta-design.md Â§3.6
+import router from "@ohos.router";
+import hilog from "@ohos.hilog";
+import { TipCalculator } from '../calculator/TipCalculator';
+class TipCalculatorPage extends ViewPU {
+    constructor(parent, params, __localStorage, elmtId = -1, paramsLambda = undefined, extraInfo) {
+        super(parent, __localStorage, elmtId, extraInfo);
+        if (typeof paramsLambda === "function") {
+            this.paramsGenerator_ = paramsLambda;
+        }
+        this.__amountText = new ObservedPropertySimplePU('', this, "amountText");
+        this.__peopleText = new ObservedPropertySimplePU('', this, "peopleText");
+        this.__tipPercent = new ObservedPropertySimplePU(15, this, "tipPercent");
+        this.__isCustomMode = new ObservedPropertySimplePU(false, this, "isCustomMode");
+        this.__customTipText = new ObservedPropertySimplePU('', this, "customTipText");
+        this.setInitiallyProvidedValue(params);
+        this.finalizeConstruction();
+    }
+    setInitiallyProvidedValue(params) {
+        if (params.amountText !== undefined) {
+            this.amountText = params.amountText;
+        }
+        if (params.peopleText !== undefined) {
+            this.peopleText = params.peopleText;
+        }
+        if (params.tipPercent !== undefined) {
+            this.tipPercent = params.tipPercent;
+        }
+        if (params.isCustomMode !== undefined) {
+            this.isCustomMode = params.isCustomMode;
+        }
+        if (params.customTipText !== undefined) {
+            this.customTipText = params.customTipText;
+        }
+    }
+    updateStateVars(params) {
+    }
+    purgeVariableDependenciesOnElmtId(rmElmtId) {
+        this.__amountText.purgeDependencyOnElmtId(rmElmtId);
+        this.__peopleText.purgeDependencyOnElmtId(rmElmtId);
+        this.__tipPercent.purgeDependencyOnElmtId(rmElmtId);
+        this.__isCustomMode.purgeDependencyOnElmtId(rmElmtId);
+        this.__customTipText.purgeDependencyOnElmtId(rmElmtId);
+    }
+    aboutToBeDeleted() {
+        this.__amountText.aboutToBeDeleted();
+        this.__peopleText.aboutToBeDeleted();
+        this.__tipPercent.aboutToBeDeleted();
+        this.__isCustomMode.aboutToBeDeleted();
+        this.__customTipText.aboutToBeDeleted();
+        SubscriberManager.Get().delete(this.id__());
+        this.aboutToBeDeletedInternal();
+    }
+    get amountText() {
+        return this.__amountText.get();
+    }
+    set amountText(newValue) {
+        this.__amountText.set(newValue);
+    }
+    get peopleText() {
+        return this.__peopleText.get();
+    }
+    set peopleText(newValue) {
+        this.__peopleText.set(newValue);
+    }
+    get tipPercent() {
+        return this.__tipPercent.get();
+    }
+    set tipPercent(newValue) {
+        this.__tipPercent.set(newValue);
+    }
+    get isCustomMode() {
+        return this.__isCustomMode.get();
+    }
+    set isCustomMode(newValue) {
+        this.__isCustomMode.set(newValue);
+    }
+    get customTipText() {
+        return this.__customTipText.get();
+    }
+    set customTipText(newValue) {
+        this.__customTipText.set(newValue);
+    }
+    computePerPerson() {
+        const amount = parseFloat(this.amountText);
+        const people = parseInt(this.peopleText, 10);
+        const tip = this.isCustomMode ? parseFloat(this.customTipText) : this.tipPercent;
+        return TipCalculator.calcPerPerson(amount, people, tip);
+    }
+    goBack() {
+        router.back();
+    }
+    initialRender() {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.height('100%');
+            Column.backgroundColor('#FFFFFF');
+        }, Column);
+        this.Header.bind(this)();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Scroll.create();
+            Scroll.layoutWeight(1);
+            Scroll.width('100%');
+        }, Scroll);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.padding({ left: 16, right: 16, top: 8, bottom: 16 });
+        }, Column);
+        this.AmountInput.bind(this)();
+        this.PeopleInput.bind(this)();
+        this.TipTierRow.bind(this)();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            If.create();
+            if (this.isCustomMode) {
+                this.ifElseBranchUpdateFunction(0, () => {
+                    this.CustomTipInput.bind(this)();
+                });
+            }
+            else {
+                this.ifElseBranchUpdateFunction(1, () => {
+                });
+            }
+        }, If);
+        If.pop();
+        this.ResultPanel.bind(this)();
+        Column.pop();
+        Scroll.pop();
+        Column.pop();
+    }
+    Header(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.width('100%');
+            Row.padding({ left: 16, right: 16, top: 12, bottom: 12 });
+            Row.border({ width: { bottom: 1 }, color: '#E8E8E8' });
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('â† è¿”å›ž');
+            Text.fontSize(14);
+            Text.fontColor('#595959');
+            Text.padding({ left: 12, right: 12, top: 8, bottom: 8 });
+            Text.onClick(() => { this.goBack(); });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Blank.create();
+        }, Blank);
+        Blank.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('å°è´¹è®¡ç®—å™¨');
+            Text.fontSize(20);
+            Text.fontColor('#000000');
+            Text.fontWeight(FontWeight.Medium);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Blank.create();
+        }, Blank);
+        Blank.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('  ');
+            Text.fontSize(14);
+            Text.padding({ left: 12, right: 12, top: 8, bottom: 8 });
+        }, Text);
+        Text.pop();
+        Row.pop();
+    }
+    AmountInput(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('è´¦å•é‡‘é¢');
+            Text.fontSize(14);
+            Text.fontColor('#595959');
+            Text.margin({ top: 12, bottom: 6 });
+            Text.alignSelf(ItemAlign.Start);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            TextInput.create({ placeholder: 'è¯·è¾“å…¥é‡‘é¢', text: this.amountText });
+            TextInput.type(InputType.NUMBER_DECIMAL);
+            TextInput.inputFilter('^\\d*\\.?\\d{0,2}$', (err) => {
+                hilog.warn(0x0000, 'TipCalc', `amount filter rejected: %{public}s`, err);
+            });
+            TextInput.maxLength(15);
+            TextInput.fontSize(20);
+            TextInput.height(48);
+            TextInput.backgroundColor('#EFEFEF');
+            TextInput.borderRadius(12);
+            TextInput.padding({ left: 12, right: 12 });
+            TextInput.onChange((value) => { this.amountText = value; });
+        }, TextInput);
+        Column.pop();
+    }
+    PeopleInput(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('å°±é¤äººæ•°');
+            Text.fontSize(14);
+            Text.fontColor('#595959');
+            Text.margin({ top: 12, bottom: 6 });
+            Text.alignSelf(ItemAlign.Start);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            TextInput.create({ placeholder: 'è¯·è¾“å…¥äººæ•°', text: this.peopleText });
+            TextInput.type(InputType.Number);
+            TextInput.inputFilter('^\\d*$', (err) => {
+                hilog.warn(0x0000, 'TipCalc', `people filter rejected: %{public}s`, err);
+            });
+            TextInput.maxLength(3);
+            TextInput.fontSize(20);
+            TextInput.height(48);
+            TextInput.backgroundColor('#EFEFEF');
+            TextInput.borderRadius(12);
+            TextInput.padding({ left: 12, right: 12 });
+            TextInput.onChange((value) => { this.peopleText = value; });
+        }, TextInput);
+        Column.pop();
+    }
+    TipTierRow(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('å°è´¹çŽ‡');
+            Text.fontSize(14);
+            Text.fontColor('#595959');
+            Text.margin({ top: 12, bottom: 6 });
+            Text.alignSelf(ItemAlign.Start);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Row.create();
+            Row.width('100%');
+            Row.justifyContent(FlexAlign.SpaceBetween);
+        }, Row);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            ForEach.create();
+            const forEachItemGenFunction = _item => {
+                const tier = _item;
+                this.TierButton.bind(this)(tier);
+            };
+            this.forEachUpdateFunction(elmtId, TipCalculatorPage.TIERS, forEachItemGenFunction, (tier) => `${tier}`, false, false);
+        }, ForEach);
+        ForEach.pop();
+        this.CustomButton.bind(this)();
+        Row.pop();
+        Column.pop();
+    }
+    TierButton(tier, parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(`${tier}%`);
+            Text.fontSize(14);
+            Text.fontColor(!this.isCustomMode && this.tipPercent === tier ? '#FFFFFF' : '#000000');
+            Text.height(40);
+            Text.layoutWeight(1);
+            Text.textAlign(TextAlign.Center);
+            Text.backgroundColor(!this.isCustomMode && this.tipPercent === tier ? '#B4D2E4' : '#EFEFEF');
+            Text.borderRadius(12);
+            Text.margin({ right: 8 });
+            Text.onClick(() => {
+                this.tipPercent = tier;
+                this.isCustomMode = false;
+            });
+        }, Text);
+        Text.pop();
+    }
+    CustomButton(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('è‡ªå®šä¹‰');
+            Text.fontSize(14);
+            Text.fontColor(this.isCustomMode ? '#FFFFFF' : '#000000');
+            Text.height(40);
+            Text.layoutWeight(1);
+            Text.textAlign(TextAlign.Center);
+            Text.backgroundColor(this.isCustomMode ? '#B4D2E4' : '#EFEFEF');
+            Text.borderRadius(12);
+            Text.onClick(() => {
+                this.isCustomMode = true;
+            });
+        }, Text);
+        Text.pop();
+    }
+    CustomTipInput(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('è‡ªå®šä¹‰å°è´¹çŽ‡ (%)');
+            Text.fontSize(14);
+            Text.fontColor('#595959');
+            Text.margin({ top: 12, bottom: 6 });
+            Text.alignSelf(ItemAlign.Start);
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            TextInput.create({ placeholder: '0 - 100', text: this.customTipText });
+            TextInput.type(InputType.NUMBER_DECIMAL);
+            TextInput.inputFilter('^\\d{0,3}(\\.\\d{0,2})?$', (err) => {
+                hilog.warn(0x0000, 'TipCalc', `customTip filter rejected: %{public}s`, err);
+            });
+            TextInput.maxLength(6);
+            TextInput.fontSize(20);
+            TextInput.height(48);
+            TextInput.backgroundColor('#EFEFEF');
+            TextInput.borderRadius(12);
+            TextInput.padding({ left: 12, right: 12 });
+            TextInput.onChange((value) => { this.customTipText = value; });
+        }, TextInput);
+        Column.pop();
+    }
+    ResultPanel(parent = null) {
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Column.create();
+            Column.width('100%');
+            Column.alignItems(HorizontalAlign.Center);
+        }, Column);
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('æ¯äººåº”ä»˜');
+            Text.fontSize(14);
+            Text.fontColor('#595959');
+            Text.margin({ top: 24, bottom: 8 });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create(this.computePerPerson());
+            Text.fontSize(36);
+            Text.fontColor('#000000');
+            Text.fontWeight(FontWeight.Bold);
+        }, Text);
+        Text.pop();
+        Column.pop();
+    }
+    rerender() {
+        this.updateDirtyElements();
+    }
+    static getEntryName() {
+        return "TipCalculatorPage";
+    }
+}
+TipCalculatorPage.TIERS = [10, 15, 18, 20];
+registerNamedRoute(() => new TipCalculatorPage(undefined, {}), "", { bundleName: "com.darkempire78.opencalculator", moduleName: "entry", pagePath: "pages/TipCalculatorPage", pageFullPath: "entry/src/main/ets/pages/TipCalculatorPage", integratedHsp: "false", moduleType: "followWithHap" });
+//# sourceMappingURL=TipCalculatorPage.js.mapÂ“Ùi hvigor_ignore__Applications_DevEco-Studio.app_Contents_sdk_default_openharmony_ets_api_@ohos.router.d.tsÙh hvigor_ignore__Applications_DevEco-Studio.app_Contents_sdk_default_openharmony_ets_api_@ohos.hilog.d.tsÙ/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/calculator/TipCalculator.etsÙ€/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/pages/TipCalculatorPage.etsÔrB›ªmoduleName±isLocalDependency¯isNodeEntryFile§pkgPath±belongProjectPath§pkgNameªpkgVersion±dependencyPkgInfo°belongModulePath§checker¬shouldEmitJs¥entryÃÂÙW/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entryÙQ/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos¥entry¥1.0.0Ô  ÙW/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entryÔrCÜ ®¬getNodeCount²getIdentifierCount®getSymbolCount¬getTypeCountµgetInstantiationCountµgetRelationCacheSizes±isUndefinedSymbol±isArgumentsSymbol¯isUnknownSymbol¯getMergedSymbol®getDiagnostics´getGlobalDiagnostics´getRecursionIdentity¶getUnmatchedProperties¹getTypeOfSymbolAtLocation¯getTypeOfSymbolÙ(getSymbolsOfParameterPropertyDeclaration·getDeclaredTypeOfSymbol³getPropertiesOfType±getPropertyOfTypeÙ"getPrivateIdentifierPropertyOfType·getTypeOfPropertyOfType²getIndexInfoOfType³getIndexInfosOfTypeºgetIndexInfosOfIndexSymbol³getSignaturesOfType²getIndexTypeOfType¬getIndexType¬getBaseTypes¸getBaseTypeOfLiteralType®getWidenedType³getTypeFromTypeNode°getParameterTypeÙ$getParameterIdentifierNameAtPosition¸getPromisedTypeOfPromise®getAwaitedType¸getReturnTypeOfSignature®isNullableType¯getNullableType²getNonNullableType²getNonOptionalType°getTypeArguments®typeToTypeNodeÙ$indexInfoToIndexSignatureDeclaration¿signatureToSignatureDeclaration²symbolToEntityName²symbolToExpression¬symbolToNodeÙ!symbolToTypeParameterDeclarations¼symbolToParameterDeclarationºtypeParameterToDeclaration±getSymbolsInScope³getSymbolAtLocation·getIndexInfosAtLocationÙ!getShorthandAssignmentValueSymbolÙ#getExportSpecifierLocalTargetSymbol·getExportSymbolOfSymbol±getTypeAtLocationºgetTypeAtLocationForLinterÙ tryGetTypeAtLocationWithoutCheckºgetTypeOfAssignmentPatternÙ*getPropertySymbolOfDestructuringAssignment±signatureToString¬typeToString®symbolToStringµtypePredicateToString®writeSignature©writeType«writeSymbol²writeTypePredicate¼getAugmentedPropertiesOfType®getRootSymbols²getSymbolOfExpando±getContextualTypeÙ(getContextualTypeForObjectLiteralElementÙ#getContextualTypeForArgumentAtIndexÙ getContextualTypeForJsxAttribute²isContextSensitiveÙ!getTypeOfPropertyOfContextualTypeµgetFullyQualifiedNameÙ#tryGetResolvedSignatureWithoutCheck´getResolvedSignatureÙ/getResolvedSignatureForStringLiteralCompletionsÙ$getResolvedSignatureForSignatureHelpµgetExpandedParameters¹hasEffectiveRestParameterºcontainsArgumentsReference°getConstantValueµisValidPropertyAccessÙ#isValidPropertyAccessForCompletions»getSignatureFromDeclarationºisImplementationOfOverload¹getImmediateAliasedSymbol°getAliasedSymbol¯getEmitResolver²getExportsOfModule¿getExportsAndPropertiesOfModuleÙ forEachExportAndPropertyOfModule¯getSymbolWalker±getAmbientModules¹getJsxIntrinsicTagNamesAt³isOptionalParameter»tryGetMemberInModuleExportsÙ(tryGetMemberInModuleExportsAndProperties´tryFindAmbientModuleÙ(tryFindAmbientModuleWithoutAugmentations¯getApparentType¬getUnionType²isTypeAssignableTo³createAnonymousType¯createSignature¬createSymbol¯createIndexInfoªgetAnyType­getStringType­getNumberType±createPromiseType¯createArrayType¹getElementTypeOfArrayType®getBooleanType¬getFalseType«getTrueType«getVoidType°getUndefinedType«getNullType¯getESSymbolType¬getNeverType¯getOptionalType®getPromiseType²getPromiseLikeType´getAsyncIterableType²isSymbolAccessible«isArrayType«isTupleType¯isArrayLikeTypeÙ#isTypeInvalidDueToUnionDiscriminantºgetExactOptionalProperties¿getAllPossiblePropertiesOfTypesÙ(getSuggestedSymbolForNonexistentPropertyÙ#getSuggestionForNonexistentPropertyÙ,getSuggestedSymbolForNonexistentJSXAttributeÙ&getSuggestedSymbolForNonexistentSymbolÙ!getSuggestionForNonexistentSymbolÙ&getSuggestedSymbolForNonexistentModuleÙ!getSuggestionForNonexistentExportÙ+getSuggestedSymbolForNonexistentClassMember·getBaseConstraintOfType»getDefaultFromTypeParameter«resolveName¯getJsxNamespaceµgetJsxFragmentFactory¸getAccessibleSymbolChain»getTypePredicateOfSignature¹resolveExternalModuleName»resolveExternalModuleSymbol°tryGetThisTypeAt¹getTypeArgumentConstraint¸getSuggestionDiagnostics¸runWithCancellationTokenÙ3getLocalTypeParametersOfClassOrInterfaceOrTypeAlias´isDeclarationVisible´isPropertyAccessible»getTypeOnlyAliasDeclaration¿getMemberOverrideModifierStatusÙ!isTypeParameterPossiblyReferenced²getConstEnumRelate´clearConstEnumRelateµdeleteConstEnumRelateÙ$getTypeArgumentsForResolvedSignatureµgetCheckedSourceFilesÙ"collectHaveTsNoCheckFilesForLinter·clearQualifiedNameCache®isStaticRecord²isStaticSourceFileÔ  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  Ô  ÃÃÚe// OpenCalc - å°è´¹è®¡ç®—å™¨é¡µé¢
+// è®¾è®¡æ–‡æ¡£: specs/changes/20260519-requirement-add-tip-calculator/delta-design.md Â§3.6
+import { router } from '@kit.ArkUI'
+import { hilog } from '@kit.PerformanceAnalysisKit'
+import { TipCalculator } from '../calculator/TipCalculator'
+
+@Entry
+@Component
+struct TipCalculatorPage {
+  @State amountText: string = ''
+  @State peopleText: string = ''
+  @State tipPercent: number = 15
+  @State isCustomMode: boolean = false
+  @State customTipText: string = ''
+
+  private static readonly TIERS: number[] = [10, 15, 18, 20]
+
+  private computePerPerson(): string {
+    const amount: number = parseFloat(this.amountText)
+    const people: number = parseInt(this.peopleText, 10)
+    const tip: number = this.isCustomMode ? parseFloat(this.customTipText) : this.tipPercent
+    return TipCalculator.calcPerPerson(amount, people, tip)
+  }
+
+  private goBack(): void {
+    router.back()
+  }
+
+  build() {
+    Column() {
+      this.Header()
+      Scroll() {
+        Column() {
+          this.AmountInput()
+          this.PeopleInput()
+          this.TipTierRow()
+          if (this.isCustomMode) {
+            this.CustomTipInput()
+          }
+          this.ResultPanel()
+        }
+        .width('100%')
+        .padding({ left: 16, right: 16, top: 8, bottom: 16 })
+      }
+      .layoutWeight(1)
+      .width('100%')
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundColor('#FFFFFF')
+  }
+
+  @Builder Header() {
+    Row() {
+      Text('â† è¿”å›ž')
+        .fontSize(14)
+        .fontColor('#595959')
+        .padding({ left: 12, right: 12, top: 8, bottom: 8 })
+        .onClick((): void => { this.goBack() })
+      Blank()
+      Text('å°è´¹è®¡ç®—å™¨')
+        .fontSize(20)
+        .fontColor('#000000')
+        .fontWeight(FontWeight.Medium)
+      Blank()
+      Text('  ')
+        .fontSize(14)
+        .padding({ left: 12, right: 12, top: 8, bottom: 8 })
+    }
+    .width('100%')
+    .padding({ left: 16, right: 16, top: 12, bottom: 12 })
+    .border({ width: { bottom: 1 }, color: '#E8E8E8' })
+  }
+
+  @Builder AmountInput() {
+    Column() {
+      Text('è´¦å•é‡‘é¢')
+        .fontSize(14)
+        .fontColor('#595959')
+        .margin({ top: 12, bottom: 6 })
+        .alignSelf(ItemAlign.Start)
+      TextInput({ placeholder: 'è¯·è¾“å…¥é‡‘é¢', text: this.amountText })
+        .type(InputType.NUMBER_DECIMAL)
+        .inputFilter('^\\d*\\.?\\d{0,2}$', (err: string): void => {
+          hilog.warn(0x0000, 'TipCalc', `amount filter rejected: %{public}s`, err)
+        })
+        .maxLength(15)
+        .fontSize(20)
+        .height(48)
+        .backgroundColor('#EFEFEF')
+        .borderRadius(12)
+        .padding({ left: 12, right: 12 })
+        .onChange((value: string): void => { this.amountText = value })
+    }
+    .width('100%')
+  }
+
+  @Builder PeopleInput() {
+    Column() {
+      Text('å°±é¤äººæ•°')
+        .fontSize(14)
+        .fontColor('#595959')
+        .margin({ top: 12, bottom: 6 })
+        .alignSelf(ItemAlign.Start)
+      TextInput({ placeholder: 'è¯·è¾“å…¥äººæ•°', text: this.peopleText })
+        .type(InputType.Number)
+        .inputFilter('^\\d*$', (err: string): void => {
+          hilog.warn(0x0000, 'TipCalc', `people filter rejected: %{public}s`, err)
+        })
+        .maxLength(3)
+        .fontSize(20)
+        .height(48)
+        .backgroundColor('#EFEFEF')
+        .borderRadius(12)
+        .padding({ left: 12, right: 12 })
+        .onChange((value: string): void => { this.peopleText = value })
+    }
+    .width('100%')
+  }
+
+  @Builder TipTierRow() {
+    Column() {
+      Text('å°è´¹çŽ‡')
+        .fontSize(14)
+        .fontColor('#595959')
+        .margin({ top: 12, bottom: 6 })
+        .alignSelf(ItemAlign.Start)
+      Row() {
+        ForEach(TipCalculatorPage.TIERS, (tier: number): void => {
+          this.TierButton(tier)
+        }, (tier: number): string => `${tier}`)
+        this.CustomButton()
+      }
+      .width('100%')
+      .justifyContent(FlexAlign.SpaceBetween)
+    }
+    .width('100%')
+  }
+
+  @Builder TierButton(tier: number) {
+    Text(`${tier}%`)
+      .fontSize(14)
+      .fontColor(!this.isCustomMode && this.tipPercent === tier ? '#FFFFFF' : '#000000')
+      .height(40)
+      .layoutWeight(1)
+      .textAlign(TextAlign.Center)
+      .backgroundColor(!this.isCustomMode && this.tipPercent === tier ? '#B4D2E4' : '#EFEFEF')
+      .borderRadius(12)
+      .margin({ right: 8 })
+      .onClick((): void => {
+        this.tipPercent = tier
+        this.isCustomMode = false
+      })
+  }
+
+  @Builder CustomButton() {
+    Text('è‡ªå®šä¹‰')
+      .fontSize(14)
+      .fontColor(this.isCustomMode ? '#FFFFFF' : '#000000')
+      .height(40)
+      .layoutWeight(1)
+      .textAlign(TextAlign.Center)
+      .backgroundColor(this.isCustomMode ? '#B4D2E4' : '#EFEFEF')
+      .borderRadius(12)
+      .onClick((): void => {
+        this.isCustomMode = true
+      })
+  }
+
+  @Builder CustomTipInput() {
+    Column() {
+      Text('è‡ªå®šä¹‰å°è´¹çŽ‡ (%)')
+        .fontSize(14)
+        .fontColor('#595959')
+        .margin({ top: 12, bottom: 6 })
+        .alignSelf(ItemAlign.Start)
+      TextInput({ placeholder: '0 - 100', text: this.customTipText })
+        .type(InputType.NUMBER_DECIMAL)
+        .inputFilter('^\\d{0,3}(\\.\\d{0,2})?$', (err: string): void => {
+          hilog.warn(0x0000, 'TipCalc', `customTip filter rejected: %{public}s`, err)
+        })
+        .maxLength(6)
+        .fontSize(20)
+        .height(48)
+        .backgroundColor('#EFEFEF')
+        .borderRadius(12)
+        .padding({ left: 12, right: 12 })
+        .onChange((value: string): void => { this.customTipText = value })
+    }
+    .width('100%')
+  }
+
+  @Builder ResultPanel() {
+    Column() {
+      Text('æ¯äººåº”ä»˜')
+        .fontSize(14)
+        .fontColor('#595959')
+        .margin({ top: 24, bottom: 8 })
+      Text(this.computePerPerson())
+        .fontSize(36)
+        .fontColor('#000000')
+        .fontWeight(FontWeight.Bold)
+    }
+    .width('100%')
+    .alignItems(HorizontalAlign.Center)
+  }
+}
+ÀÔrD“¬@ohos.router«@ohos.hilog»../calculator/TipCalculatorÔrE—ªassertions¨external¢id¤meta±moduleSideEffectsªresolvedByµsyntheticNamedExportsAÃÙi hvigor_ignore__Applications_DevEco-Studio.app_Contents_sdk_default_openharmony_ets_api_@ohos.router.d.tsAÃªoh-resolveÂEAÃÙh hvigor_ignore__Applications_DevEco-Studio.app_Contents_sdk_default_openharmony_ets_api_@ohos.hilog.d.tsÔrF‘¯hostModulesInfo“ÔrG’²hostDependencyName®hostModuleName«@ohos.hilog¥entryG«@ohos.hilog¥entryG«@ohos.hilog¥entryÃªoh-resolveÂEAÂÙ/Users/jordanzt/Work/HuaweiWork/Others/Projects/JungleTestLabs/opencalc-harmonyos/entry/src/main/ets/calculator/TipCalculator.etsAÃªoh-resolveÂ“ÔrH–§version¤fileªsourceRoot§sources¥names¨mappings´TipCalculatorPage.js ‘µTipCalculatorPage.etsÜc’”    ”  ’”   ”ÌS ÌS–”   ” 	” ” ”! #”" #–”   ” 	” ” ” 3”  3˜”   ” ”	 	” ” ” ”; ;”< ;’” ” ‘”  ’”9 	”; 	 ’”9 
+”; 
+ ’”9 ”;  ’”; !”Ì@ &’”< !”> #‘” ;’” 		” 	’” 		” 	’” 
+	” 
+’” 
+	” 
+’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 	” ’” 
+” ›” ” 
+” ” ”! %”" &”& *”' +”1 5”2 6”3 6” ” 
+” ” ” #”  $”$ (”% )”/ 3”1 5”3 7”4 8”5 8Ü ” ” 
+” ” ” ” ”% )”& *”' +”( ,”2 6”3 7”7 ;”8 <”ÌE ÌI”ÌF ÌJ”ÌG ÌK”ÌH ÌL”ÌI ÌM”ÌM ÌQ”ÌN ÌR”ÌX Ì\”ÌY Ì\” ” ” ” ”* &”+ '”1 -”3 /”9 5”; 7”> :”? ;”Ì@ ;’” ” ’” 
+”
+ –” ” 
+” ” ” ” ’” ” ‘” ’” ” 
+–” ” 
+” /” /
+” /” /–” ” 
+” 0” 0” 0”  0–” ” 
+” 1”" 1”# 1”, 1•” ” 
+” ” ”  ’” ” –” ” ” ,” ,”  ,”! ,–” ” ” -” -” -” -’”  ”  –”  ”  ” )	” )” )” )Ü ”  ”  ” *	” *” *” *”! *”# *”% *”' *”, *"”. *$”0 *&”2 *(”5 *+”7 *-”8 *.”: *0”Ì@ *6”ÌB *8”ÌD *:”ÌF *<•” !
+” !” !” !”% !•” "
+” "” "” "”% "•” #
+” #” #” #”$ #–” $
+” $” $” $”! $”# $!•” %” %” %”' %”4 %!‘” &‘” &•” '
+” '” '” '”% '’”  ”  ’” ” ’” ” 
+‘” 2’” 4”
+ 4’” 5” 5–” 5” 5” ÌE” ÌE
+” ÌE” ÌEÜ ” 5” 5” ÌF” ÌF” ÌF” ÌF” ÌF”  ÌF”" ÌF”$ ÌF”) ÌF”+ ÌF ”- ÌF"”/ ÌF$”2 ÌF'”4 ÌF)”6 ÌF+”8 ÌF-”> ÌF3”Ì@ ÌF5”ÌB ÌF7”ÌD ÌF9Ü ” 5” 5” ÌG” ÌG” ÌG” ÌG” ÌG”  ÌG”" ÌG”( ÌG”* ÌG”+ ÌG ”- ÌG"”/ ÌG$”4 ÌG)”6 ÌG+”? ÌG4”ÌA ÌG6”” 6” 6
+” 6” 6–” 6” 6
+” 7	” 7” 7” 7–” 6” 6
+” 8	” 8” 8”$ 8Ü ” 6” 6
+” 9	” 9” 9” 9” 9”! 9”# 9”% 9”* 9"”, 9$”. 9&”0 9(”3 9+”5 9-”6 9.”8 90”> 96”Ì@ 98”ÌA 99”ÌC 9;Ÿ” 6” 6
+” :	” :” :” :” :”! :”% :#”& :$”, :*”. :,”/ :,”0 :-”1 :.’” 6” 6
+’” ;” ;’” ;” ;”” <” <
+” <” <–” <” <
+” =	” =” =” =–” <” <
+” >	” >” >”$ >˜” <” <
+” ?	” ?” ?”& ?”' ?”- ?%’” <” <
+’” Ì@” Ì@’” Ì@” Ì@”” ÌA” ÌA
+” ÌA” ÌA–” ÌA” ÌA
+” ÌB	” ÌB” ÌB” ÌBÜ ” ÌA” ÌA
+” ÌC	” ÌC” ÌC” ÌC” ÌC”! ÌC”# ÌC”% ÌC”* ÌC"”, ÌC$”. ÌC&”0 ÌC(”3 ÌC+”5 ÌC-”6 ÌC.”8 ÌC0”> ÌC6”Ì@ ÌC8”ÌA ÌC9”ÌC ÌC;’” ÌA” ÌA
+’” 5” 5‘” ÌH’” ÌJ” ÌJ’” ÌK” ÌK
+–” ÌK” ÌK
+” Ì^” Ì^
+” Ì^” Ì^”” ÌL” ÌL
+” ÌL” ÌL–” ÌL” ÌL
+” ÌM	” ÌM” ÌM” ÌM–” ÌL” ÌL
+” ÌN	” ÌN” ÌN”$ ÌNž” ÌL” ÌL
+” ÌO	” ÌO” ÌO” ÌO” ÌO” ÌO”! ÌO”# ÌO”) ÌO!”+ ÌO#”, ÌO$”. ÌO&˜” ÌL” ÌL
+” ÌP	” ÌP” ÌP”$ ÌP”% ÌP”* ÌP"’” ÌL” ÌL
+ž” ÌQ” ÌQ” ÌQ” ÌQ”* ÌQ”, ÌQ”3 ÌQ&”5 ÌQ(”9 ÌQ,”; ÌQ.”? ÌQ2”Ì@ ÌQ3”ÌJ ÌQ=”ÌL ÌQ?˜” ÌQ” ÌQ” ÌR	” ÌR” ÌR”$ ÌR”% ÌR”3 ÌR&›” ÌQ” ÌQ” ÌS	”! ÌS”" ÌS”6 ÌS)”8 ÌS+”9 ÌS,”< ÌS7”> ÌS?”Ì@ ÌSÌAž” ÌT
+” ÌT” ÌT” ÌT” ÌT”! ÌT”# ÌT”, ÌT&”. ÌT(”ÌR ÌTÌL”ÌT ÌTÌN”ÌW ÌTÌQ”ÌX ÌTÌR”ÌY ÌTÌR’” ÌU” ÌU	–” ÌQ” ÌQ” ÌV	” ÌV”  ÌV”" ÌV–” ÌQ” ÌQ” ÌW	” ÌW” ÌW”! ÌW–” ÌQ” ÌQ” ÌX	” ÌX” ÌX” ÌX–” ÌQ” ÌQ” ÌY	”% ÌY”& ÌY”/ ÌY"–” ÌQ” ÌQ” ÌZ	”" ÌZ”# ÌZ”% ÌZž” ÌQ” ÌQ” Ì[	” Ì[” Ì[”  Ì[”$ Ì[”& Ì[”( Ì[”* Ì[”/ Ì["”1 Ì[$”3 Ì[&”5 Ì[(Ü ” ÌQ” ÌQ” Ì\	” Ì\” Ì\”  Ì\”% Ì\ ”' Ì\(”) Ì\*”, Ì\-”0 Ì\1”1 Ì\2”; Ì\<”> Ì\?”ÌC Ì\ÌD”ÌD Ì\ÌD”ÌE Ì\ÌE”ÌF Ì\ÌF’” ÌK” ÌK
+‘” Ì_’” Ìa” Ìa’” Ìb” Ìb
+–” Ìb” Ìb
+” Ìu” Ìu
+” Ìu” Ìu”” Ìc” Ìc
+” Ìc” Ìc–” Ìc” Ìc
+” Ìd	” Ìd” Ìd” Ìd–” Ìc” Ìc
+” Ìe	” Ìe” Ìe”$ Ìež” Ìc” Ìc
+” Ìf	” Ìf” Ìf” Ìf” Ìf” Ìf”! Ìf”# Ìf”) Ìf!”+ Ìf#”, Ìf$”. Ìf&˜” Ìc” Ìc
+” Ìg	” Ìg” Ìg”$ Ìg”% Ìg”* Ìg"’” Ìc” Ìc
+ž” Ìh” Ìh” Ìh” Ìh”* Ìh”, Ìh”3 Ìh&”5 Ìh(”9 Ìh,”; Ìh.”? Ìh2”Ì@ Ìh3”ÌJ Ìh=”ÌL Ìh?˜” Ìh” Ìh” Ìi	” Ìi” Ìi”$ Ìi”% Ìi”+ Ìi›” Ìh” Ìh” Ìj	”! Ìj”" Ìj”* Ìj”, Ìj”- Ìj ”0 Ìj+”2 Ìj3”4 Ìj5ž” Ìk
+” Ìk” Ìk” Ìk” Ìk”! Ìk”# Ìk”, Ìk&”. Ìk(”ÌR ÌkÌL”ÌT ÌkÌN”ÌW ÌkÌQ”ÌX ÌkÌR”ÌY ÌkÌR’” Ìl” Ìl	–” Ìh” Ìh” Ìm	” Ìm”  Ìm”! Ìm–” Ìh” Ìh” Ìn	” Ìn” Ìn”! Ìn–” Ìh” Ìh” Ìo	” Ìo” Ìo” Ìo–” Ìh” Ìh” Ìp	”% Ìp”& Ìp”/ Ìp"–” Ìh” Ìh” Ìq	”" Ìq”# Ìq”% Ìqž” Ìh” Ìh” Ìr	” Ìr” Ìr”  Ìr”$ Ìr”& Ìr”( Ìr”* Ìr”/ Ìr"”1 Ìr$”3 Ìr&”5 Ìr(Ü ” Ìh” Ìh” Ìs	” Ìs” Ìs”  Ìs”% Ìs ”' Ìs(”) Ìs*”, Ìs-”0 Ìs1”1 Ìs2”; Ìs<”> Ìs?”ÌC ÌsÌD”ÌD ÌsÌD”ÌE ÌsÌE”ÌF ÌsÌF’” Ìb” Ìb
+‘” Ìv’” Ìx” Ìx’” Ìy” Ìy
+–” Ìy” Ìy
+” Ìˆ” Ìˆ
+” Ìˆ” Ìˆ”” Ìz” Ìz
+” Ìz” Ìz–” Ìz” Ìz
+” Ì{	” Ì{” Ì{” Ì{–” Ìz” Ìz
+” Ì|	” Ì|” Ì|”$ Ì|ž” Ìz” Ìz
+” Ì}	” Ì}” Ì}” Ì}” Ì}” Ì}”! Ì}”# Ì}”) Ì}!”+ Ì}#”, Ì}$”. Ì}&˜” Ìz” Ìz
+” Ì~	” Ì~” Ì~”$ Ì~”% Ì~”* Ì~"’” Ìz” Ìz
+’” Ì” Ì	–” Ì” Ì	” Ì…” Ì…” Ì…” Ì…˜” Ì” Ì	” Ì†” Ì†” Ì†”( Ì†”) Ì† ”5 Ì†,’” Ì€” Ì€—” Ì
+” Ì” Ì” Ì”+ Ì”/ Ì”0 Ì”/ Ì€”Ì@ Ì€!”ÌA Ì€"”ÌF Ì€'”Ì` Ì‚”Ìa Ì‚”Ìe Ì‚”Ìg Ì‚"”Ìi Ì‚$”Ìj Ì‚%”Ìm Ì‚(”Ìq Ì‚,”Ìs Ì‚.’” Ì€” Ì€•” Ìƒ” Ìƒ” Ìƒ” Ìƒ”& Ìƒ’” Ì” Ì	’” Ìy” Ìy
+‘” Ì‰”” Ì‹” Ì‹” Ì‹” Ì‹"–” ÌŒ” ÌŒ” ÌŒ	” ÌŒ” ÌŒ”" ÌŒ–” ÌŒ” ÌŒ” Ì” Ì” Ì” ÌÜ ” ÌŒ” ÌŒ” ÌŽ” ÌŽ” ÌŽ” ÌŽ”  ÌŽ”! ÌŽ”- ÌŽ#”1 ÌŽ'”5 ÌŽ+”6 ÌŽ,”Ì@ ÌŽ6”ÌE ÌŽ;”ÌI ÌŽ?”ÌJ ÌŽÌ@”ÌK ÌŽÌA”ÌL ÌŽÌB”ÌU ÌŽÌK”ÌV ÌŽÌL”ÌW ÌŽÌM”ÌX ÌŽÌN”Ìa ÌŽÌW–” ÌŒ” ÌŒ” Ì” Ì” Ì” Ì–” ÌŒ” ÌŒ” Ì” Ì” Ì” Ì˜” ÌŒ” ÌŒ” Ì‘” Ì‘” Ì‘”$ Ì‘”% Ì‘”+ Ì‘!Ü ” ÌŒ” ÌŒ” Ì’”  Ì’”! Ì’”" Ì’”& Ì’”' Ì’”3 Ì’)”7 Ì’-”; Ì’1”< Ì’2”ÌF Ì’<”ÌK Ì’ÌA”ÌO Ì’ÌE”ÌP Ì’ÌF”ÌQ Ì’ÌG”ÌR Ì’ÌH”Ì[ Ì’ÌQ”Ì\ Ì’ÌR”Ì] Ì’ÌS”Ì^ Ì’ÌT”Ìg Ì’Ì]–” ÌŒ” ÌŒ” Ì“” Ì“” Ì“”  Ì“š” ÌŒ” ÌŒ” Ì”” Ì”” Ì”” Ì”” Ì””! Ì””" Ì””$ Ì”—” ÌŒ” ÌŒ” Ì•” Ì•” Ì•” Ì•” Ì•—” Ì–” Ì–” Ì–” Ì–”" Ì–”& Ì–”' Ì–—” Ì—” Ì—” Ì—”! Ì—”$ Ì—”) Ì—!”* Ì—!’” Ì˜” Ì˜’” ÌŒ” ÌŒ‘” Ì™’” Ì›” Ì›”” Ìœ” Ìœ” Ìœ	” Ìœ–” Ìœ” Ìœ” Ì” Ì” Ì” ÌÜ ” Ìœ” Ìœ” Ìž” Ìž” Ìž” Ìž”  Ìž”, Ìž"”- Ìž#”. Ìž$”/ Ìž%”8 Ìž.”9 Ìž/”: Ìž0”; Ìž1”ÌD Ìž:–” Ìœ” Ìœ” ÌŸ” ÌŸ” ÌŸ” ÌŸ–” Ìœ” Ìœ” Ì ” Ì ” Ì ” Ì ˜” Ìœ” Ìœ” Ì¡” Ì¡” Ì¡”$ Ì¡”% Ì¡”+ Ì¡!Ü ” Ìœ” Ìœ” Ì¢”  Ì¢”! Ì¢”% Ì¢”& Ì¢”2 Ì¢(”3 Ì¢)”4 Ì¢*”5 Ì¢+”> Ì¢4”? Ì¢5”Ì@ Ì¢6”ÌA Ì¢7”ÌJ Ì¢Ì@–” Ìœ” Ìœ” Ì£” Ì£” Ì£”  Ì£—” Ìœ” Ìœ” Ì¤” Ì¤” Ì¤” Ì¤” Ì¤—” Ì¥” Ì¥” Ì¥”! Ì¥”$ Ì¥”( Ì¥ ”) Ì¥ ’” Ì¦” Ì¦’” Ìœ” Ìœ‘” Ì§’” Ì©” Ì©’” Ìª” Ìª
+–” Ìª” Ìª
+” Ì½” Ì½
+” Ì½” Ì½”” Ì«” Ì«
+” Ì«”$ Ì«–” Ì«” Ì«
+” Ì¬	” Ì¬” Ì¬” Ì¬–” Ì«” Ì«
+” Ì­	” Ì­” Ì­”$ Ì­ž” Ì«” Ì«
+” Ì®	” Ì®” Ì®” Ì®” Ì®” Ì®”! Ì®”# Ì®”) Ì®!”+ Ì®#”, Ì®$”. Ì®&˜” Ì«” Ì«
+” Ì¯	” Ì¯” Ì¯”$ Ì¯”% Ì¯”* Ì¯"’” Ì«” Ì«
+ž” Ì°” Ì°” Ì°” Ì°”* Ì°”, Ì°”5 Ì°(”7 Ì°*”; Ì°.”= Ì°0”ÌA Ì°4”ÌB Ì°5”ÌO Ì°ÌB”ÌQ Ì°ÌD˜” Ì°” Ì°” Ì±	” Ì±” Ì±”$ Ì±”% Ì±”3 Ì±&›” Ì°” Ì°” Ì²	”! Ì²”" Ì²”< Ì²/”> Ì²1”? Ì²2”ÌB Ì²=”ÌD Ì²ÌE”ÌF Ì²ÌGž” Ì³
+” Ì³” Ì³” Ì³” Ì³”! Ì³”# Ì³”, Ì³&”. Ì³(”ÌU Ì³ÌO”ÌW Ì³ÌQ”ÌZ Ì³ÌT”Ì[ Ì³ÌU”Ì\ Ì³ÌU’” Ì´” Ì´	–” Ì°” Ì°” Ìµ	” Ìµ”  Ìµ”! Ìµ–” Ì°” Ì°” Ì¶	” Ì¶” Ì¶”! Ì¶–” Ì°” Ì°” Ì·	” Ì·” Ì·” Ì·–” Ì°” Ì°” Ì¸	”% Ì¸”& Ì¸”/ Ì¸"–” Ì°” Ì°” Ì¹	”" Ì¹”# Ì¹”% Ì¹ž” Ì°” Ì°” Ìº	” Ìº” Ìº”  Ìº”$ Ìº”& Ìº”( Ìº”* Ìº”/ Ìº"”1 Ìº$”3 Ìº&”5 Ìº(Ü ” Ì°” Ì°” Ì»	” Ì»” Ì»”  Ì»”% Ì» ”' Ì»(”) Ì»*”, Ì»-”0 Ì»1”1 Ì»2”> Ì»?”ÌA Ì»ÌB”ÌF Ì»ÌG”ÌG Ì»ÌG”ÌH Ì»ÌH”ÌI Ì»ÌI’” Ìª” Ìª
+‘” Ì¾’” ÌÀ” ÌÀ’” ÌÁ” ÌÁ
+–” ÌÁ” ÌÁ
+” ÌË” ÌË
+” ÌË” ÌË˜” ÌÁ” ÌÁ
+” ÌÌ” ÌÌ” ÌÌ”- ÌÌ”. ÌÌ ”4 ÌÌ&”” ÌÂ” ÌÂ
+” ÌÂ” ÌÂ–” ÌÂ” ÌÂ
+” ÌÃ	” ÌÃ” ÌÃ” ÌÃ–” ÌÂ” ÌÂ
+” ÌÄ	” ÌÄ” ÌÄ”$ ÌÄž” ÌÂ” ÌÂ
+” ÌÅ	” ÌÅ” ÌÅ” ÌÅ” ÌÅ” ÌÅ”! ÌÅ”# ÌÅ”) ÌÅ!”+ ÌÅ#”, ÌÅ$”. ÌÅ&’” ÌÂ” ÌÂ
+—” ÌÆ” ÌÆ
+” ÌÆ” ÌÆ” ÌÆ”- ÌÆ ”/ ÌÆ"–” ÌÆ” ÌÆ
+” ÌÇ	” ÌÇ” ÌÇ” ÌÇ–” ÌÆ” ÌÆ
+” ÌÈ	” ÌÈ” ÌÈ”$ ÌÈ˜” ÌÆ” ÌÆ
+” ÌÉ	” ÌÉ” ÌÉ”& ÌÉ”' ÌÉ”+ ÌÉ#’” ÌÆ” ÌÆ
+’” ÌÁ” ÌÁ
+‘” ÌÍ”  ” ” ,” -” /” 1”! 3”# 5”% 7”' 9”) ;”* <”+ <ÔrI–§version¤file§sources®sourcesContent¥names¨mappingsÀ‘À‘ÀÜe‘”    ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”  	 ‘”  
+ ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”   ‘”    ‘”  ! ‘”  " ‘”  # ‘”  $ ‘”  % ‘”  & ‘”  ' ‘”  ( ‘”  ) ‘”  * ‘”  + ‘”  , ‘”  - ‘”  . ‘”  / ‘”  0 ‘”  1 ‘”  2 ‘”  3 ‘”  4 ‘”  5 ‘”  6 ‘”  7 ‘”  8 ‘”  9 ‘”  : ‘”  ; ‘”  < ‘”  = ‘”  > ‘”  ? ‘”  Ì@ ‘”  ÌA ‘”  ÌB ‘”  ÌC ‘”  ÌD ‘”  ÌE ‘”  ÌF ‘”  ÌG ‘”  ÌH ‘”  ÌI ‘”  ÌJ ‘”  ÌK ‘”  ÌL ‘”  ÌM ‘”  ÌN ‘”  ÌO ‘”  ÌP ‘”  ÌQ ‘”  ÌR ‘”  ÌS ‘”  ÌT ‘”  ÌU ‘”  ÌV ‘”  ÌW ‘”  ÌX ‘”  ÌY ‘”  ÌZ ‘”  Ì[ ‘”  Ì\ ‘”  Ì] ‘”  Ì^ ‘”  Ì_ ‘”  Ì` ‘”  Ìa ‘”  Ìb ‘”  Ìc ‘”  Ìd ‘”  Ìe ‘”  Ìf ‘”  Ìg ‘”  Ìh ‘”  Ìi ‘”  Ìj ‘”  Ìk ‘”  Ìl ‘”  Ìm ‘”  Ìn ‘”  Ìo ‘”  Ìp ‘”  Ìq ‘”  Ìr ‘”  Ìs ‘”  Ìt ‘”  Ìu ‘”  Ìv ‘”  Ìw ‘”  Ìx ‘”  Ìy ‘”  Ìz ‘”  Ì{ ‘”  Ì| ‘”  Ì} ‘”  Ì~ ‘”  Ì ‘”  Ì€ ‘”  Ì ‘”  Ì‚ ‘”  Ìƒ ‘”  Ì„ ‘”  Ì… ‘”  Ì† ‘”  Ì‡ ‘”  Ìˆ ‘”  Ì‰ ‘”  ÌŠ ‘”  Ì‹ ‘”  ÌŒ ‘”  Ì ‘”  ÌŽ ‘”  Ì ‘”  Ì ‘”  Ì‘ ‘”  Ì’ ‘”  Ì“ ‘”  Ì” ‘”  Ì• ‘”  Ì– ‘”  Ì— ‘”  Ì˜ ‘”  Ì™ ‘”  Ìš ‘”  Ì› ‘”  Ìœ ‘”  Ì ‘”  Ìž ‘”  ÌŸ ‘”  Ì  ‘”  Ì¡ ‘”  Ì¢ ‘”  Ì£ ‘”  Ì¤ ‘”  Ì¥ ‘”  Ì¦ ‘”  Ì§ ‘”  Ì¨ ‘”  Ì© ‘”  Ìª ‘”  Ì« ‘”  Ì¬ ‘”  Ì­ ‘”  Ì® ‘”  Ì¯ ‘”  Ì° ‘”  Ì± ‘”  Ì² ‘”  Ì³ ‘”  Ì´ ‘”  Ìµ ‘”  Ì¶ ‘”  Ì· ‘”  Ì¸ ‘”  Ì¹ ‘”  Ìº ‘”  Ì» ‘”  Ì¼ ‘”  Ì½ ‘”  Ì¾ ‘”  Ì¿ ‘”  ÌÀ ‘”  ÌÁ ‘”  ÌÂ ‘”  ÌÃ ‘”  ÌÄ ‘”  ÌÅ ‘”  ÌÆ ‘”  ÌÇ ‘”  ÌÈ ‘”  ÌÉ ‘”  ÌÊ ‘”  ÌË ‘”  ÌÌ ‘”  ÌÍ ‘”  ÌÎ ‘”  ÌÏ ‘”  ÌÐ ‘”  ÌÑ ‘”  ÌÒ ‘”  ÌÓ ‘”  ÌÔ ‘”  ÌÕ ‘”  ÌÖ ‘”  Ì× ‘”  ÌØ ‘”  ÌÙ ‘”  ÌÚ ‘”  ÌÛ ‘”  ÌÜ ‘”  ÌÝ ‘”  ÌÞ ‘”  Ìß ‘”  Ìà ‘”  Ìá ‘”  Ìâ ‘”  Ìã ‘”  Ìä ‘”  Ìå ‘”  Ìæ ‘”  Ìç ‘”  Ìè ‘”  Ìé ‘”  Ìê ‘”  Ìë ‘”  Ìì ‘”  Ìí ‘”  Ìî ‘”  Ìï ‘”  Ìð ‘”  Ìñ ‘”  Ìò ‘”  Ìó ‘”  Ìô ‘”  Ìõ ‘”  Ìö ‘”  Ì÷ ‘”  Ìø ‘”  Ìù ‘”  Ìú ‘”  Ìû ‘”  Ìü ‘”  Ìý ‘”  Ìþ ‘”  Ìÿ ‘”  Í  ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í	 ‘”  Í
+ ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í ‘”  Í  ‘”  Í! ‘”  Í" ‘”  Í# ‘”  Í$ ‘”  Í% ‘”  Í& ‘”  Í' ‘”  Í( ‘”  Í) ‘”  Í* ‘”  Í+ ‘”  Í, ‘”  Í- ‘”  Í. ‘”  Í/ ‘”  Í0 ‘”  Í1 ‘”  Í2 ‘”  Í3 ‘”  Í4 ‘”  Í5 ‘”  Í6 ‘”  Í7 ‘”  Í8 ‘”  Í9 ‘”  Í: ‘”  Í; ‘”  Í< ‘”  Í= ‘”  Í> ‘”  Í? ‘”  Í@ ‘”  ÍA ‘”  ÍB ‘”  ÍC ‘”  ÍD ‘”  ÍE ‘”  ÍF ‘”  ÍG ‘”  ÍH ‘”  ÍI ‘”  ÍJ ‘”  ÍK ‘”  ÍL ‘”  ÍM ‘”  ÍN ‘”  ÍO ‘”  ÍP ‘”  ÍQ ‘”  ÍR ‘”  ÍS ‘”  ÍT ‘”  ÍU ‘”  ÍV ‘”  ÍW ‘”  ÍX ‘”  ÍY ‘”  ÍZ ‘”  Í[ ‘”  Í\ ‘”  Í] ‘”  Í^ ‘”  Í_ ‘”  Í` ‘”  Ía ‘”  Íb ‘”  Íc ‘”  Íd ÔrJ’§missing¦pluginÃ¦genAbcÂÔ  ÔrK”²dynamicImportCache¹exportAllDeclarationCache»exportNamedDeclarationCache«importCache“ÔrL•¤type¥start£endªspecifiers¦source±ImportDeclarationÌìÍ‘ÔrM”¤type¥start£end¥local¶ImportDefaultSpecifierÌóÌùÔrN”¤type¥start£end¤nameªIdentifierÌóÌù¦routerÔrO•¤type¥start£end¥value£raw§LiteralÌÿÍ¬@ohos.router®"@ohos.router"L±ImportDeclarationÍÍ0‘M¶ImportDefaultSpecifierÍÍNªIdentifierÍÍ¥hilogO§LiteralÍ"Í/«@ohos.hilog­"@ohos.hilog"L±ImportDeclarationÍ2Ín‘ÔrP•¤type¥start£end¨imported¥local¯ImportSpecifierÍ;ÍHNªIdentifierÍ;ÍH­TipCalculatorNªIdentifierÍ;ÍH­TipCalculatorO§LiteralÍPÍm»../calculator/TipCalculator½'../calculator/TipCalculator'

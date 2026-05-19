@@ -21,8 +21,11 @@ interface CalculatorPage_Params {
     prefs?: PreferencesStore | null;
 }
 import promptAction from "@ohos:promptAction";
+import router from "@ohos:router";
 import pasteboard from "@ohos:pasteboard";
+import type { BusinessError } from "@ohos:base";
 import type common from "@ohos:app.ability.common";
+import hilog from "@ohos:hilog";
 import { Expression } from "@bundle:com.darkempire78.opencalculator/entry/ets/calculator/Expression";
 import { CalcEngine } from "@bundle:com.darkempire78.opencalculator/entry/ets/calculator/Calculator";
 import { NumberFormatter } from "@bundle:com.darkempire78.opencalculator/entry/ets/calculator/NumberFormatter";
@@ -546,11 +549,11 @@ export class CalculatorPage extends ViewPU {
             Column.create();
             Column.width('100%');
             Column.padding(this.isLandscape ? { top: 8, bottom: 2 } : { top: 24, bottom: 8 });
-            globalThis.Gesture.create(GesturePriority.Low);
+            Gesture.create(GesturePriority.Low);
             LongPressGesture.create();
             LongPressGesture.onAction((): void => { this.onCopy(); });
             LongPressGesture.pop();
-            globalThis.Gesture.pop();
+            Gesture.pop();
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
@@ -645,6 +648,20 @@ export class CalculatorPage extends ViewPU {
             Text.padding({ left: 12, right: 12, top: 4, bottom: 4 });
             Text.border({ width: 1, color: this.getOp(), radius: 8 });
             Text.onClick((): void => { this.scientific = !this.scientific; });
+        }, Text);
+        Text.pop();
+        this.observeComponentCreation2((elmtId, isInitialRender) => {
+            Text.create('💰 小费');
+            Text.fontSize(12);
+            Text.fontColor(this.getOp());
+            Text.padding({ left: 12, right: 12, top: 4, bottom: 4 });
+            Text.border({ width: 1, color: this.getOp(), radius: 8 });
+            Text.margin({ left: 8 });
+            Text.onClick((): void => {
+                router.pushUrl({ url: 'pages/TipCalculatorPage' }).catch((e: BusinessError): void => {
+                    hilog.warn(0x0000, 'TipNav', `pushUrl failed: %{public}s`, JSON.stringify(e));
+                });
+            });
         }, Text);
         Text.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
