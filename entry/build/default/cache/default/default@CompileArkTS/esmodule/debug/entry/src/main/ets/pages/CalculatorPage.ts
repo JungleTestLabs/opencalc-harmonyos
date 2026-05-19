@@ -546,11 +546,11 @@ export class CalculatorPage extends ViewPU {
             Column.create();
             Column.width('100%');
             Column.padding(this.isLandscape ? { top: 8, bottom: 2 } : { top: 24, bottom: 8 });
-            globalThis.Gesture.create(GesturePriority.Low);
+            Gesture.create(GesturePriority.Low);
             LongPressGesture.create();
             LongPressGesture.onAction((): void => { this.onCopy(); });
             LongPressGesture.pop();
-            globalThis.Gesture.pop();
+            Gesture.pop();
         }, Column);
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             If.create();
@@ -710,10 +710,11 @@ export class CalculatorPage extends ViewPU {
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create();
         }, Row);
-        this.BtnAct.bind(this)('AC');
-        this.BtnOp.bind(this)('(');
-        this.BtnOp.bind(this)(')');
-        this.BtnOp.bind(this)('÷');
+        this.BtnAct5.bind(this)('AC');
+        this.BtnOp5.bind(this)('(');
+        this.BtnOp5.bind(this)(')');
+        this.BtnOp5.bind(this)('%');
+        this.BtnOp5.bind(this)('÷');
         Row.pop();
         this.observeComponentCreation2((elmtId, isInitialRender) => {
             Row.create();
@@ -775,6 +776,19 @@ export class CalculatorPage extends ViewPU {
         Text.margin(this.isLandscape ? 1 : 4);
         Text.onClick((): void => { this.onOp(l); });
     }, Text); Text.pop(); }
+    /** 5 列运算符按钮（首行专用：AC ( ) % ÷） */
+    BtnOp5(l: string, parent = null) { this.observeComponentCreation2((elmtId, isInitialRender) => {
+        Text.create(l);
+        Text.fontSize(this.isLandscape ? 14 : 20);
+        Text.fontColor(this.getBtnText());
+        Text.width('18%');
+        Text.height(this.isLandscape ? 36 : 56);
+        Text.textAlign(TextAlign.Center);
+        Text.backgroundColor(this.getOp());
+        Text.borderRadius(50);
+        Text.margin(this.isLandscape ? 1 : 3);
+        Text.onClick((): void => { this.onOp(l); });
+    }, Text); Text.pop(); }
     /** 科学函数按钮 */
     BtnFunc(l: string, parent = null) { this.observeComponentCreation2((elmtId, isInitialRender) => {
         Text.create(l);
@@ -812,6 +826,22 @@ export class CalculatorPage extends ViewPU {
         Text.backgroundColor(l === 'AC' ? this.getClr() : this.getBtnBg());
         Text.borderRadius(50);
         Text.margin(this.isLandscape ? 1 : 4);
+        Text.onClick((): void => { if (l === 'AC')
+            this.onAC();
+        else
+            this.onBS(); });
+    }, Text); Text.pop(); }
+    /** 5 列动作按钮（首行 AC 专用） */
+    BtnAct5(l: string, parent = null) { this.observeComponentCreation2((elmtId, isInitialRender) => {
+        Text.create(l);
+        Text.fontSize(this.isLandscape ? 14 : 20);
+        Text.fontColor(this.getBtnText());
+        Text.width('18%');
+        Text.height(this.isLandscape ? 36 : 56);
+        Text.textAlign(TextAlign.Center);
+        Text.backgroundColor(l === 'AC' ? this.getClr() : this.getBtnBg());
+        Text.borderRadius(50);
+        Text.margin(this.isLandscape ? 1 : 3);
         Text.onClick((): void => { if (l === 'AC')
             this.onAC();
         else
